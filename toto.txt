@@ -87,3 +87,5 @@ WHERE s.idR = ALL (SELECT idR
 /*16.*/
 INSERT INTO S VALUES(7, 8, '2014-11-23', 78);
 INSERT INTO T VALUES(8, 'x8', 'y8', 2014);
+
+sdjyg
