@@ -19,9 +19,33 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="src/case.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/case.h" />
+		<Unit filename="src/couleur.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/couleur.h" />
+		<Unit filename="src/jeu.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/jeu.h" />
+		<Unit filename="src/joueur.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/joueur.h" />
 		<Unit filename="src/main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="src/piece.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/piece.h" />
+		<Unit filename="src/plateau.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/plateau.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
