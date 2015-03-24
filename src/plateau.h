@@ -5,7 +5,7 @@
 
 typedef struct
 {
-    Case *** echiquier ;
+    Case ** echiquier ;
     int nbTours ;
 } Plateau ;
 

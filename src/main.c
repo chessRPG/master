@@ -3,9 +3,9 @@
 int main()
 {
     Jeu jeu ;
-    printf("coucou1") ;
+    printf("coucou1\n") ;
     jeu.plateau = *creerPlateau(BLANC, NOIR) ;
-    printf("coucou1000") ;
+    printf("coucou1000\n") ;
     //boucleEvent(&jeu) ;
     return 0 ;
 }
