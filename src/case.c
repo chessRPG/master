@@ -2,14 +2,34 @@
 
 /* accesseurs */
 
+CouleurCase getCouleurCase(Case * cell)
+{
+    return cell->couleurCase ;
+}
+
+Piece * getPieceCase(Case * cell)
+{
+    return cell->piece ;
+}
+
 /* mutateurs */
+
+void setCouleurCase(Case * cell, CouleurCase couleur)
+{
+    cell->couleurCase = couleur ;
+}
+
+void setPieceCase(Case * cell, Piece * piece)
+{
+    cell->piece = piece ;
+}
 
 /* creation / destruction */
 
 void initCase(Case * cell)
 {
     cell->piece = NULL ;
-    cell->couleurCase = NULL ;
+    cell->couleurCase = 0 ;
 }
 
 Case * creerCase(CouleurCase couleurCase)
@@ -17,7 +37,7 @@ Case * creerCase(CouleurCase couleurCase)
     Case * cell ;
     cell = malloc(sizeof(Case)) ;
 
-    initCase(cell, couleurCase) ;
+    initCase(cell) ;
 
     cell->couleurCase = couleurCase ;
 
