@@ -35,12 +35,18 @@ Joueur * creerJoueur(char * nomJoueur, Couleur couleur)
 
 void initJoueur(Joueur * joueur)
 {
+    int i = 0;
+    for (i = 0 ; i < 32 ; i++)
+    {
+        joueur->nomJoueur[i] = '\0';
+    }
 
+    joueur->couleur = BLANC;
 }
 
 void detruireJoueur(Joueur * joueur)
 {
-
+    free(joueur);
 }
 
 

@@ -5,7 +5,7 @@
 
 typedef struct
 {
-    char * nomJoueur ;
+    char nomJoueur[32] ;
     Couleur couleur ;
 }  Joueur;
 
