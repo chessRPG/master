@@ -61,9 +61,9 @@ Plateau * creerPlateau(Couleur C1, Couleur C2)
 {
     Plateau * plateau ;
     int i, j ;
-    plateau = malloc(sizeof(Plateau)) ;
 
-    initPlateau(plateau, C1, C2) ;
+    plateau = malloc(sizeof(Plateau)) ;
+    plateau->echiquier = malloc(8*8*sizeof(Case)) ;
 
     for(i = 0 ; i < 8 ; i++)
     {
@@ -72,6 +72,10 @@ Plateau * creerPlateau(Couleur C1, Couleur C2)
             plateau->echiquier[i][j] = creerCase((i+j)%2) ;
         }
     }
+
+    //initPlateau(plateau, C1, C2) ;
+
+    return plateau ;
 }
 
 void viderPlateau(Plateau * plateau)
