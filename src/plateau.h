@@ -9,8 +9,8 @@ typedef struct
     int nbTours ;
 } Plateau ;
 
-Plateau * creerPlateau() ;
-void initPlateau(Plateau * plateau) ;
+Plateau * creerPlateau(Couleur C1, Couleur C2) ;
+void initPlateau(Plateau * plateau, Couleur C1, Couleur C2) ;
 
 Case * getCase(Plateau * plateau, int posX, int posY) ;
 int getNbTours(Plateau * plateau) ;

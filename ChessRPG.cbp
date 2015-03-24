@@ -19,6 +19,13 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Linker>
+			<Add option="-lncurses" />
+		</Linker>
+		<Unit filename="src/afficheNCURSES.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/afficheNCURSES.h" />
 		<Unit filename="src/case.c">
 			<Option compilerVar="CC" />
 		</Unit>
