@@ -5,8 +5,17 @@
 
 typedef struct
 {
-    Case ** plateau ;
+    Case *** echiquier ;
     int nbTours ;
 } Plateau ;
+
+Plateau * creerPlateau() ;
+void initPlateau(Plateau * plateau) ;
+
+Case * getCase(Plateau * plateau, int posX, int posY) ;
+int getNbTours(Plateau * plateau) ;
+
+void viderPlateau(Plateau * plateau) ;
+void detruirePlateau(Plateau * plateau) ;
 
 #endif
