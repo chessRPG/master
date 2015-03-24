@@ -138,7 +138,40 @@ void deplacerPiece(Plateau * plateau, Piece * piece, int posX, int posY)
     setPieceCase(getCase(plateau, posX, posY), piece);
 }
 
-void combatPieces(Piece * pieceJ1, Piece * pieceJ2)
+void combatPieces(Joueur * joueurActif, Piece * pieceJ1, Piece * pieceJ2)
 {
+    int BONUS = 2;
+    Piece * attaquant;
+    Piece * defenseur;
+    int vie;
 
+    if(getCouleurJoueur(joueurActif) == getCouleurPiece(pieceJ1))
+    {
+        attaquant = pieceJ1;
+        defenseur = pieceJ2;
+    }
+    else
+    {
+        attaquant = pieceJ2;
+        defenseur = pieceJ1;
+    }
+
+
+    while(getPointsVie(attaquant) > 0 || getPointsVie(defenseur) > 0)
+    {
+        vie = getPointsVie(defenseur) - getPointsAttaque(attaquant)*BONUS;
+        if(vie <= 0)
+            setPointsVie(defenseur, 0);
+        else
+            setPointsVie(defenseur, vie);
+
+        if(getPointsVie(defenseur) > 0)
+        {
+            vie = getPointsVie(attaquant) - getPointsAttaque(defenseur);
+            if(vie <= 0)
+                setPointsVie(attaquant, 0);
+            else
+                setPointsVie(attaquant, vie);
+        }
+    }
 }
