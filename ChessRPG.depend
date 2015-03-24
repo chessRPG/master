@@ -2,7 +2,7 @@
 1426581639 source:/home/etu/g/p1302752/LIF7/master/src/case.c
 	"case.h"
 
-1426589345 /home/etu/g/p1302752/LIF7/master/src/case.h
+1427182258 /home/etu/g/p1302752/LIF7/master/src/case.h
 	"piece.h"
 
 1426587865 /home/etu/g/p1302752/LIF7/master/src/piece.h
@@ -22,7 +22,7 @@
 	"joueur.h"
 	"plateau.h"
 
-1426584647 /home/etu/g/p1302752/LIF7/master/src/joueur.h
+1427182256 /home/etu/g/p1302752/LIF7/master/src/joueur.h
 	"couleur.h"
 
 1426584647 /home/etu/g/p1302752/LIF7/master/src/plateau.h

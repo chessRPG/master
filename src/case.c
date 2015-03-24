@@ -6,17 +6,21 @@
 
 /* creation / destruction */
 
-void initCase(Case * cell, CouleurCase couleurCase)
+void initCase(Case * cell)
 {
-    cell->couleurCase = couleurCase ;
     cell->piece = NULL ;
+    cell->couleurCase = NULL ;
 }
 
 Case * creerCase(CouleurCase couleurCase)
 {
     Case * cell ;
     cell = malloc(sizeof(Case)) ;
+
     initCase(cell, couleurCase) ;
+
+    cell->couleurCase = couleurCase ;
+
 
     return cell ;
 }
