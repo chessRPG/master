@@ -13,10 +13,10 @@ typedef struct
 } Jeu ;
 
 Joueur * getJoueurActif(Jeu * jeu);
-Piece * selectPiece(Plateau * plateau, int posX, int posY);
+void selectPiece(Jeu * jeu, int posX, int posY);
 
 void setJoueurActif(Jeu * jeu, Joueur* joueur);
-void movePiece(Plateau * plateau, Piece * piece, int posX, int posY);
+void deplacerPiece(Plateau * plateau, Piece * piece, int posX, int posY);
 
 void combatPieces(Piece * pieceJ1, Piece * pieceJ2);
 

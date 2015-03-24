@@ -1,3 +1,5 @@
+#include <string.h>
+
 #include "joueur.h"
 
 /* accesseurs */
@@ -16,7 +18,7 @@ Couleur getCouleurJoueur(Joueur * joueur)
 
 void setNomJoueur(Joueur * joueur, char * nomJoueur)
 {
-    joueur->nomJoueur = nomJoueur ;
+    strcpy(joueur->nomJoueur, nomJoueur);
 }
 
 void setCouleurJoueur(Joueur * joueur, Couleur couleur)
@@ -30,7 +32,9 @@ Joueur * creerJoueur(char * nomJoueur, Couleur couleur)
 {
     Joueur * joueur ;
     joueur = malloc(sizeof(Joueur)) ;
+    initJoueur(joueur);
 
+    return joueur;
 }
 
 void initJoueur(Joueur * joueur)
