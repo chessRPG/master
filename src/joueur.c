@@ -52,13 +52,3 @@ void detruireJoueur(Joueur * joueur)
 {
     free(joueur);
 }
-
-
-
-
-
-
-
-
-
-

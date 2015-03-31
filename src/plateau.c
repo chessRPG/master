@@ -18,9 +18,12 @@ void initPlateau(Plateau * plateau, Couleur C1, Couleur C2)
 {
     int i, j ;
 
-    plateau->echiquier = (Case **)malloc(8*sizeof(Case *)) ;
+    plateau->echiquier = malloc(8*sizeof(Case *)) ;
+
     for(i = 0 ; i<8; i++ )
-            plateau->echiquier[i] = (Case *)malloc(8*sizeof(Case));
+    {
+        plateau->echiquier[i] = malloc(8*sizeof(Case));
+    }
 
 
     for(i = 0 ; i < 8 ; i++)
@@ -91,19 +94,3 @@ void detruirePlateau(Plateau * plateau)
     viderPlateau(plateau) ;
     free(plateau) ;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
