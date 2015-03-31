@@ -48,7 +48,7 @@ void affichage(WINDOW * win, Jeu * jeu)
 
             if(piece == NULL)
             {
-                mvwprintw(win, i, j, " ") ;
+                mvwprintw(win, i, j, ".") ;
             }
             else
             {
@@ -63,7 +63,8 @@ void boucleEvent(Jeu * jeu)
     WINDOW * win ;
     int continue_boucle ;
     int i ;
-    char c ;
+    int y = 0, x = 0; /*coordonées du curseur*/
+    int c ;
 
     initscr() ;
     clear() ;
@@ -74,14 +75,38 @@ void boucleEvent(Jeu * jeu)
 
     continue_boucle = 1 ;
 
-    printf("coucou") ;
 
     affichage(win, jeu) ;
+    wmove(win, y, x);
 
-    /*while(1)
+    while(1)
     {
-        c = wgetch(win) ;
-        if((c - '0') < 8)
+        c = wgetch(win);
+
+        switch(c)
+        {
+            case KEY_LEFT:
+                if(x>0) x--;
+                break;
+            case KEY_RIGHT:
+                if (x<7) x++;
+                break;
+            case KEY_UP:
+                if(y>0) y--;
+                break;
+            case KEY_DOWN:
+                if (y<7) y++;
+                break;
+            case KEY_ENTER:
+                mvwprintw(win, y, x, "§") ;
+                break;
+            default:
+                break;
+        }
+        wmove(win, y, x);
+        wrefresh(win);
+
+        /*if((c - '0') < 8)
         {
             if(continue_boucle == 1)
             {
@@ -99,6 +124,6 @@ void boucleEvent(Jeu * jeu)
                 }
                 continue_boucle = 1 ;
             }
-        }
-    }*/
+        }*/
+    }
 }
