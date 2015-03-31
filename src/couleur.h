@@ -8,4 +8,4 @@ typedef enum {BLANC, NOIR, NUM_COULEUR} Couleur ;
 
 Couleur * getListeCouleurs() ;
 
-#endif // _COULEUR_H
+#endif

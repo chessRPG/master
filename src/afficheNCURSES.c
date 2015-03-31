@@ -78,7 +78,7 @@ void boucleEvent(Jeu * jeu)
 
     affichage(win, jeu) ;
 
-    /*while(1)
+    while(1)
     {
         c = wgetch(win) ;
         if((c - '0') < 8)
@@ -100,5 +100,5 @@ void boucleEvent(Jeu * jeu)
                 continue_boucle = 1 ;
             }
         }
-    }*/
+    }
 }
