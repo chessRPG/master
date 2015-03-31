@@ -1,4 +1,5 @@
 #include "afficheNCURSES.h"
+#include <string.h>
 
 void affichePiece(WINDOW * win, int i, int j, Piece * piece)
 {
@@ -54,24 +55,29 @@ void affichage(WINDOW * win, Jeu * jeu)
             {
                 affichePiece(win, i, j, piece) ;
             }
+            if(cell->couleurCase == CBLEU)
+            {
+                mvwprintw(win, i, j, "$") ;
+            }
         }
     }
+    mvwprintw(win, 8, 0, "%s", jeu->joueurActif->nomJoueur);
 }
 
 void boucleEvent(Jeu * jeu)
 {
     WINDOW * win ;
     int continue_boucle ;
-    int i ;
-    int y = 0, x = 0; /*coordonées du curseur*/
+    int y = 0, x = 0; /*coordonées du curseur : y ligne, x colonne*/
     int c ;
 
     initscr() ;
     clear() ;
     noecho() ;
     cbreak() ;
-
-    win = newwin(8, 8, 2, 2) ;
+    win = newwin(9, 8, 0, 0) ;
+	keypad(win, TRUE);		/* pour que les flèches soient traitées (il faut le faire après création de la fenêtre) */
+	nodelay(win,true); /* Pour que l'appel à wgetch soit non-bloquant */
 
     continue_boucle = 1 ;
 
@@ -79,7 +85,8 @@ void boucleEvent(Jeu * jeu)
     affichage(win, jeu) ;
     wmove(win, y, x);
 
-    while(1)
+
+    while(continue_boucle != 0)
     {
         c = wgetch(win);
 
@@ -97,33 +104,24 @@ void boucleEvent(Jeu * jeu)
             case KEY_DOWN:
                 if (y<7) y++;
                 break;
-            case KEY_ENTER:
-                mvwprintw(win, y, x, "§") ;
+            case KEY_BACKSPACE:
+                selectPiece(jeu, y, x);
+                break;
+            case ' ':
+                if(jeu->joueurActif == &(jeu->J1))
+                    jeu->joueurActif = &(jeu->J2);
+                else
+                    jeu->joueurActif = &(jeu->J1);
+                break;
+            case 27: /* ECHAP */
+                continue_boucle = 0;
                 break;
             default:
                 break;
         }
-        //wmove(win, y, x);
-        //wrefresh(win);
-
-        /*if((c - '0') < 8)
-        {
-            if(continue_boucle == 1)
-            {
-                for(i = 0 ; i < 8 ; i++)
-                {
-                    mvwprintw(win, i, c - '0', "#") ;
-                }
-                continue_boucle = 2 ;
-            }
-            else
-            {
-                for(i = 0 ; i < 8 ; i++)
-                {
-                    mvwprintw(win, c - '0', i, "*") ;
-                }
-                continue_boucle = 1 ;
-            }
-        }*/
+        affichage(win, jeu);
+        wmove(win, y, x);
     }
+    assert(delwin(win)!=ERR);
+    endwin();
 }

@@ -10,7 +10,7 @@ typedef struct
 }  Joueur;
 
 Joueur * creerJoueur(char * nomJoueur, Couleur couleur) ;
-void initJoueur(Joueur * joueur) ;
+void initJoueur(Joueur * joueur, Couleur couleur) ;
 void detruireJoueur(Joueur * joueur) ;
 
 char * getNomJoueur(Joueur * joueur) ;

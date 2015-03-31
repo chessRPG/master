@@ -29,8 +29,9 @@ void selectPiece(Jeu * jeu, int posX, int posY)
 
     reinitCouleursEchiquier(&(jeu->plateau));
 
-    if(joueur->couleur == getCouleurPiece(piece))
+    if(piece != NULL && joueur->couleur == getCouleurPiece(piece))
     {
+
         setCouleurCase(getCase(&(jeu->plateau), posX, posY), CBLEU);
 
         switch(piece->type)
@@ -38,25 +39,35 @@ void selectPiece(Jeu * jeu, int posX, int posY)
             case PION:
                 if(joueur == &(jeu->J1))
                 {
-                    if(posY+1 < 8)
-                        setCouleurCase(getCase(&(jeu->plateau), posX, posY+1), CBLEU);
+                    if(posX-1 >= 0 && getPieceCase(getCase(&(jeu->plateau), posX-1, posY)) == NULL)
+                        setCouleurCase(getCase(&(jeu->plateau), posX-1, posY), CBLEU);
+                    if(posX == 6 && posX-2 >= 0 && getPieceCase(getCase(&(jeu->plateau), posX-2, posY)) == NULL)
+                        setCouleurCase(getCase(&(jeu->plateau), posX-2, posY), CBLEU);
                 }
                 else
-                    if(posY-1 >= 0)
-                        setCouleurCase(getCase(&(jeu->plateau), posX, posY-1), CBLEU);
+                {
+                    if(posX+1 < 8 && getPieceCase(getCase(&(jeu->plateau), posX+1, posY)) == NULL)
+                        setCouleurCase(getCase(&(jeu->plateau), posX+1, posY), CBLEU);
+                    if(posX == 1 && posX+2 < 8 && getPieceCase(getCase(&(jeu->plateau), posX+2, posY)) == NULL)
+                        setCouleurCase(getCase(&(jeu->plateau), posX+2, posY), CBLEU);
+                }
                 break ;
             case TOUR:
-                for(i = 0 ; i < 8 ; i++)
+                /*for(i = 0 ; i < 8 ; i++)
                 {
-                    setCouleurCase(getCase(&(jeu->plateau), i, posY), CBLEU);
+                    if (getPieceCase(getCase(&(jeu->plateau), i, posY)) == NULL)
+                        setCouleurCase(getCase(&(jeu->plateau), i, posY), CBLEU);
+                    if ()
                     setCouleurCase(getCase(&(jeu->plateau), posX, i), CBLEU);
-                }
+                }*/
                 break ;
             case CAVALIER:
                 if(posX+2 < 8)
                 {
-                    if(posY+1 < 8) setCouleurCase(getCase(&(jeu->plateau), posX+2, posY+1), CBLEU);
-                    if(posY-1 >= 0) setCouleurCase(getCase(&(jeu->plateau), posX+2, posY-1), CBLEU);
+                    if(posY+1 < 8 && getPieceCase(getCase(&(jeu->plateau), posX+2, posY-1)) == NULL)
+                        setCouleurCase(getCase(&(jeu->plateau), posX+2, posY+1), CBLEU);
+                    if(posY-1 >= 0 && getPieceCase(getCase(&(jeu->plateau), posX+2, posY-1)) == NULL)
+                        setCouleurCase(getCase(&(jeu->plateau), posX+2, posY-1), CBLEU);
                 }
                 if(posX-2 >= 0)
                 {
@@ -75,13 +86,32 @@ void selectPiece(Jeu * jeu, int posX, int posY)
                 }
                 break ;
             case FOU:
-                for(i = 0 ; i < 8 ; i++)
+                i = 0;
+                while(posX+i < 8 && posY+i < 8 && getPieceCase(getCase(&(jeu->plateau), posX+i, posY+i)) == NULL)
                 {
-                    if(posX+i < 8 && posY+1 < 8) setCouleurCase(getCase(&(jeu->plateau), posX+i, posY+i), CBLEU);
-                    if(posX-i >= 0 && posX-i >= 0) setCouleurCase(getCase(&(jeu->plateau), posX-i, posY-i), CBLEU);
+                    setCouleurCase(getCase(&(jeu->plateau), posX+i, posY+i), CBLEU);
+                    i++;
+                }
 
-                    if(posX-i >= 0 && posY+i < 8) setCouleurCase(getCase(&(jeu->plateau), posX-i, posY+i), CBLEU);
-                    if(posX+i < 8 && posY-i >= 0) setCouleurCase(getCase(&(jeu->plateau), posX+i, posY-i), CBLEU);
+                i = 0;
+                while(posX-i >= 0 && posY-i >= 0 && getPieceCase(getCase(&(jeu->plateau), posX-i, posY-i)) == NULL)
+                {
+                    setCouleurCase(getCase(&(jeu->plateau), posX-i, posY-i), CBLEU);
+                    i++;
+                }
+
+                i = 0;
+                while(posX+i < 8 && posY-i >= 0 && getPieceCase(getCase(&(jeu->plateau), posX+i, posY-i)) == NULL)
+                {
+                    setCouleurCase(getCase(&(jeu->plateau), posX+i, posY-i), CBLEU);
+                    i++;
+                }
+
+                i = 0;
+                while(posX-i >= 0 && posY+i < 8 && getPieceCase(getCase(&(jeu->plateau), posX-i, posY+i)) == NULL)
+                {
+                    setCouleurCase(getCase(&(jeu->plateau), posX-i, posY+i), CBLEU);
+                    i++;
                 }
                 break ;
             case DAME:
@@ -89,12 +119,33 @@ void selectPiece(Jeu * jeu, int posX, int posY)
                 {
                     setCouleurCase(getCase(&(jeu->plateau), i, posY), CBLEU);
                     setCouleurCase(getCase(&(jeu->plateau), posX, i), CBLEU);
+                }
+                i = 0;
+                while(posX+i < 8 && posY+i < 8 && getPieceCase(getCase(&(jeu->plateau), posX+i, posY+i)) == NULL)
+                {
+                    setCouleurCase(getCase(&(jeu->plateau), posX+i, posY+i), CBLEU);
+                    i++;
+                }
 
-                    if(posX+i < 8 && posY+1 < 8) setCouleurCase(getCase(&(jeu->plateau), posX+i, posY+i), CBLEU);
-                    if(posX-i >= 0 && posX-i >= 0) setCouleurCase(getCase(&(jeu->plateau), posX-i, posY-i), CBLEU);
+                i = 0;
+                while(posX-i >= 0 && posY-i >= 0 && getPieceCase(getCase(&(jeu->plateau), posX-i, posY-i)) == NULL)
+                {
+                    setCouleurCase(getCase(&(jeu->plateau), posX-i, posY-i), CBLEU);
+                    i++;
+                }
 
-                    if(posX-i >= 0 && posY+i < 8) setCouleurCase(getCase(&(jeu->plateau), posX-i, posY+i), CBLEU);
-                    if(posX+i < 8 && posY-i >= 0) setCouleurCase(getCase(&(jeu->plateau), posX+i, posY-i), CBLEU);
+                i = 0;
+                while(posX+i < 8 && posY-i >= 0 && getPieceCase(getCase(&(jeu->plateau), posX+i, posY-i)) == NULL)
+                {
+                    setCouleurCase(getCase(&(jeu->plateau), posX+i, posY-i), CBLEU);
+                    i++;
+                }
+
+                i = 0;
+                while(posX-i >= 0 && posY+i < 8 && getPieceCase(getCase(&(jeu->plateau), posX-i, posY+i)) == NULL)
+                {
+                    setCouleurCase(getCase(&(jeu->plateau), posX-i, posY+i), CBLEU);
+                    i++;
                 }
                 break ;
             case ROI:

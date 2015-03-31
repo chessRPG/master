@@ -32,12 +32,14 @@ Joueur * creerJoueur(char * nomJoueur, Couleur couleur)
 {
     Joueur * joueur ;
     joueur = malloc(sizeof(Joueur)) ;
-    initJoueur(joueur);
+    initJoueur(joueur, couleur);
+
+    setNomJoueur(joueur, nomJoueur);
 
     return joueur;
 }
 
-void initJoueur(Joueur * joueur)
+void initJoueur(Joueur * joueur, Couleur couleur)
 {
     int i = 0;
     for (i = 0 ; i < 32 ; i++)
@@ -45,7 +47,7 @@ void initJoueur(Joueur * joueur)
         joueur->nomJoueur[i] = '\0';
     }
 
-    joueur->couleur = BLANC;
+    joueur->couleur = couleur;
 }
 
 void detruireJoueur(Joueur * joueur)
