@@ -4,7 +4,7 @@
 
 Case * getCase(Plateau * plateau, int posX, int posY)
 {
-    return plateau->echiquier[posX][posY] ;
+    return &(plateau->echiquier[posX][posY]) ;
 }
 
 int getNbTours(Plateau * plateau)
@@ -65,7 +65,6 @@ void initPlateau(Plateau * plateau, Couleur C1, Couleur C2)
 Plateau * creerPlateau(Couleur C1, Couleur C2)
 {
     Plateau * plateau ;
-    int i, j ;
 
     plateau = malloc(sizeof(Plateau)) ;
 
