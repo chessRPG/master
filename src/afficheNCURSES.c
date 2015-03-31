@@ -71,7 +71,7 @@ void boucleEvent(Jeu * jeu)
     noecho() ;
     cbreak() ;
 
-    win = newwin(8, 8, 0, 0) ;
+    win = newwin(8, 8, 2, 2) ;
 
     continue_boucle = 1 ;
 
@@ -103,8 +103,8 @@ void boucleEvent(Jeu * jeu)
             default:
                 break;
         }
-        wmove(win, y, x);
-        wrefresh(win);
+        //wmove(win, y, x);
+        //wrefresh(win);
 
         /*if((c - '0') < 8)
         {
