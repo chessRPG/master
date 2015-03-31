@@ -7,16 +7,13 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/codeblocks/ChessRPG" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/codeblocks/" />
+				<Option output="bin/ChessRPG" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
-				<Linker>
-					<Add option="-lncurses" />
-				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
@@ -24,11 +21,18 @@
 		</Compiler>
 		<Linker>
 			<Add option="-lncurses" />
+			<Add option="-lSDL" />
+			<Add option="-lSDL_ttf" />
+			<Add option="-lSDL_image" />
 		</Linker>
 		<Unit filename="src/afficheNCURSES.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/afficheNCURSES.h" />
+		<Unit filename="src/afficheSDL.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/afficheSDL.h" />
 		<Unit filename="src/case.c">
 			<Option compilerVar="CC" />
 		</Unit>

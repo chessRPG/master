@@ -9,6 +9,6 @@
 #include "jeu.h"
 
 void affichage(WINDOW * win, Jeu * jeu) ;
-void boucleEvent(Jeu * jeu) ;
+void SdlInit(Jeu* jeu) ;
 
 #endif
