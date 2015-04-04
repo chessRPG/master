@@ -31,17 +31,62 @@ SDL_Surface *SDL_load_image(const char* filename )
 	return loadedImage;
 }
 
-void SDL_apply_surface( SDL_Surface* source, SDL_Surface* destination, int x, int y )
+void SDL_apply_surface( SDL_Surface* surface, SDL_Surface* ecran, int y, int x )
 {
 	/* Make a temporary rectangle to hold the offsets */
-	SDL_Rect offset;
+	SDL_Rect position;
 
 	/* Give the offsets to the rectangle */
-	offset.x = x;
-	offset.y = y;
+	position.x = x;
+	position.y = y;
 
 	/* Blit the surface */
-	SDL_BlitSurface( source, NULL, destination, &offset );
+	SDL_BlitSurface( surface, NULL, ecran, &position );
+}
+
+void SdlAffichePiece(JeuSDL * jeu, int i, int j, Piece * piece)
+{
+    Type type = getTypePiece(piece) ;
+    SDL_Surface * ecran = jeu->surface_ecran;
+
+    switch (type)
+    {
+    case TOUR:
+        if (getCouleurPiece(piece) == 0) SDL_apply_surface(jeu->surface_T1, ecran, i, j);
+        else SDL_apply_surface(jeu->surface_T2, ecran, i, j) ;
+        break ;
+    case CAVALIER:
+        if (getCouleurPiece(piece) == 0) SDL_apply_surface(jeu->surface_C1, ecran, i, j) ;
+        else SDL_apply_surface(jeu->surface_C2, ecran, i, j) ;
+        break ;
+    case FOU:
+        if (getCouleurPiece(piece) == 0) SDL_apply_surface(jeu->surface_F1, ecran, i, j) ;
+        else SDL_apply_surface(jeu->surface_F2, ecran, i, j) ;
+        break ;
+    case DAME:
+        if (getCouleurPiece(piece) == 0) SDL_apply_surface(jeu->surface_D1, ecran, i, j) ;
+        else SDL_apply_surface(jeu->surface_D2, ecran, i, j) ;
+        break ;
+    case ROI:
+        if (getCouleurPiece(piece) == 0) SDL_apply_surface(jeu->surface_R1, ecran, i, j) ;
+        else SDL_apply_surface(jeu->surface_R2, ecran, i, j) ;
+        break ;
+    default: /* pion */
+        if (getCouleurPiece(piece) == 0) SDL_apply_surface(jeu->surface_P1, ecran, i, j) ;
+        else SDL_apply_surface(jeu->surface_P2, ecran, i, j) ;
+        break ;
+    }
+}
+
+void dessineRectangle(SDL_Surface * ecran, int y, int x, int X, int Y, Couleur cou)
+{
+    SDL_Rect rectangle;
+	rectangle.x = x;
+	rectangle.y = y;
+	rectangle.w = X-x;
+	rectangle.h = Y-y;
+
+	SDL_FillRect(ecran, &rectangle, cou);
 }
 
 /* public */
@@ -49,61 +94,177 @@ void SDL_apply_surface( SDL_Surface* source, SDL_Surface* destination, int x, in
 const int TAILLE_CASE = 40 ;
 
 
-void SdlInit(Jeu* jeu)
+void SdlInit(JeuSDL * jeuSDL, Couleur C1, Couleur C2)
 {
-    JeuSDL jeuSDL ;
+    Jeu * jeu;
+
     int dimX = 8 * TAILLE_CASE ;
-    int dimY = 8 * TAILLE_CASE ;
+    int dimY = 9 * TAILLE_CASE ;
+
+    jeu = &(jeuSDL->jeu);
+
+    initJeu(jeu, C1, C2);
 
     assert(SDL_Init(SDL_INIT_EVERYTHING)!= -1) ;
 
-    jeuSDL.surface_ecran = SDL_SetVideoMode(dimX, dimY, 40, SDL_SWSURFACE) ;
+    jeuSDL->surface_ecran = SDL_SetVideoMode(dimX, dimY, 32, SDL_SWSURFACE) ;
+    assert(jeuSDL->surface_ecran != NULL);
     SDL_WM_SetCaption("ChessRPG v0.1b", NULL) ;
 
-    jeuSDL.surface_BLANC = SDL_load_image("data/CB.bmp") ;
-    if(jeuSDL.surface_BLANC == NULL) jeuSDL.surface_BLANC = SDL_load_image("../data/CB.bmp") ;
-    assert(jeuSDL.surface_BLANC != NULL) ;
+    jeuSDL->surface_BLANC = IMG_Load("data/CB.bmp") ;
+    if(jeuSDL->surface_BLANC == NULL) jeuSDL->surface_BLANC = IMG_Load("../data/CB.bmp") ;
+    assert(jeuSDL->surface_BLANC != NULL) ;
 
-    jeuSDL.surface_NOIR = SDL_load_image("data/CN.bmp") ;
-    if(jeuSDL.surface_NOIR == NULL) jeuSDL.surface_NOIR = SDL_load_image("../data/CN.bmp") ;
-    assert(jeuSDL.surface_NOIR != NULL) ;
+    jeuSDL->surface_NOIR = IMG_Load("data/CN.bmp") ;
+    if(jeuSDL->surface_NOIR == NULL) jeuSDL->surface_NOIR = IMG_Load("../data/CN.bmp") ;
+    assert(jeuSDL->surface_NOIR != NULL) ;
 
-    jeuSDL.surface_BLEU = SDL_load_image("data/CS.bmp") ;
-    if(jeuSDL.surface_BLEU == NULL) jeuSDL.surface_BLEU = SDL_load_image("../data/CS.bmp") ;
-    assert(jeuSDL.surface_BLEU != NULL) ;
+    jeuSDL->surface_BLEU = IMG_Load("data/CS.bmp") ;
+    if(jeuSDL->surface_BLEU == NULL) jeuSDL->surface_BLEU = IMG_Load("../data/CS.bmp") ;
+    assert(jeuSDL->surface_BLEU != NULL) ;
 
-    SdlAffichage(jeuSDL) ;
+    jeuSDL->surface_T1 = IMG_Load("data/BLANC/T.png");
+    assert(jeuSDL->surface_T1 != NULL);
+    jeuSDL->surface_C1 = IMG_Load("data/BLANC/C.png");
+    assert(jeuSDL->surface_C1 != NULL);
+    jeuSDL->surface_F1 = IMG_Load("data/BLANC/F.png");
+    assert(jeuSDL->surface_F1 != NULL);
+    jeuSDL->surface_R1 = IMG_Load("data/BLANC/R.png");
+    assert(jeuSDL->surface_R1 != NULL);
+    jeuSDL->surface_D1 = IMG_Load("data/BLANC/D.png");
+    assert(jeuSDL->surface_D1 != NULL);
+    jeuSDL->surface_P1 = IMG_Load("data/BLANC/P.png");
+    assert(jeuSDL->surface_P1 != NULL);
 
+    jeuSDL->surface_T2 = IMG_Load("data/NOIR/T.png");
+    assert(jeuSDL->surface_T2 != NULL);
+    jeuSDL->surface_C2 = IMG_Load("data/NOIR/C.png");
+    assert(jeuSDL->surface_C2 != NULL);
+    jeuSDL->surface_F2 = IMG_Load("data/NOIR/F.png");
+    assert(jeuSDL->surface_F2 != NULL);
+    jeuSDL->surface_R2 = IMG_Load("data/NOIR/R.png");
+    assert(jeuSDL->surface_R2 != NULL);
+    jeuSDL->surface_D2 = IMG_Load("data/NOIR/D.png");
+    assert(jeuSDL->surface_D2 != NULL);
+    jeuSDL->surface_P2 = IMG_Load("data/NOIR/P.png");
+    assert(jeuSDL->surface_P2 != NULL);
 }
-
-void SdlAffichage(const JeuSDL jeuSDL)
+/*
+void SdlLibere(JeuSDL* jeuSDL)
 {
-    int i,j ;
+    SDL_FreeSurface(jeuSDL->surface_ecran);
+
+    detruireJeu(&jeuSDL->jeu);
+
+    SDL_Quit();
+}
+*/
+void SdlAffichage(JeuSDL * jeuSDL)
+{
+    int i,j,longueur;
+    Case * cell;
+    Piece * piece;
 
     for (i=0 ; i < 8 ; i++)
     {
         for (j=0 ; j < 8 ; j++)
         {
-            if((i+j)%2 == 0)
-            {
-                SDL_apply_surface(jeuSDL.surface_BLANC, jeuSDL.surface_ecran, i*TAILLE_CASE, j*TAILLE_CASE) ;
-            }
+            cell = getCase(&(jeuSDL->jeu.plateau), i, j);
+            piece = getPieceCase(cell);
+
+            if (getCouleurCase(cell) == CBLEU)
+                SDL_apply_surface(jeuSDL->surface_BLEU, jeuSDL->surface_ecran, i*TAILLE_CASE, j*TAILLE_CASE) ;
+            else if((i+j)%2 == 0)
+                SDL_apply_surface(jeuSDL->surface_BLANC, jeuSDL->surface_ecran, i*TAILLE_CASE, j*TAILLE_CASE) ;
+
             else
-            {
-                SDL_apply_surface(jeuSDL.surface_NOIR, jeuSDL.surface_ecran, i*TAILLE_CASE, j*TAILLE_CASE) ;
-            }
+                SDL_apply_surface(jeuSDL->surface_NOIR, jeuSDL->surface_ecran, i*TAILLE_CASE, j*TAILLE_CASE) ;
+
+            if (piece != NULL)
+                SdlAffichePiece(jeuSDL, i*TAILLE_CASE, j*TAILLE_CASE, piece);
         }
     }
-    SDL_Flip(jeuSDL.surface_ecran) ;
+
+/*  affichage du nom du joueur actif    */
+
+    Uint32 noire = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 0, 0);
+    dessineRectangle(jeuSDL->surface_ecran, 8*TAILLE_CASE, 0, 8*TAILLE_CASE, 1*TAILLE_CASE, noire);
+
+    TTF_Init();
+    TTF_Font * police = NULL;
+    SDL_Surface * texte;
+    char * joueurActif = getNomJoueur(jeuSDL->jeu.joueurActif);
+
+    police = TTF_OpenFont("data/rmegg.ttf", 40);
+    SDL_Color blanc = {255, 255, 255};
+    texte = TTF_RenderText_Blended(police, joueurActif, blanc);
+
+    longueur = texte->w;
+    SDL_apply_surface(texte, jeuSDL->surface_ecran, 8*TAILLE_CASE, (8*TAILLE_CASE-longueur)/2);
+
+    TTF_CloseFont(police);
+    TTF_Quit();
 
 }
 
-/*void SdlBoucle(JeuSDL* jeuSDL, Jeu* jeu)
+void SdlBoucle(JeuSDL * jeuSDL)
 {
+    SDL_Event event;
+	int continue_boucle = 1;
+	int x = 0, y = 0;
+	setCouleurCase(getCase(&(jeuSDL->jeu.plateau), x, y), CBLEU);
+
+    SdlAffichage(jeuSDL);
+	assert( SDL_Flip( jeuSDL->surface_ecran )!=-1 );
+
+	while ( continue_boucle == 1 )
+	{
+		while ( SDL_PollEvent( &event ) )
+		{
+
+			if ( event.type == SDL_QUIT )
+				continue_boucle = 0;
+
+
+			if ( event.type == SDL_KEYDOWN )
+			{
+                reinitCouleursEchiquier(&jeuSDL->jeu.plateau);
+
+				switch ( event.key.keysym.sym )
+				{
+                    case SDLK_UP:
+                        if (caseValide(x-1, y)) x--;
+                        break;
+                    case SDLK_DOWN:
+                        if (caseValide(x+1, y)) x++;
+                        break;
+                    case SDLK_LEFT:
+                        if (caseValide(x, y-1)) y--;
+                        break;
+                    case SDLK_RIGHT:
+                        if (caseValide(x, y+1)) y++;
+                        break;
+                    case SDLK_RETURN:   //  Touche Entrée
+                        selectPiece(&jeuSDL->jeu, x, y);
+                        break;
+                    case SDLK_SPACE:    //  Changement de joueur actif
+                        if (jeuSDL->jeu.joueurActif == &jeuSDL->jeu.J1)
+                            setJoueurActif(&jeuSDL->jeu, &jeuSDL->jeu.J2);
+                        else    setJoueurActif(&jeuSDL->jeu, &jeuSDL->jeu.J1);
+                        break;
+                    case SDLK_ESCAPE:
+                        continue_boucle = 0;
+                        break;
+                    default:
+                        break;
+				}
+				setCouleurCase(getCase(&jeuSDL->jeu.plateau, x, y), CBLEU);
+			}
+
+		}
+        SdlAffichage(jeuSDL);
+        SDL_Flip( jeuSDL->surface_ecran );
+	}
 
 }
 
-void SdlLibere(JeuSDL* jeuSDL, Jeu* jeu)
-{
-
-}*/

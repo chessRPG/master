@@ -1,6 +1,7 @@
 #ifndef _CASE_H
 #define _CASE_H
 
+#include <stdbool.h>
 #include "piece.h"
 
 typedef enum {CBLANC, CNOIR, CBLEU} CouleurCase ;
@@ -22,6 +23,8 @@ void setPieceCase(Case * cell, Piece * piece) ;
 
 void viderCase(Case * cell) ;
 void detruireCase(Case * cell) ;
+
+bool caseValide(int x, int y);
 
 
 #endif

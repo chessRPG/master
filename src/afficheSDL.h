@@ -13,6 +13,8 @@
 
 typedef struct
 {
+    Jeu jeu;
+
     SDL_Surface* surface_ecran ;
 
     SDL_Surface* surface_T1 ;
@@ -34,10 +36,9 @@ typedef struct
     SDL_Surface* surface_BLEU ;
 
 } JeuSDL ;
-
-void SdlInit(Jeu* jeu) ;
-void SdlAffichage(const JeuSDL jeuSDL) ;
-void SdlBoucle(JeuSDL* jeuSDL, Jeu* jeu) ;
-void SdlLibere(JeuSDL* jeuSDL, Jeu* jeu) ;
+void SdlInit(JeuSDL * jeuSdl, Couleur C1, Couleur C2) ;
+void SdlAffichage(JeuSDL * jeuSDL) ;
+void SdlBoucle(JeuSDL * jeuSDL) ;
+void SdlLibere(JeuSDL * jeuSDL) ;
 
 #endif

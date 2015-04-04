@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include "case.h"
 
 /* accesseurs */
@@ -59,4 +60,14 @@ void detruireCase(Case * cell)
 {
     viderCase(cell) ;
     free(cell) ;
+}
+
+/*  autre   */
+
+bool caseValide(int x, int y)
+{
+    if (x<8 && x>=0 && y<8 && y>=0)
+        return true;
+    else
+        return false;
 }

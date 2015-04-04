@@ -3,32 +3,32 @@
 
 void affichePiece(WINDOW * win, int i, int j, Piece * piece)
 {
-    Type type = piece->type ;
+    Type type = getTypePiece(piece) ;
 
     switch (type)
     {
     case TOUR:
-        if (piece->couleur == 0) mvwprintw(win, i, j, "T") ;
+        if (getCouleurPiece(piece) == 0) mvwprintw(win, i, j, "T") ;
         else mvwprintw(win, i, j, "t") ;
         break ;
     case CAVALIER:
-        if (piece->couleur == 0) mvwprintw(win, i, j, "C") ;
+        if (getCouleurPiece(piece) == 0) mvwprintw(win, i, j, "C") ;
         else mvwprintw(win, i, j, "c") ;
         break ;
     case FOU:
-        if (piece->couleur == 0) mvwprintw(win, i, j, "F") ;
+        if (getCouleurPiece(piece) == 0) mvwprintw(win, i, j, "F") ;
         else mvwprintw(win, i, j, "f") ;
         break ;
     case DAME:
-        if (piece->couleur == 0) mvwprintw(win, i, j, "D") ;
+        if (getCouleurPiece(piece) == 0) mvwprintw(win, i, j, "D") ;
         else mvwprintw(win, i, j, "d") ;
         break ;
     case ROI:
-        if (piece->couleur == 0) mvwprintw(win, i, j, "R") ;
+        if (getCouleurPiece(piece) == 0) mvwprintw(win, i, j, "R") ;
         else mvwprintw(win, i, j, "r") ;
         break ;
     default: /* pion */
-        if (piece->couleur == 0) mvwprintw(win, i, j, "P") ;
+        if (getCouleurPiece(piece) == 0) mvwprintw(win, i, j, "P") ;
         else mvwprintw(win, i, j, "p") ;
         break ;
     }
@@ -61,7 +61,7 @@ void affichage(WINDOW * win, Jeu * jeu)
             }
         }
     }
-    mvwprintw(win, 8, 0, "%s", jeu->joueurActif->nomJoueur);
+    mvwprintw(win, 8, 0, "%s", getNomJoueur(getJoueurActif(jeu)));
 }
 
 void boucleEvent(Jeu * jeu)
@@ -69,14 +69,15 @@ void boucleEvent(Jeu * jeu)
     WINDOW * win ;
     int continue_boucle ;
     int y = 0, x = 0; /*coordonées du curseur : y ligne, x colonne*/
-    int c ;
+
+    int c;
 
     initscr() ;
     clear() ;
     noecho() ;
     cbreak() ;
     win = newwin(9, 8, 0, 0) ;
-	keypad(win, TRUE);		/* pour que les flèches soient traitées (il faut le faire après création de la fenêtre) */
+	keypad(win, true);		/* pour que les flèches soient traitées (il faut le faire après création de la fenêtre) */
 	nodelay(win,true); /* Pour que l'appel à wgetch soit non-bloquant */
 
     continue_boucle = 1 ;
@@ -108,10 +109,10 @@ void boucleEvent(Jeu * jeu)
                 selectPiece(jeu, y, x);
                 break;
             case ' ':
-                if(jeu->joueurActif == &(jeu->J1))
-                    jeu->joueurActif = &(jeu->J2);
+                if(getJoueurActif(jeu) == &(jeu->J1))
+                    setJoueurActif(jeu, &(jeu->J2));
                 else
-                    jeu->joueurActif = &(jeu->J1);
+                    setJoueurActif(jeu, &(jeu->J1));
                 break;
             case 27: /* ECHAP */
                 continue_boucle = 0;
@@ -121,6 +122,7 @@ void boucleEvent(Jeu * jeu)
         }
         affichage(win, jeu);
         wmove(win, y, x);
+
     }
     assert(delwin(win)!=ERR);
     endwin();
