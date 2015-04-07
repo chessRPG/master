@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include "piece.h"
 
-typedef enum {CBLANC, CNOIR, CBLEU} CouleurCase ;
+typedef enum {CBLANC, CNOIR, CBLEU, CROUGE} CouleurCase ;
 
 typedef struct
 {

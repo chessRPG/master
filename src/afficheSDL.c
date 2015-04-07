@@ -123,6 +123,10 @@ void SdlInit(JeuSDL * jeuSDL, Couleur C1, Couleur C2)
     if(jeuSDL->surface_BLEU == NULL) jeuSDL->surface_BLEU = IMG_Load("../data/CS.bmp") ;
     assert(jeuSDL->surface_BLEU != NULL) ;
 
+    jeuSDL->surface_ROUGE = IMG_Load("data/CR.bmp") ;
+    if(jeuSDL->surface_ROUGE == NULL) jeuSDL->surface_ROUGE = IMG_Load("../data/CR.bmp") ;
+    assert(jeuSDL->surface_ROUGE != NULL) ;
+
     jeuSDL->surface_T1 = IMG_Load("data/BLANC/T.png");
     assert(jeuSDL->surface_T1 != NULL);
     jeuSDL->surface_C1 = IMG_Load("data/BLANC/C.png");
@@ -172,11 +176,12 @@ void SdlAffichage(JeuSDL * jeuSDL)
             cell = getCase(&(jeuSDL->jeu.plateau), i, j);
             piece = getPieceCase(cell);
 
-            if (getCouleurCase(cell) == CBLEU)
+            if (getCouleurCase(cell) == CROUGE)
+                SDL_apply_surface(jeuSDL->surface_ROUGE, jeuSDL->surface_ecran, i*TAILLE_CASE, j*TAILLE_CASE) ;
+            else if (getCouleurCase(cell) == CBLEU)
                 SDL_apply_surface(jeuSDL->surface_BLEU, jeuSDL->surface_ecran, i*TAILLE_CASE, j*TAILLE_CASE) ;
-            else if((i+j)%2 == 0)
+            else if(getCouleurCase(cell) == CBLANC)
                 SDL_apply_surface(jeuSDL->surface_BLANC, jeuSDL->surface_ecran, i*TAILLE_CASE, j*TAILLE_CASE) ;
-
             else
                 SDL_apply_surface(jeuSDL->surface_NOIR, jeuSDL->surface_ecran, i*TAILLE_CASE, j*TAILLE_CASE) ;
 
@@ -211,8 +216,10 @@ void SdlBoucle(JeuSDL * jeuSDL)
 {
     SDL_Event event;
 	int continue_boucle = 1;
-	int x = 0, y = 0;
-	setCouleurCase(getCase(&(jeuSDL->jeu.plateau), x, y), CBLEU);
+	int x = 1000, y = 1000 ;
+	CouleurCase couleurTemp ;
+
+	reinitCouleursEchiquier(&jeuSDL->jeu.plateau) ;
 
     SdlAffichage(jeuSDL);
 	assert( SDL_Flip( jeuSDL->surface_ecran )!=-1 );
@@ -225,32 +232,35 @@ void SdlBoucle(JeuSDL * jeuSDL)
 			if ( event.type == SDL_QUIT )
 				continue_boucle = 0;
 
+            if (event.type == SDL_MOUSEMOTION)
+            {
+                if (caseValide(x, y)) setCouleurCase(getCase(&jeuSDL->jeu.plateau, x, y), couleurTemp);
+
+
+                SDL_GetMouseState(&y, &x) ;
+                x = x / TAILLE_CASE ;
+                y = y / TAILLE_CASE ;
+                if (caseValide(x, y)) couleurTemp = getCouleurCase(getCase(&jeuSDL->jeu.plateau, x, y)) ;
+                if (caseValide(x, y)) setCouleurCase(getCase(&jeuSDL->jeu.plateau, x, y), CROUGE);
+            }
+
+            if (event.type == SDL_MOUSEBUTTONDOWN)
+            {
+                if (caseValide(x, y)) selectPiece(&jeuSDL->jeu, x, y) ;
+                couleurTemp = CBLEU ;
+            }
+
 
 			if ( event.type == SDL_KEYDOWN )
 			{
-                reinitCouleursEchiquier(&jeuSDL->jeu.plateau);
 
 				switch ( event.key.keysym.sym )
 				{
-                    case SDLK_UP:
-                        if (caseValide(x-1, y)) x--;
-                        break;
-                    case SDLK_DOWN:
-                        if (caseValide(x+1, y)) x++;
-                        break;
-                    case SDLK_LEFT:
-                        if (caseValide(x, y-1)) y--;
-                        break;
-                    case SDLK_RIGHT:
-                        if (caseValide(x, y+1)) y++;
-                        break;
-                    case SDLK_RETURN:   //  Touche Entrée
-                        selectPiece(&jeuSDL->jeu, x, y);
-                        break;
                     case SDLK_SPACE:    //  Changement de joueur actif
                         if (jeuSDL->jeu.joueurActif == &jeuSDL->jeu.J1)
                             setJoueurActif(&jeuSDL->jeu, &jeuSDL->jeu.J2);
                         else    setJoueurActif(&jeuSDL->jeu, &jeuSDL->jeu.J1);
+                        reinitCouleursEchiquier(&jeuSDL->jeu.plateau) ;
                         break;
                     case SDLK_ESCAPE:
                         continue_boucle = 0;
@@ -258,10 +268,9 @@ void SdlBoucle(JeuSDL * jeuSDL)
                     default:
                         break;
 				}
-				setCouleurCase(getCase(&jeuSDL->jeu.plateau, x, y), CBLEU);
 			}
-
 		}
+
         SdlAffichage(jeuSDL);
         SDL_Flip( jeuSDL->surface_ecran );
 	}
