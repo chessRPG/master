@@ -219,6 +219,8 @@ void SdlBoucle(JeuSDL * jeuSDL)
 	int x = 1000, y = 1000 ;
 	int posX, posY ;
 	CouleurCase couleurTemp ;
+	bool selectionne = 0 ;
+	Piece* piece ;
 
 	reinitCouleursEchiquier(&jeuSDL->jeu.plateau) ;
 
@@ -250,42 +252,25 @@ void SdlBoucle(JeuSDL * jeuSDL)
 
             if (event.type == SDL_MOUSEBUTTONDOWN && caseValide(x, y))
             {
-                if (couleurTemp == CBLEU)
+                if (couleurTemp == CBLEU && selectionne != 0 && (posX != x || posY != y))
                 {
                     deplacerPiece(&jeuSDL->jeu.plateau, getPieceCase(getCase(&jeuSDL->jeu.plateau, posX, posY)), x, y) ;
                     reinitCouleursEchiquier(&jeuSDL->jeu.plateau) ;
                     couleurTemp = (x+y)%2 ;
                     if (jeuSDL->jeu.joueurActif == &jeuSDL->jeu.J1) setJoueurActif(&jeuSDL->jeu, &jeuSDL->jeu.J2);
                     else setJoueurActif(&jeuSDL->jeu, &jeuSDL->jeu.J1);
+                    selectionne = 0 ;
                 }
                 else
                 {
                     selectPiece(&jeuSDL->jeu, x, y) ;
-                    couleurTemp = CBLEU ;
+                    couleurTemp = getCouleurCase(getCase(&jeuSDL->jeu.plateau, x, y)) ;
+                    piece = getPieceCase(getCase(&jeuSDL->jeu.plateau, x, y)) ;
+                    selectionne = (piece!= NULL) && (getCouleurPiece(piece) == getCouleurJoueur(getJoueurActif(&jeuSDL->jeu))) ;
                     posX = x ;
                     posY = y ;
                 }
             }
-
-
-			if ( event.type == SDL_KEYDOWN )
-			{
-
-				switch ( event.key.keysym.sym )
-				{
-                    case SDLK_SPACE:    //  Changement de joueur actif
-                        if (jeuSDL->jeu.joueurActif == &jeuSDL->jeu.J1)
-                            setJoueurActif(&jeuSDL->jeu, &jeuSDL->jeu.J2);
-                        else    setJoueurActif(&jeuSDL->jeu, &jeuSDL->jeu.J1);
-                        reinitCouleursEchiquier(&jeuSDL->jeu.plateau) ;
-                        break;
-                    case SDLK_ESCAPE:
-                        continue_boucle = 0;
-                        break;
-                    default:
-                        break;
-				}
-			}
 		}
 
         SdlAffichage(jeuSDL);

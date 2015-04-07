@@ -22,7 +22,7 @@ int getPointsVieMax(Type type)
         return 500 ;
         break ;
     case ROI:
-        return 700 ;
+        return 1100 ;
         break ;
     default:
         printf("type invalide") ;

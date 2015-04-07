@@ -238,7 +238,7 @@ void deplacerPiece(Plateau * plateau, Piece * piece, int posX, int posY)
 
 Piece* combatPieces(Piece * pieceAtt, Piece * pieceDef)
 {
-    int BONUS = 2;
+    int BONUS = 1;
     int vie;
 
     while(getPointsVie(pieceAtt) > 0 && getPointsVie(pieceDef) > 0)
