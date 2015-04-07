@@ -4,16 +4,15 @@
 
 void initJeu(Jeu * jeu, Couleur C1, Couleur C2)
 {
-    jeu->plateau = *creerPlateau(C1, C2);
-    jeu->J1 = *creerJoueur(C1);
-    jeu->J2 = *creerJoueur(C2);
+    initPlateau(&jeu->plateau, C1, C2);
+    initJoueur(&jeu->J1, C1);
+    initJoueur(&jeu->J2, C2);
+    setJoueurActif(jeu, &jeu->J1);
 }
 
 void detruireJeu(Jeu * jeu)
 {
-    detruirePlateau(&jeu->plateau);
-    detruireJoueur(&jeu->J1);
-    detruireJoueur(&jeu->J2);
+    viderPlateau(&jeu->plateau);
 }
 
 /* Interne */
@@ -35,7 +34,7 @@ void coloreLigne(Jeu * jeu, int x, int y)
 
     while (caseValide(x, y+i) && getPieceCase(getCase(&(jeu->plateau), x, y+i)) == NULL)
     {
-        setCouleurCase(getCase(&(jeu->plateau), x, y-i), CBLEU);
+        setCouleurCase(getCase(&(jeu->plateau), x, y+i), CBLEU);
         i++;
     }
     if (caseValide(x, y+i) && getCouleurPiece(getPieceCase(getCase(&(jeu->plateau), x, y+i))) != couleur)

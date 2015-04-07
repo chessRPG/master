@@ -26,7 +26,7 @@ void setCouleurJoueur(Joueur * joueur, Couleur couleur)
     joueur->couleur = couleur ;
 }
 
-/* creation / destruction */
+/* creation / destruction(pas besoin) */
 
 Joueur * creerJoueur(Couleur couleur)
 {
@@ -46,9 +46,4 @@ void initJoueur(Joueur * joueur, Couleur couleur)
     }
 
     joueur->couleur = couleur;
-}
-
-void detruireJoueur(Joueur * joueur)
-{
-    free(joueur);
 }

@@ -21,8 +21,6 @@ int main()
         setNomJoueur(&(jeu.J1), "joueur1");
         setNomJoueur(&(jeu.J2), "joueur2");
 
-        setJoueurActif(&jeu, &(jeu.J1));
-
         boucleEvent(&jeu);
 
         detruireJeu(&jeu);
@@ -36,8 +34,6 @@ int main()
 
         setNomJoueur(&(jeuSdl.jeu.J1), "JOUEUR 1");
         setNomJoueur(&(jeuSdl.jeu.J2), "TRUCMUCHE");
-
-        setJoueurActif(&(jeuSdl.jeu), &(jeuSdl.jeu.J1));
 
         SdlBoucle(&jeuSdl);
 //        SdlLibere(&jeuSdl);

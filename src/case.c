@@ -59,7 +59,6 @@ void viderCase(Case * cell)
 void detruireCase(Case * cell)
 {
     viderCase(cell) ;
-    free(cell) ;
 }
 
 /*  autre   */

@@ -99,11 +99,7 @@ void viderPlateau(Plateau * plateau)
         {
             detruireCase(&(plateau->echiquier[i][j])) ;
         }
+        free(plateau->echiquier[i]);
     }
-}
-
-void detruirePlateau(Plateau * plateau)
-{
-    viderPlateau(plateau) ;
-    free(plateau) ;
+    free(plateau->echiquier);
 }
