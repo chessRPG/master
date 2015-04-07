@@ -11,6 +11,7 @@ typedef struct
 
 Plateau * creerPlateau(Couleur C1, Couleur C2) ;
 void initPlateau(Plateau * plateau, Couleur C1, Couleur C2) ;
+void reinitCouleursEchiquier(Plateau * plateau);
 
 Case * getCase(Plateau * plateau, int posX, int posY) ;
 int getNbTours(Plateau * plateau) ;

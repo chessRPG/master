@@ -8,25 +8,12 @@ void initJeu(Jeu * jeu, Couleur C1, Couleur C2)
     jeu->J1 = *creerJoueur(C1);
     jeu->J2 = *creerJoueur(C2);
 }
-/*
+
 void detruireJeu(Jeu * jeu)
 {
     detruirePlateau(&jeu->plateau);
     detruireJoueur(&jeu->J1);
     detruireJoueur(&jeu->J2);
-}
-*/
-void reinitCouleursEchiquier(Plateau * plateau)
-{
-    int i, j;
-
-    for(i = 0 ; i < 8 ; i++)
-    {
-        for(j = 0 ; j < 8 ; j++)
-        {
-            setCouleurCase(getCase(plateau, i, j), (i+j)%2);
-        }
-    }
 }
 
 /* Interne */
@@ -139,7 +126,7 @@ void selectPiece(Jeu * jeu, int posX, int posY)
 
     reinitCouleursEchiquier(&(jeu->plateau));
 
-    if(piece != NULL && getCouleurJoueur(joueur) == getCouleurPiece(piece))
+    if(piece != NULL && couleur == getCouleurPiece(piece))
     {
 
         setCouleurCase(getCase(&(jeu->plateau), posX, posY), CBLEU);
@@ -149,7 +136,7 @@ void selectPiece(Jeu * jeu, int posX, int posY)
 
             case PION:
 
-                if (couleur == BLANC)  a = -1;
+                if (couleur == getCouleurJoueur(&jeu->J1))  a = -1;
                 else    a = 1;
 
                 if (caseValide(posX+a, posY) && getPieceCase(getCase(&(jeu->plateau), posX+a, posY)) == NULL)
@@ -222,7 +209,6 @@ void selectPiece(Jeu * jeu, int posX, int posY)
                 return ;
         }
     }
-
 }
 
 /* Mutateurs */
@@ -234,57 +220,54 @@ void setJoueurActif(Jeu * jeu, Joueur* joueur)
 
 void deplacerPiece(Plateau * plateau, Piece * piece, int posX, int posY)
 {
-    int i = 0, j = 0;
+    int i = 0, j = 0, cpt = 0;
 
-    while(getPieceCase(getCase(plateau, i, j)) != piece && i < 8)
+    while(caseValide(i, j) && getPieceCase(getCase(plateau, i, j)) != piece)
     {
-        while(getPieceCase(getCase(plateau, i, j)) != piece && j < 8)
-        {
-            j++;
-        }
-        i++;
+        cpt++;
+
+        j = cpt%8;
+        i = cpt/8;
     }
     setPieceCase(getCase(plateau, i, j), NULL);
 
-    setPieceCase(getCase(plateau, posX, posY), piece);
+    if(getPieceCase(getCase(plateau, posX, posY)) != NULL)
+        piece = combatPieces(piece, getPieceCase(getCase(plateau, posX, posY)));
 
-    plateau->nbTours++;
+    setPieceCase(getCase(plateau, posX, posY), piece);
 }
 
-void combatPieces(Joueur * joueurActif, Piece * pieceJ1, Piece * pieceJ2)
+Piece* combatPieces(Piece * pieceAtt, Piece * pieceDef)
 {
     int BONUS = 2;
-    Piece * attaquant;
-    Piece * defenseur;
     int vie;
 
-    if(getCouleurJoueur(joueurActif) == getCouleurPiece(pieceJ1))
+    while(getPointsVie(pieceAtt) > 0 && getPointsVie(pieceDef) > 0)
     {
-        attaquant = pieceJ1;
-        defenseur = pieceJ2;
+        vie = getPointsVie(pieceDef) - getPointsAttaque(pieceAtt)*BONUS;
+        if(vie <= 0)
+            setPointsVie(pieceDef, 0);
+        else
+            setPointsVie(pieceDef, vie);
+
+        if(getPointsVie(pieceDef) > 0)
+        {
+            vie = getPointsVie(pieceAtt) - getPointsAttaque(pieceDef);
+            if(vie <= 0)
+                setPointsVie(pieceAtt, 0);
+            else
+                setPointsVie(pieceAtt, vie);
+        }
+    }
+
+    if(getPointsVie(pieceAtt) > 0)
+    {
+        detruirePiece(pieceDef);
+        return pieceAtt;
     }
     else
     {
-        attaquant = pieceJ2;
-        defenseur = pieceJ1;
-    }
-
-
-    while(getPointsVie(attaquant) > 0 || getPointsVie(defenseur) > 0)
-    {
-        vie = getPointsVie(defenseur) - getPointsAttaque(attaquant)*BONUS;
-        if(vie <= 0)
-            setPointsVie(defenseur, 0);
-        else
-            setPointsVie(defenseur, vie);
-
-        if(getPointsVie(defenseur) > 0)
-        {
-            vie = getPointsVie(attaquant) - getPointsAttaque(defenseur);
-            if(vie <= 0)
-                setPointsVie(attaquant, 0);
-            else
-                setPointsVie(attaquant, vie);
-        }
+        detruirePiece(pieceAtt);
+        return pieceDef;
     }
 }

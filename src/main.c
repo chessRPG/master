@@ -1,7 +1,7 @@
 #include "jeu.h"
 
-#define JEU_NCURSES
-//#define JEU_SDL
+//#define JEU_NCURSES
+#define JEU_SDL
 
 #ifdef JEU_NCURSES
 #include "afficheNCURSES.h"
@@ -24,6 +24,8 @@ int main()
         setJoueurActif(&jeu, &(jeu.J1));
 
         boucleEvent(&jeu);
+
+        detruireJeu(&jeu);
     #endif
 
 
@@ -39,6 +41,8 @@ int main()
 
         SdlBoucle(&jeuSdl);
 //        SdlLibere(&jeuSdl);
+
+        detruireJeu(&(jeuSdl.jeu));
     #endif
 
     return 0 ;

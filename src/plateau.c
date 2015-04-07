@@ -1,5 +1,18 @@
 #include "plateau.h"
 
+void reinitCouleursEchiquier(Plateau * plateau)
+{
+    int i, j;
+
+    for(i = 0 ; i < 8 ; i++)
+    {
+        for(j = 0 ; j < 8 ; j++)
+        {
+            setCouleurCase(getCase(plateau, i, j), (i+j)%2);
+        }
+    }
+}
+
 /* accesseurs */
 
 Case * getCase(Plateau * plateau, int posX, int posY)
