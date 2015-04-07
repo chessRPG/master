@@ -7,30 +7,6 @@
 
 /* privee */
 
-SDL_Surface *SDL_load_image(const char* filename )
-{
-	/* Temporary storage for the image that's loaded */
-	SDL_Surface* loadedImage = NULL;
-
-	/* The optimized image that will be used */
-	/*SDL_Surface* optimizedImage = NULL;*/
-
-	/* Load the image */
-	loadedImage = SDL_LoadBMP( filename );
-
-    /*
-	if ( loadedImage != NULL )
-	{
-		optimizedImage = SDL_DisplayFormat( loadedImage );
-		SDL_FreeSurface( loadedImage );
-	}
-	*/
-
-	/* Return the optimized image */
-
-	return loadedImage;
-}
-
 void SDL_apply_surface( SDL_Surface* surface, SDL_Surface* ecran, int y, int x )
 {
 	/* Make a temporary rectangle to hold the offsets */
@@ -99,7 +75,7 @@ void SdlInit(JeuSDL * jeuSDL, Couleur C1, Couleur C2)
     Jeu * jeu;
 
     int dimX = 8 * TAILLE_CASE ;
-    int dimY = 9 * TAILLE_CASE ;
+    int dimY = 10 * TAILLE_CASE ;
 
     jeu = &(jeuSDL->jeu);
 
@@ -165,15 +141,15 @@ void SdlLibere(JeuSDL* jeuSDL)
 */
 void SdlAffichage(JeuSDL * jeuSDL)
 {
-    int i,j,longueur;
+    int i,j,longueur1, longueur2;
     Case * cell;
     Piece * piece;
 
-    for (i=0 ; i < 8 ; i++)
+    for (i=1 ; i < 8 ; i++)
     {
         for (j=0 ; j < 8 ; j++)
         {
-            cell = getCase(&(jeuSDL->jeu.plateau), i, j);
+            cell = getCase(&(jeuSDL->jeu.plateau), i-1, j);
             piece = getPieceCase(cell);
 
             if (getCouleurCase(cell) == CROUGE)
@@ -193,23 +169,32 @@ void SdlAffichage(JeuSDL * jeuSDL)
 /*  affichage du nom du joueur actif    */
 
     Uint32 noire = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 0, 0);
-    dessineRectangle(jeuSDL->surface_ecran, 8*TAILLE_CASE, 0, 8*TAILLE_CASE, 1*TAILLE_CASE, noire);
+
+    dessineRectangle(jeuSDL->surface_ecran, 9*TAILLE_CASE, 0, 10*TAILLE_CASE, 1*TAILLE_CASE, noire);
 
     TTF_Init();
     TTF_Font * police = NULL;
-    SDL_Surface * texte;
-    char * joueurActif = getNomJoueur(jeuSDL->jeu.joueurActif);
+
+    SDL_Surface * texte1 ;
+    SDL_Surface * texte2 ;
+    char * joueurActif = getNomJoueur(jeuSDL->jeu.joueurActif) ;
+    char * joueur1 = jeuSDL->jeu.J1.nomJoueur ;
+    char * joueur2 = jeuSDL->jeu.J2.nomJoueur ;
 
     police = TTF_OpenFont("data/rmegg.ttf", 40);
     SDL_Color blanc = {255, 255, 255};
-    texte = TTF_RenderText_Blended(police, joueurActif, blanc);
 
-    longueur = texte->w;
-    SDL_apply_surface(texte, jeuSDL->surface_ecran, 8*TAILLE_CASE, (8*TAILLE_CASE-longueur)/2);
+    texte1 = TTF_RenderText_Blended(police, joueur1, blanc);
+    texte2 = TTF_RenderText_Blended(police, joueur2, blanc);
+
+    longueur1 = texte1->w ;
+    longueur2 = texte2->w ;
+
+    SDL_apply_surface(texte1, jeuSDL->surface_ecran, 9*TAILLE_CASE, (8*TAILLE_CASE-longueur1)/2);
+    SDL_apply_surface(texte2, jeuSDL->surface_ecran, 0, (8*TAILLE_CASE-longueur2)/2);
 
     TTF_CloseFont(police);
     TTF_Quit();
-
 }
 
 void SdlBoucle(JeuSDL * jeuSDL)
