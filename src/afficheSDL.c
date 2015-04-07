@@ -217,6 +217,7 @@ void SdlBoucle(JeuSDL * jeuSDL)
     SDL_Event event;
 	int continue_boucle = 1;
 	int x = 1000, y = 1000 ;
+	int posX, posY ;
 	CouleurCase couleurTemp ;
 
 	reinitCouleursEchiquier(&jeuSDL->jeu.plateau) ;
@@ -240,14 +241,30 @@ void SdlBoucle(JeuSDL * jeuSDL)
                 SDL_GetMouseState(&y, &x) ;
                 x = x / TAILLE_CASE ;
                 y = y / TAILLE_CASE ;
-                if (caseValide(x, y)) couleurTemp = getCouleurCase(getCase(&jeuSDL->jeu.plateau, x, y)) ;
-                if (caseValide(x, y)) setCouleurCase(getCase(&jeuSDL->jeu.plateau, x, y), CROUGE);
+                if (caseValide(x, y))
+                {
+                    couleurTemp = getCouleurCase(getCase(&jeuSDL->jeu.plateau, x, y)) ;
+                    setCouleurCase(getCase(&jeuSDL->jeu.plateau, x, y), CROUGE);
+                }
             }
 
-            if (event.type == SDL_MOUSEBUTTONDOWN)
+            if (event.type == SDL_MOUSEBUTTONDOWN && caseValide(x, y))
             {
-                if (caseValide(x, y)) selectPiece(&jeuSDL->jeu, x, y) ;
-                couleurTemp = CBLEU ;
+                if (couleurTemp == CBLEU)
+                {
+                    deplacerPiece(&jeuSDL->jeu.plateau, getPieceCase(getCase(&jeuSDL->jeu.plateau, posX, posY)), x, y) ;
+                    reinitCouleursEchiquier(&jeuSDL->jeu.plateau) ;
+                    couleurTemp = (x+y)%2 ;
+                    if (jeuSDL->jeu.joueurActif == &jeuSDL->jeu.J1) setJoueurActif(&jeuSDL->jeu, &jeuSDL->jeu.J2);
+                    else setJoueurActif(&jeuSDL->jeu, &jeuSDL->jeu.J1);
+                }
+                else
+                {
+                    selectPiece(&jeuSDL->jeu, x, y) ;
+                    couleurTemp = CBLEU ;
+                    posX = x ;
+                    posY = y ;
+                }
             }
 
 
