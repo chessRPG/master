@@ -36,9 +36,7 @@ int main()
         setNomJoueur(&(jeuSdl.jeu.J2), "TRUCMUCHE");
 
         SdlBoucle(&jeuSdl);
-//        SdlLibere(&jeuSdl);
-
-        detruireJeu(&(jeuSdl.jeu));
+        SdlLibere(&jeuSdl);
     #endif
 
     return 0 ;
