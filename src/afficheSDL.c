@@ -207,9 +207,9 @@ void SdlAffichage(JeuSDL * jeuSDL)
 
     SDL_Surface * texte1 ;
     SDL_Surface * texte2 ;
-    char * joueurActif = getNomJoueur(jeuSDL->jeu.joueurActif) ;
-    char * joueur1 = jeuSDL->jeu.J1.nomJoueur ;
-    char * joueur2 = jeuSDL->jeu.J2.nomJoueur ;
+
+    char * joueur1 = getNomJoueur(&jeuSDL->jeu.J1) ;
+    char * joueur2 = getNomJoueur(&jeuSDL->jeu.J2) ;
 
     police = TTF_OpenFont("data/rmegg.ttf", 40);
     SDL_Color couleur1 = {255, 255, 255};
