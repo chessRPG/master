@@ -314,3 +314,7 @@ void SdlBoucle(JeuSDL * jeuSDL)
 
 }
 
+void SdlSaisieNom ()
+{
+
+}
