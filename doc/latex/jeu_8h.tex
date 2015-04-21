@@ -1,0 +1,54 @@
+\hypertarget{jeu_8h}{\section{Référence du fichier jeu.\-h}
+\label{jeu_8h}\index{jeu.\-h@{jeu.\-h}}
+}
+
+
+Module de gestion du jeu, module principal du programme.  
+
+
+{\ttfamily \#include \char`\"{}joueur.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}plateau.\-h\char`\"{}}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_jeu}{Jeu}
+\begin{DoxyCompactList}\small\item\em Structure permettant de gérer le plateau de jeu et les joueurs. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{jeu_8h_afefa45d9efb5be72d078794c5112058f}{void {\bfseries init\-Jeu} (\hyperlink{struct_jeu}{Jeu} $\ast$jeu, \hyperlink{struct_couleur}{Couleur} C1, \hyperlink{struct_couleur}{Couleur} C2)}\label{jeu_8h_afefa45d9efb5be72d078794c5112058f}
+
+\item 
+\hypertarget{jeu_8h_a5936d2a519cea532e27bda5a4ca2dd32}{void {\bfseries detruire\-Jeu} (\hyperlink{struct_jeu}{Jeu} $\ast$jeu)}\label{jeu_8h_a5936d2a519cea532e27bda5a4ca2dd32}
+
+\item 
+\hypertarget{jeu_8h_aeb0fc99110205ae8b08e619e95bbfdc1}{\hyperlink{struct_joueur}{Joueur} $\ast$ {\bfseries get\-Joueur\-Actif} (\hyperlink{struct_jeu}{Jeu} $\ast$jeu)}\label{jeu_8h_aeb0fc99110205ae8b08e619e95bbfdc1}
+
+\item 
+\hypertarget{jeu_8h_a3c0cd1a24854ffbe86067b848b42e790}{\hyperlink{struct_joueur}{Joueur} $\ast$ {\bfseries get\-Joueur\-Inactif} (\hyperlink{struct_jeu}{Jeu} $\ast$jeu)}\label{jeu_8h_a3c0cd1a24854ffbe86067b848b42e790}
+
+\item 
+\hypertarget{jeu_8h_ad52557db4fe67c63ad45df61b6e6235d}{void {\bfseries set\-Joueur\-Actif} (\hyperlink{struct_jeu}{Jeu} $\ast$jeu, \hyperlink{struct_joueur}{Joueur} $\ast$joueur)}\label{jeu_8h_ad52557db4fe67c63ad45df61b6e6235d}
+
+\item 
+\hypertarget{jeu_8h_ab3b33294a7383b6ab18f4b76d68bba62}{void {\bfseries select\-Piece} (\hyperlink{struct_jeu}{Jeu} $\ast$jeu, int pos\-X, int pos\-Y)}\label{jeu_8h_ab3b33294a7383b6ab18f4b76d68bba62}
+
+\item 
+\hypertarget{jeu_8h_adbe1445fea93b3873cc73c93baa9a676}{void {\bfseries deplacer\-Piece} (\hyperlink{struct_plateau}{Plateau} $\ast$plateau, \hyperlink{struct_piece}{Piece} $\ast$piece, int pos\-X, int pos\-Y, int $\ast$victoire\-Att, int $\ast$victoire\-Def)}\label{jeu_8h_adbe1445fea93b3873cc73c93baa9a676}
+
+\item 
+\hypertarget{jeu_8h_aa1ed8b39f68ef05c7dc07afcf4e3b10c}{\hyperlink{struct_piece}{Piece} $\ast$ {\bfseries combat\-Pieces} (\hyperlink{struct_piece}{Piece} $\ast$piece\-Att, \hyperlink{struct_piece}{Piece} $\ast$piece\-Def, int $\ast$victoire\-Att, int $\ast$victoire\-Def)}\label{jeu_8h_aa1ed8b39f68ef05c7dc07afcf4e3b10c}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+Module de gestion du jeu, module principal du programme. \begin{DoxyAuthor}{Auteur}
+G\-O\-N\-D\-R\-A\-S Pierre-\/\-Louis, G\-R\-E\-Y\-L Robin, S\-C\-H\-R\-E\-Y\-E\-C\-K Tiffanie
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.\-0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2014/04/21 
+\end{DoxyDate}
