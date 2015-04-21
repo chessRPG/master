@@ -33,19 +33,6 @@ void initCase(Case * cell)
     cell->couleurCase = 0 ;
 }
 
-Case * creerCase(CouleurCase couleurCase)
-{
-    Case * cell ;
-    cell = malloc(sizeof(Case)) ;
-
-    initCase(cell) ;
-
-    cell->couleurCase = couleurCase ;
-
-
-    return cell ;
-}
-
 void viderCase(Case * cell)
 {
     Piece * piece = getPieceCase(cell) ;

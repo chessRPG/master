@@ -9,7 +9,6 @@ typedef struct
     Couleur couleur ;
 }  Joueur;
 
-Joueur * creerJoueur(Couleur couleur) ;
 void initJoueur(Joueur * joueur, Couleur couleur) ;
 
 char * getNomJoueur(Joueur * joueur) ;

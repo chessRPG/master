@@ -12,7 +12,6 @@ typedef struct
     Piece * piece ;
 } Case ;
 
-Case * creerCase(CouleurCase couleurCase) ;
 void initCase(Case * cell) ;
 
 CouleurCase getCouleurCase(Case * cell) ;

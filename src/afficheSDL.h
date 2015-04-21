@@ -45,6 +45,7 @@ typedef struct
 } JeuSDL ;
 void SdlInit(JeuSDL * jeuSdl, Couleur C1, Couleur C2) ;
 void SdlAffichage(JeuSDL * jeuSDL) ;
+void SdlVictoire(Joueur * joueurVainqueur, JeuSDL * jeuSDL) ;
 void SdlBoucle(JeuSDL * jeuSDL) ;
 void SdlLibere(JeuSDL * jeuSDL) ;
 

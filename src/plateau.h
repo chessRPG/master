@@ -9,7 +9,6 @@ typedef struct
     int nbTours ;
 } Plateau ;
 
-Plateau * creerPlateau(Couleur C1, Couleur C2) ;
 void initPlateau(Plateau * plateau, Couleur C1, Couleur C2) ;
 void reinitCouleursEchiquier(Plateau * plateau);
 

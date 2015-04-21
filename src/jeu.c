@@ -12,7 +12,7 @@ void initJeu(Jeu * jeu, Couleur C1, Couleur C2)
 
 void detruireJeu(Jeu * jeu)
 {
-    jeu->joueurActif == NULL;
+    jeu->joueurActif = NULL;
     viderPlateau(&jeu->plateau);
 }
 

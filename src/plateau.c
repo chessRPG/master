@@ -78,17 +78,6 @@ void initPlateau(Plateau * plateau, Couleur C1, Couleur C2)
     plateau->nbTours = 0 ;
 }
 
-/*Plateau * creerPlateau(Couleur C1, Couleur C2)
-{
-    Plateau * plateau ;
-
-    plateau = malloc(sizeof(Plateau)) ;
-
-    initPlateau(plateau, C1, C2) ;
-
-    return plateau ;
-}*/
-
 void viderPlateau(Plateau * plateau)
 {
     int i, j ;

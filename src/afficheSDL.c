@@ -4,6 +4,7 @@
 #include <SDL/SDL_ttf.h>
 #include <SDL/SDL_image.h>
 #include <assert.h>
+#include <unistd.h>
 
 const int TAILLE_CASE = 40 ;
 
@@ -270,17 +271,13 @@ void SdlAffichage(JeuSDL * jeuSDL)
 
 void SdlVictoire(Joueur * joueurVainqueur, JeuSDL * jeuSDL)
 {
-    SDL_Event event;
-
     TTF_Font * policeTexte = NULL;
     int longueur;
 
-    Uint32 noire = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 0, 0);
-    Uint32 vert = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 255, 0);
     SDL_Color rouge = {255, 0, 0};
     char * texte = getNomJoueur(joueurVainqueur) ;
 
-    policeTexte = TTF_OpenFont("data/arcade.ttf", 50);
+    policeTexte = TTF_OpenFont("data/joystix.ttf", 40);
 
     jeuSDL->surface_vainqueur = TTF_RenderText_Blended(policeTexte, "Vainqueur", rouge);
     longueur = jeuSDL->surface_vainqueur->w;
@@ -297,6 +294,14 @@ void SdlVictoire(Joueur * joueurVainqueur, JeuSDL * jeuSDL)
     {
         SDL_apply_surface(jeuSDL->surface_vainqueur, jeuSDL->surface_ecran, 5*TAILLE_CASE, (8*TAILLE_CASE-longueur)/2);
     }
+
+
+    TTF_CloseFont(policeTexte);
+    policeTexte = TTF_OpenFont("data/joystix.ttf", 10);
+
+    jeuSDL->surface_vainqueur = TTF_RenderText_Blended(policeTexte, "echap:quiter      entrer:recommencer", rouge);
+    longueur = jeuSDL->surface_vainqueur->w;
+    SDL_apply_surface(jeuSDL->surface_vainqueur, jeuSDL->surface_ecran, 6.5*TAILLE_CASE, (8*TAILLE_CASE-longueur)/2);
 
 
     TTF_CloseFont(policeTexte);
@@ -381,10 +386,12 @@ void SdlBoucle(JeuSDL * jeuSDL)
 				    break;
 				}
 			}
+
+			SdlAffichage(jeuSDL);
+            SDL_Flip( jeuSDL->surface_ecran );
 		}
 
-        SdlAffichage(jeuSDL);
-        SDL_Flip( jeuSDL->surface_ecran );
+
 
         if(couleurGagne != -1)
         {
@@ -409,11 +416,8 @@ void SdlBoucle(JeuSDL * jeuSDL)
 
             continue_boucle = 1;
         }
+
+        usleep(1000);
 	}
-
-}
-
-void SdlSaisieNom ()
-{
 
 }
