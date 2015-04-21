@@ -13,7 +13,7 @@ const int ORIG_Y = 0;
 
 /* fonctions internes */
 
-int fixeFenetre()
+int ChoixRecommencer()
 {
     SDL_Event event;
 
@@ -312,7 +312,7 @@ void SdlBoucle(JeuSDL * jeuSDL)
 	CouleurCase couleurTemp ;
 	bool selectionne = 0 ;
 	Piece* piece ;
-	int victoireAtt = 0, victoireDef = 0;
+	Couleur couleurGagne = -1;
 
 	reinitCouleursEchiquier(&jeuSDL->jeu.plateau) ;
 
@@ -321,6 +321,8 @@ void SdlBoucle(JeuSDL * jeuSDL)
 
 	while ( continue_boucle == 1 )
 	{
+	    couleurGagne = -1;
+
 		while ( SDL_PollEvent( &event ) )
 		{
 
@@ -346,28 +348,16 @@ void SdlBoucle(JeuSDL * jeuSDL)
             {
                 if (couleurTemp == CBLEU && selectionne != 0 && (posX != x || posY != y))
                 {
-
-                    deplacerPiece(&jeuSDL->jeu.plateau, getPieceCase(getCase(&jeuSDL->jeu.plateau, posX, posY)), x, y, &victoireAtt, &victoireDef) ;
+                    deplacerPiece(&jeuSDL->jeu.plateau, getPieceCase(getCase(&jeuSDL->jeu.plateau, posX, posY)), x, y, &couleurGagne) ;
 
                     reinitCouleursEchiquier(&jeuSDL->jeu.plateau) ;
                     couleurTemp = (x+y)%2 ;
 
-                    SdlAffichage(jeuSDL);
-                    SDL_Flip( jeuSDL->surface_ecran );
-
-                    if(victoireAtt == 1)
+                    if(couleurGagne == -1)
                     {
-                        SdlVictoire(getJoueurActif(&(jeuSDL->jeu)), jeuSDL) ;
-                        continue_boucle = fixeFenetre() ;
+                        if (jeuSDL->jeu.joueurActif == &jeuSDL->jeu.J1) setJoueurActif(&jeuSDL->jeu, &jeuSDL->jeu.J2);
+                        else setJoueurActif(&jeuSDL->jeu, &jeuSDL->jeu.J1);
                     }
-                    else if (victoireDef == 1)
-                    {
-                        SdlVictoire(getJoueurInactif(&(jeuSDL->jeu)), jeuSDL) ;
-                        continue_boucle = fixeFenetre() ;
-                    }
-
-                    if (jeuSDL->jeu.joueurActif == &jeuSDL->jeu.J1) setJoueurActif(&jeuSDL->jeu, &jeuSDL->jeu.J2);
-                    else setJoueurActif(&jeuSDL->jeu, &jeuSDL->jeu.J1);
                     selectionne = 0 ;
                 }
                 else
@@ -396,13 +386,26 @@ void SdlBoucle(JeuSDL * jeuSDL)
         SdlAffichage(jeuSDL);
         SDL_Flip( jeuSDL->surface_ecran );
 
+        if(couleurGagne != -1)
+        {
+            if(getCouleurJoueur(&jeuSDL->jeu.J1) == couleurGagne)
+                SdlVictoire(&jeuSDL->jeu.J1, jeuSDL) ;
+            else
+                SdlVictoire(&jeuSDL->jeu.J2, jeuSDL) ;
+
+            continue_boucle = ChoixRecommencer() ;
+        }
+
         if(continue_boucle == 2)
         {
-            Couleur C1 = getCouleurJoueur(&jeuSDL->jeu.J1.couleur);
-            Couleur C2 = getCouleurJoueur(&jeuSDL->jeu.J2.couleur);
+            Couleur C1 = getCouleurJoueur(&jeuSDL->jeu.J1);
+            Couleur C2 = getCouleurJoueur(&jeuSDL->jeu.J2);
 
-            detruireJeu(&jeuSDL->jeu);
-            initJeu(&jeuSDL->jeu, C1, C2);
+            viderPlateau(&jeuSDL->jeu.plateau);
+            initPlateau(&jeuSDL->jeu.plateau, C1, C2);
+            setJoueurActif(&jeuSDL->jeu, &jeuSDL->jeu.J1);
+
+            reinitCouleursEchiquier(&jeuSDL->jeu.plateau) ;
 
             continue_boucle = 1;
         }

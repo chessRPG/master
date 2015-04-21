@@ -20,8 +20,8 @@ Joueur * getJoueurInactif(Jeu * jeu);
 void setJoueurActif(Jeu * jeu, Joueur* joueur);
 
 void selectPiece(Jeu * jeu, int posX, int posY);
-void deplacerPiece(Plateau * plateau, Piece * piece, int posX, int posY, int* victoireAtt, int* victoireDef);
+void deplacerPiece(Plateau * plateau, Piece * piece, int posX, int posY, Couleur * couleurGagne);
 
-Piece * combatPieces(Piece * pieceAtt, Piece * pieceDef, int* victoireAtt, int* victoireDef);
+Piece * combatPieces(Piece * pieceAtt, Piece * pieceDef, Couleur * couleurGagne);
 
 #endif

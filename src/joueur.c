@@ -28,14 +28,14 @@ void setCouleurJoueur(Joueur * joueur, Couleur couleur)
 
 /* creation / destruction(pas besoin) */
 
-Joueur * creerJoueur(Couleur couleur)
+/*Joueur * creerJoueur(Couleur couleur)
 {
     Joueur * joueur ;
     joueur = malloc(sizeof(Joueur)) ;
     initJoueur(joueur, couleur);
 
     return joueur;
-}
+}*/
 
 void initJoueur(Joueur * joueur, Couleur couleur)
 {

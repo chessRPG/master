@@ -12,6 +12,7 @@ void initJeu(Jeu * jeu, Couleur C1, Couleur C2)
 
 void detruireJeu(Jeu * jeu)
 {
+    jeu->joueurActif == NULL;
     viderPlateau(&jeu->plateau);
 }
 
@@ -223,7 +224,7 @@ void setJoueurActif(Jeu * jeu, Joueur* joueur)
     jeu->joueurActif = joueur;
 }
 
-void deplacerPiece(Plateau * plateau, Piece * piece, int posX, int posY, int* victoireAtt, int* victoireDef)
+void deplacerPiece(Plateau * plateau, Piece * piece, int posX, int posY, Couleur * couleurGagne)
 {
     int i = 0, j = 0, cpt = 0;
 
@@ -237,21 +238,16 @@ void deplacerPiece(Plateau * plateau, Piece * piece, int posX, int posY, int* vi
     setPieceCase(getCase(plateau, i, j), NULL);
 
     if(getPieceCase(getCase(plateau, posX, posY)) != NULL)
-        piece = combatPieces(piece, getPieceCase(getCase(plateau, posX, posY)), victoireAtt, victoireDef);
+        piece = combatPieces(piece, getPieceCase(getCase(plateau, posX, posY)), couleurGagne);
 
     setPieceCase(getCase(plateau, posX, posY), piece);
 }
 
-int verifieVictoire(Piece* piece)
-{
-    if((piece->type == ROI) && (piece->pointsVie <= 0)) return 1 ;
-    else return 0 ;
-}
-
-Piece* combatPieces(Piece * pieceAtt, Piece * pieceDef, int * victoireAtt, int * victoireDef)
+Piece* combatPieces(Piece * pieceAtt, Piece * pieceDef, Couleur * couleurGagne)
 {
     int BONUS = 1;
     int vie;
+
 
     while(getPointsVie(pieceAtt) > 0 && getPointsVie(pieceDef) > 0)
     {
@@ -273,13 +269,13 @@ Piece* combatPieces(Piece * pieceAtt, Piece * pieceDef, int * victoireAtt, int *
 
     if(getPointsVie(pieceAtt) > 0)
     {
-        *victoireAtt = verifieVictoire(pieceDef) ;
+        if(pieceDef->type == ROI) *couleurGagne = getCouleurPiece(pieceAtt) ;
         detruirePiece(pieceDef) ;
         return pieceAtt ;
     }
     else
     {
-        *victoireDef = verifieVictoire(pieceAtt) ;
+        if(pieceAtt->type == ROI) *couleurGagne = getCouleurPiece(pieceDef) ;
         detruirePiece(pieceAtt) ;
         return pieceDef ;
     }
