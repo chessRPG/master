@@ -295,6 +295,17 @@ void SdlBoucle(JeuSDL * jeuSDL)
                     posY = y ;
                 }
             }
+            if ( event.type == SDL_KEYDOWN )
+			{
+				switch ( event.key.keysym.sym )
+				{
+				case SDLK_ESCAPE:
+					continue_boucle = 0;
+					break;
+				default:
+				    break;
+				}
+			}
 		}
 
         SdlAffichage(jeuSDL);
