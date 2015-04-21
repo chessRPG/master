@@ -116,6 +116,12 @@ Joueur * getJoueurActif(Jeu * jeu)
     return jeu->joueurActif;
 }
 
+Joueur * getJoueurInactif(Jeu * jeu)
+{
+    if(&(jeu->J1) == jeu->joueurActif) return &(jeu->J2) ;
+    else return &(jeu->J1) ;
+}
+
 void selectPiece(Jeu * jeu, int posX, int posY)
 {
     int i, j, a;
@@ -267,13 +273,13 @@ Piece* combatPieces(Piece * pieceAtt, Piece * pieceDef, int * victoireAtt, int *
 
     if(getPointsVie(pieceAtt) > 0)
     {
-        victoireAtt = *verifieVictoire(pieceDef) ;
+        *victoireAtt = verifieVictoire(pieceDef) ;
         detruirePiece(pieceDef) ;
         return pieceAtt ;
     }
     else
     {
-        victoireDef = *verifieVictoire(pieceAtt) ;
+        *victoireDef = verifieVictoire(pieceAtt) ;
         detruirePiece(pieceAtt) ;
         return pieceDef ;
     }

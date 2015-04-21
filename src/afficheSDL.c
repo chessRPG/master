@@ -156,10 +156,13 @@ void SdlInit(JeuSDL * jeuSDL, Couleur C1, Couleur C2)
     jeuSDL->surface_P2 = IMG_Load("data/NOIR/P.png");
     if(jeuSDL->surface_P2 == NULL) jeuSDL->surface_P2 = IMG_Load("../data/NOIR/P.png");
     assert(jeuSDL->surface_P2 != NULL);
+
+    TTF_Init();
 }
 
 void SdlLibere(JeuSDL* jeuSDL)
 {
+    TTF_Quit();
     SDL_FreeSurface(jeuSDL->surface_ecran);
 
     detruireJeu(&jeuSDL->jeu);
@@ -202,11 +205,8 @@ void SdlAffichage(JeuSDL * jeuSDL)
     dessineRectangle(jeuSDL->surface_ecran, 0, 0, 8*TAILLE_CASE, 1*TAILLE_CASE, noire);
     dessineRectangle(jeuSDL->surface_ecran, 9*TAILLE_CASE, 0, 8*TAILLE_CASE, 1*TAILLE_CASE, noire);
 
-    TTF_Init();
-    TTF_Font * police = NULL;
 
-    SDL_Surface * texte1 ;
-    SDL_Surface * texte2 ;
+    TTF_Font * police = NULL;
 
     char * joueur1 = getNomJoueur(&jeuSDL->jeu.J1) ;
     char * joueur2 = getNomJoueur(&jeuSDL->jeu.J2) ;
@@ -217,23 +217,53 @@ void SdlAffichage(JeuSDL * jeuSDL)
 
     if (jeuSDL->jeu.joueurActif == &jeuSDL->jeu.J1)
     {
-        texte1 = TTF_RenderText_Blended(police, joueur1, couleur2);
-        texte2 = TTF_RenderText_Blended(police, joueur2, couleur1);
+        jeuSDL->surface_texteJ1 = TTF_RenderText_Blended(police, joueur1, couleur2);
+        jeuSDL->surface_texteJ2 = TTF_RenderText_Blended(police, joueur2, couleur1);
     }
     else
     {
-        texte1 = TTF_RenderText_Blended(police, joueur1, couleur1);
-        texte2 = TTF_RenderText_Blended(police, joueur2, couleur2);
+        jeuSDL->surface_texteJ1 = TTF_RenderText_Blended(police, joueur1, couleur1);
+        jeuSDL->surface_texteJ2 = TTF_RenderText_Blended(police, joueur2, couleur2);
     }
 
-    longueur1 = texte1->w ;
-    longueur2 = texte2->w ;
+    longueur1 = jeuSDL->surface_texteJ1->w ;
+    longueur2 = jeuSDL->surface_texteJ2->w ;
 
-    SDL_apply_surface(texte1, jeuSDL->surface_ecran, 9*TAILLE_CASE, (8*TAILLE_CASE-longueur1)/2);
-    SDL_apply_surface(texte2, jeuSDL->surface_ecran, 0, (8*TAILLE_CASE-longueur2)/2);
+    SDL_apply_surface(jeuSDL->surface_texteJ1, jeuSDL->surface_ecran, 9*TAILLE_CASE, (8*TAILLE_CASE-longueur1)/2);
+    SDL_apply_surface(jeuSDL->surface_texteJ2, jeuSDL->surface_ecran, 0, (8*TAILLE_CASE-longueur2)/2);
 
     TTF_CloseFont(police);
-    TTF_Quit();
+
+}
+
+void SdlVictoire(Joueur * joueurVainqueur, JeuSDL * jeuSDL)
+{
+    TTF_Font * police = NULL;
+    Uint32 noire = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 0, 0);
+    SDL_Color rouge = {255, 0, 0};
+    char * joueur1 = getNomJoueur(&jeuSDL->jeu.J1) ;
+    char * joueur2 = getNomJoueur(&jeuSDL->jeu.J2) ;
+    police = TTF_OpenFont("data/rmegg.ttf", 40);
+    int longueur1 = jeuSDL->surface_texteJ1->w ;
+    int longueur2 = jeuSDL->surface_texteJ2->w ;
+
+    if((joueurVainqueur == &(jeuSDL->jeu.J1)))
+    {
+        dessineRectangle(jeuSDL->surface_ecran, 9*TAILLE_CASE, 0, 8*TAILLE_CASE, 1*TAILLE_CASE, noire);
+        jeuSDL->surface_texteJ1 = TTF_RenderText_Blended(police, joueur1, rouge);
+        SDL_apply_surface(jeuSDL->surface_texteJ1, jeuSDL->surface_ecran, 9*TAILLE_CASE, (8*TAILLE_CASE-longueur1)/2);
+    }
+    else
+    {
+        dessineRectangle(jeuSDL->surface_ecran, 0, 0, 8*TAILLE_CASE, 1*TAILLE_CASE, noire);
+        jeuSDL->surface_texteJ2 = TTF_RenderText_Blended(police, joueur2, rouge);
+        SDL_apply_surface(jeuSDL->surface_texteJ2, jeuSDL->surface_ecran, 0, (8*TAILLE_CASE-longueur2)/2);
+    }
+
+    TTF_CloseFont(police);
+    SDL_Flip( jeuSDL->surface_ecran );
+
+    system("pause");
 }
 
 void SdlBoucle(JeuSDL * jeuSDL)
@@ -245,6 +275,7 @@ void SdlBoucle(JeuSDL * jeuSDL)
 	CouleurCase couleurTemp ;
 	bool selectionne = 0 ;
 	Piece* piece ;
+	int victoireAtt = 0, victoireDef = 0;
 
 	reinitCouleursEchiquier(&jeuSDL->jeu.plateau) ;
 
@@ -278,7 +309,20 @@ void SdlBoucle(JeuSDL * jeuSDL)
             {
                 if (couleurTemp == CBLEU && selectionne != 0 && (posX != x || posY != y))
                 {
-                    deplacerPiece(&jeuSDL->jeu.plateau, getPieceCase(getCase(&jeuSDL->jeu.plateau, posX, posY)), x, y) ;
+
+                    deplacerPiece(&jeuSDL->jeu.plateau, getPieceCase(getCase(&jeuSDL->jeu.plateau, posX, posY)), x, y, &victoireAtt, &victoireDef) ;
+
+                    if(victoireAtt == 1)
+                    {
+                        SdlVictoire(getJoueurActif(&(jeuSDL->jeu)), jeuSDL) ;
+                        continue_boucle = 0 ;
+                    }
+                    else if (victoireDef == 1)
+                    {
+                        SdlVictoire(getJoueurInactif(&(jeuSDL->jeu)), jeuSDL) ;
+                        continue_boucle = 0 ;
+                    }
+
                     reinitCouleursEchiquier(&jeuSDL->jeu.plateau) ;
                     couleurTemp = (x+y)%2 ;
                     if (jeuSDL->jeu.joueurActif == &jeuSDL->jeu.J1) setJoueurActif(&jeuSDL->jeu, &jeuSDL->jeu.J2);

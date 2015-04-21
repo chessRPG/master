@@ -16,11 +16,12 @@ void initJeu(Jeu * jeu, Couleur C1, Couleur C2);
 void detruireJeu(Jeu * jeu);
 
 Joueur * getJoueurActif(Jeu * jeu);
+Joueur * getJoueurInactif(Jeu * jeu);
 void setJoueurActif(Jeu * jeu, Joueur* joueur);
 
 void selectPiece(Jeu * jeu, int posX, int posY);
-void deplacerPiece(Plateau * plateau, Piece * piece, int posX, int posY);
+void deplacerPiece(Plateau * plateau, Piece * piece, int posX, int posY, int* victoireAtt, int* victoireDef);
 
-Piece * combatPieces(Piece * pieceAtt, Piece * pieceDef);
+Piece * combatPieces(Piece * pieceAtt, Piece * pieceDef, int* victoireAtt, int* victoireDef);
 
 #endif
