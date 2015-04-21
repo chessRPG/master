@@ -217,7 +217,7 @@ void setJoueurActif(Jeu * jeu, Joueur* joueur)
     jeu->joueurActif = joueur;
 }
 
-void deplacerPiece(Plateau * plateau, Piece * piece, int posX, int posY)
+void deplacerPiece(Plateau * plateau, Piece * piece, int posX, int posY, int* victoireAtt, int* victoireDef)
 {
     int i = 0, j = 0, cpt = 0;
 
@@ -231,12 +231,18 @@ void deplacerPiece(Plateau * plateau, Piece * piece, int posX, int posY)
     setPieceCase(getCase(plateau, i, j), NULL);
 
     if(getPieceCase(getCase(plateau, posX, posY)) != NULL)
-        piece = combatPieces(piece, getPieceCase(getCase(plateau, posX, posY)));
+        piece = combatPieces(piece, getPieceCase(getCase(plateau, posX, posY)), victoireAtt, victoireDef);
 
     setPieceCase(getCase(plateau, posX, posY), piece);
 }
 
-Piece* combatPieces(Piece * pieceAtt, Piece * pieceDef)
+int verifieVictoire(Piece* piece)
+{
+    if((piece->type == ROI) && (piece->pointsVie <= 0)) return 1 ;
+    else return 0 ;
+}
+
+Piece* combatPieces(Piece * pieceAtt, Piece * pieceDef, int * victoireAtt, int * victoireDef)
 {
     int BONUS = 1;
     int vie;
@@ -261,12 +267,14 @@ Piece* combatPieces(Piece * pieceAtt, Piece * pieceDef)
 
     if(getPointsVie(pieceAtt) > 0)
     {
-        detruirePiece(pieceDef);
-        return pieceAtt;
+        victoireAtt = *verifieVictoire(pieceDef) ;
+        detruirePiece(pieceDef) ;
+        return pieceAtt ;
     }
     else
     {
-        detruirePiece(pieceAtt);
-        return pieceDef;
+        victoireDef = *verifieVictoire(pieceAtt) ;
+        detruirePiece(pieceAtt) ;
+        return pieceDef ;
     }
 }
