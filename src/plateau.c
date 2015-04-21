@@ -78,7 +78,7 @@ void initPlateau(Plateau * plateau, Couleur C1, Couleur C2)
     plateau->nbTours = 0 ;
 }
 
-Plateau * creerPlateau(Couleur C1, Couleur C2)
+/*Plateau * creerPlateau(Couleur C1, Couleur C2)
 {
     Plateau * plateau ;
 
@@ -87,7 +87,7 @@ Plateau * creerPlateau(Couleur C1, Couleur C2)
     initPlateau(plateau, C1, C2) ;
 
     return plateau ;
-}
+}*/
 
 void viderPlateau(Plateau * plateau)
 {

@@ -39,6 +39,8 @@ typedef struct
     SDL_Surface* surface_texteJ1 ;
     SDL_Surface* surface_texteJ2 ;
 
+    SDL_Surface* surface_vainqueur;
+
 
 } JeuSDL ;
 void SdlInit(JeuSDL * jeuSdl, Couleur C1, Couleur C2) ;

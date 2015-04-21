@@ -32,8 +32,8 @@ int main()
 
         SdlInit(&jeuSdl, BLANC, NOIR) ;
 
-        setNomJoueur(&(jeuSdl.jeu.J1), "JOUEUR 1");
-        setNomJoueur(&(jeuSdl.jeu.J2), "TRUCMUCHE");
+        setNomJoueur(&jeuSdl.jeu.J1, "JOUEUR 1");
+        setNomJoueur(&jeuSdl.jeu.J2, "TRUCMUCHE");
 
         SdlBoucle(&jeuSdl);
         SdlLibere(&jeuSdl);

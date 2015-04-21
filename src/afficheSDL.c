@@ -11,7 +11,39 @@ const int TAILLE_CASE = 40 ;
 const int ORIG_X = 1;
 const int ORIG_Y = 0;
 
-/* privee */
+/* fonctions internes */
+
+int fixeFenetre()
+{
+    SDL_Event event;
+
+    while(1)
+    {
+        SDL_WaitEvent(&event);
+        switch(event.type)
+        {
+            case SDL_QUIT :
+                return 0;
+                break;
+            case SDL_KEYDOWN :
+                switch ( event.key.keysym.sym )
+				{
+                    case SDLK_ESCAPE:
+                        return 0;
+                        break;
+                    case SDLK_RETURN:
+                        return 2;
+                        break;
+                    default:
+                        break;
+				}
+                break;
+            default :
+                break;
+        }
+    }
+    return 0;
+}
 
 void SDL_apply_surface( SDL_Surface* surface, SDL_Surface* ecran, int y, int x )
 {
@@ -71,7 +103,7 @@ void dessineRectangle(SDL_Surface * ecran, int y, int x, int largeur, int hauteu
 	SDL_FillRect(ecran, &rectangle, cou);
 }
 
-/* public */
+/* fonctions externes */
 
 void SdlInit(JeuSDL * jeuSDL, Couleur C1, Couleur C2)
 {
@@ -84,7 +116,7 @@ void SdlInit(JeuSDL * jeuSDL, Couleur C1, Couleur C2)
 
     initJeu(jeu, C1, C2);
 
-    assert(SDL_Init(SDL_INIT_EVERYTHING)!= -1) ;
+    assert(SDL_Init(SDL_INIT_VIDEO)!= -1) ;
 
     jeuSDL->surface_ecran = SDL_SetVideoMode(dimX, dimY, 32, SDL_SWSURFACE) ;
     assert(jeuSDL->surface_ecran != NULL);
@@ -238,32 +270,37 @@ void SdlAffichage(JeuSDL * jeuSDL)
 
 void SdlVictoire(Joueur * joueurVainqueur, JeuSDL * jeuSDL)
 {
-    TTF_Font * police = NULL;
-    Uint32 noire = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 0, 0);
-    SDL_Color rouge = {255, 0, 0};
-    char * joueur1 = getNomJoueur(&jeuSDL->jeu.J1) ;
-    char * joueur2 = getNomJoueur(&jeuSDL->jeu.J2) ;
-    police = TTF_OpenFont("data/rmegg.ttf", 40);
-    int longueur1 = jeuSDL->surface_texteJ1->w ;
-    int longueur2 = jeuSDL->surface_texteJ2->w ;
+    SDL_Event event;
 
-    if((joueurVainqueur == &(jeuSDL->jeu.J1)))
+    TTF_Font * policeTexte = NULL;
+    int longueur;
+
+    Uint32 noire = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 0, 0);
+    Uint32 vert = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 255, 0);
+    SDL_Color rouge = {255, 0, 0};
+    char * texte = getNomJoueur(joueurVainqueur) ;
+
+    policeTexte = TTF_OpenFont("data/arcade.ttf", 50);
+
+    jeuSDL->surface_vainqueur = TTF_RenderText_Blended(policeTexte, "Vainqueur", rouge);
+    longueur = jeuSDL->surface_vainqueur->w;
+    SDL_apply_surface(jeuSDL->surface_vainqueur, jeuSDL->surface_ecran, 3*TAILLE_CASE, (8*TAILLE_CASE-longueur)/2);
+
+    jeuSDL->surface_vainqueur = TTF_RenderText_Blended(policeTexte, texte, rouge);
+    longueur = jeuSDL->surface_vainqueur->w;
+
+    if(joueurVainqueur == &(jeuSDL->jeu.J1))
     {
-        dessineRectangle(jeuSDL->surface_ecran, 9*TAILLE_CASE, 0, 8*TAILLE_CASE, 1*TAILLE_CASE, noire);
-        jeuSDL->surface_texteJ1 = TTF_RenderText_Blended(police, joueur1, rouge);
-        SDL_apply_surface(jeuSDL->surface_texteJ1, jeuSDL->surface_ecran, 9*TAILLE_CASE, (8*TAILLE_CASE-longueur1)/2);
+        SDL_apply_surface(jeuSDL->surface_vainqueur, jeuSDL->surface_ecran, 5*TAILLE_CASE, (8*TAILLE_CASE-longueur)/2);
     }
     else
     {
-        dessineRectangle(jeuSDL->surface_ecran, 0, 0, 8*TAILLE_CASE, 1*TAILLE_CASE, noire);
-        jeuSDL->surface_texteJ2 = TTF_RenderText_Blended(police, joueur2, rouge);
-        SDL_apply_surface(jeuSDL->surface_texteJ2, jeuSDL->surface_ecran, 0, (8*TAILLE_CASE-longueur2)/2);
+        SDL_apply_surface(jeuSDL->surface_vainqueur, jeuSDL->surface_ecran, 5*TAILLE_CASE, (8*TAILLE_CASE-longueur)/2);
     }
 
-    TTF_CloseFont(police);
-    SDL_Flip( jeuSDL->surface_ecran );
 
-    system("pause");
+    TTF_CloseFont(policeTexte);
+    SDL_Flip( jeuSDL->surface_ecran );
 }
 
 void SdlBoucle(JeuSDL * jeuSDL)
@@ -312,19 +349,23 @@ void SdlBoucle(JeuSDL * jeuSDL)
 
                     deplacerPiece(&jeuSDL->jeu.plateau, getPieceCase(getCase(&jeuSDL->jeu.plateau, posX, posY)), x, y, &victoireAtt, &victoireDef) ;
 
+                    reinitCouleursEchiquier(&jeuSDL->jeu.plateau) ;
+                    couleurTemp = (x+y)%2 ;
+
+                    SdlAffichage(jeuSDL);
+                    SDL_Flip( jeuSDL->surface_ecran );
+
                     if(victoireAtt == 1)
                     {
                         SdlVictoire(getJoueurActif(&(jeuSDL->jeu)), jeuSDL) ;
-                        continue_boucle = 0 ;
+                        continue_boucle = fixeFenetre() ;
                     }
                     else if (victoireDef == 1)
                     {
                         SdlVictoire(getJoueurInactif(&(jeuSDL->jeu)), jeuSDL) ;
-                        continue_boucle = 0 ;
+                        continue_boucle = fixeFenetre() ;
                     }
 
-                    reinitCouleursEchiquier(&jeuSDL->jeu.plateau) ;
-                    couleurTemp = (x+y)%2 ;
                     if (jeuSDL->jeu.joueurActif == &jeuSDL->jeu.J1) setJoueurActif(&jeuSDL->jeu, &jeuSDL->jeu.J2);
                     else setJoueurActif(&jeuSDL->jeu, &jeuSDL->jeu.J1);
                     selectionne = 0 ;
@@ -354,6 +395,17 @@ void SdlBoucle(JeuSDL * jeuSDL)
 
         SdlAffichage(jeuSDL);
         SDL_Flip( jeuSDL->surface_ecran );
+
+        if(continue_boucle == 2)
+        {
+            Couleur C1 = getCouleurJoueur(&jeuSDL->jeu.J1.couleur);
+            Couleur C2 = getCouleurJoueur(&jeuSDL->jeu.J2.couleur);
+
+            detruireJeu(&jeuSDL->jeu);
+            initJeu(&jeuSDL->jeu, C1, C2);
+
+            continue_boucle = 1;
+        }
 	}
 
 }
