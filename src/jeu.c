@@ -159,7 +159,7 @@ void selectPiece(Jeu * jeu, int posX, int posY)
                     setCouleurCase(getCase(&(jeu->plateau), posX+a, posY-1), CBLEU);
                 if (caseValide(posX+a, posY+1) && getPieceCase(getCase(&(jeu->plateau), posX+a, posY+1)) != NULL && getCouleurPiece(getPieceCase(getCase(&(jeu->plateau), posX+a, posY+1))) != couleur)
                     setCouleurCase(getCase(&(jeu->plateau), posX+a, posY+1), CBLEU);
-                if (((couleur == BLANC && posX == 6) || (couleur == NOIR && posX == 1)) && (getCouleurCase(getCase(&(jeu->plateau), posX+a, posY)) == CBLEU && getPieceCase(getCase(&(jeu->plateau), posX+2*a, posY)) == NULL))
+                if (((getJoueurActif(jeu) == &jeu->J1 && posX == 6) || (getJoueurActif(jeu) == &jeu->J2 && posX == 1)) && (getCouleurCase(getCase(&(jeu->plateau), posX+a, posY)) == CBLEU && getPieceCase(getCase(&(jeu->plateau), posX+2*a, posY)) == NULL))
                     setCouleurCase(getCase(&(jeu->plateau), posX+2*a, posY), CBLEU);
 
                 break ;
