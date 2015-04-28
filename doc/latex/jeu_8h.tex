@@ -16,30 +16,22 @@ struct \hyperlink{struct_jeu}{Jeu}
 \subsection*{Fonctions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{jeu_8h_abddc6cebe6cf53fbad3ee4d0ed57822c}{void {\bfseries init\-Jeu} (\hyperlink{struct_jeu}{Jeu} $\ast$jeu, char $\ast$pieces\-J1, char $\ast$pieces\-J2)}\label{jeu_8h_abddc6cebe6cf53fbad3ee4d0ed57822c}
-
-\item 
-\hypertarget{jeu_8h_a5936d2a519cea532e27bda5a4ca2dd32}{void {\bfseries detruire\-Jeu} (\hyperlink{struct_jeu}{Jeu} $\ast$jeu)}\label{jeu_8h_a5936d2a519cea532e27bda5a4ca2dd32}
-
-\item 
-\hypertarget{jeu_8h_aeb0fc99110205ae8b08e619e95bbfdc1}{\hyperlink{struct_joueur}{Joueur} $\ast$ {\bfseries get\-Joueur\-Actif} (\hyperlink{struct_jeu}{Jeu} $\ast$jeu)}\label{jeu_8h_aeb0fc99110205ae8b08e619e95bbfdc1}
-
-\item 
-\hypertarget{jeu_8h_a3c0cd1a24854ffbe86067b848b42e790}{\hyperlink{struct_joueur}{Joueur} $\ast$ {\bfseries get\-Joueur\-Inactif} (\hyperlink{struct_jeu}{Jeu} $\ast$jeu)}\label{jeu_8h_a3c0cd1a24854ffbe86067b848b42e790}
-
-\item 
-\hypertarget{jeu_8h_ad52557db4fe67c63ad45df61b6e6235d}{void {\bfseries set\-Joueur\-Actif} (\hyperlink{struct_jeu}{Jeu} $\ast$jeu, \hyperlink{struct_joueur}{Joueur} $\ast$joueur)}\label{jeu_8h_ad52557db4fe67c63ad45df61b6e6235d}
-
-\item 
-\hypertarget{jeu_8h_ab3b33294a7383b6ab18f4b76d68bba62}{void {\bfseries select\-Piece} (\hyperlink{struct_jeu}{Jeu} $\ast$jeu, int pos\-X, int pos\-Y)}\label{jeu_8h_ab3b33294a7383b6ab18f4b76d68bba62}
-
-\item 
-\hypertarget{jeu_8h_a2541d343c83c6434ce6547c7d17f615a}{void {\bfseries deplacer\-Piece} (\hyperlink{struct_plateau}{Plateau} $\ast$plateau, \hyperlink{struct_piece}{Piece} $\ast$piece, int pos\-X, int pos\-Y, \hyperlink{struct_couleur}{Couleur} $\ast$couleur\-Gagne)}\label{jeu_8h_a2541d343c83c6434ce6547c7d17f615a}
-
-\item 
-\hypertarget{jeu_8h_a7d0eb81b581f3f558e083d7fb3512eff}{\hyperlink{struct_piece}{Piece} $\ast$ {\bfseries combat\-Pieces} (\hyperlink{struct_piece}{Piece} $\ast$piece\-Att, \hyperlink{struct_piece}{Piece} $\ast$piece\-Def, \hyperlink{struct_couleur}{Couleur} $\ast$couleur\-Gagne)}\label{jeu_8h_a7d0eb81b581f3f558e083d7fb3512eff}
-
-\end{DoxyCompactItemize}
+void \hyperlink{jeu_8h_abddc6cebe6cf53fbad3ee4d0ed57822c}{init\-Jeu} (\hyperlink{struct_jeu}{Jeu} $\ast$jeu, char $\ast$pieces\-J1, char $\ast$pieces\-J2)
+\begin{DoxyCompactList}\small\item\em initialise les joueurs, le plateau, et donne la main au joueur 1 \end{DoxyCompactList}\item 
+void \hyperlink{jeu_8h_a5936d2a519cea532e27bda5a4ca2dd32}{detruire\-Jeu} (\hyperlink{struct_jeu}{Jeu} $\ast$jeu)
+\begin{DoxyCompactList}\small\item\em remet le joueur actif à N\-U\-L\-L et détruit le plateau \end{DoxyCompactList}\item 
+\hyperlink{struct_joueur}{Joueur} $\ast$ \hyperlink{jeu_8h_aeb0fc99110205ae8b08e619e95bbfdc1}{get\-Joueur\-Actif} (\hyperlink{struct_jeu}{Jeu} $\ast$jeu)
+\begin{DoxyCompactList}\small\item\em renvoie l'adresse du joueur actif \end{DoxyCompactList}\item 
+\hyperlink{struct_joueur}{Joueur} $\ast$ \hyperlink{jeu_8h_a3c0cd1a24854ffbe86067b848b42e790}{get\-Joueur\-Inactif} (\hyperlink{struct_jeu}{Jeu} $\ast$jeu)
+\begin{DoxyCompactList}\small\item\em renvoie l'adresse du joueur inactif \end{DoxyCompactList}\item 
+void \hyperlink{jeu_8h_ad52557db4fe67c63ad45df61b6e6235d}{set\-Joueur\-Actif} (\hyperlink{struct_jeu}{Jeu} $\ast$jeu, \hyperlink{struct_joueur}{Joueur} $\ast$joueur)
+\begin{DoxyCompactList}\small\item\em modifie l'adresse contenue dans joueur\-Actif \end{DoxyCompactList}\item 
+void \hyperlink{jeu_8h_ab3b33294a7383b6ab18f4b76d68bba62}{select\-Piece} (\hyperlink{struct_jeu}{Jeu} $\ast$jeu, int pos\-X, int pos\-Y)
+\begin{DoxyCompactList}\small\item\em selectionne une pièce et affiche les cases où elle peut se rendre \end{DoxyCompactList}\item 
+void \hyperlink{jeu_8h_a2541d343c83c6434ce6547c7d17f615a}{deplacer\-Piece} (\hyperlink{struct_plateau}{Plateau} $\ast$plateau, \hyperlink{struct_piece}{Piece} $\ast$piece, int pos\-X, int pos\-Y, \hyperlink{struct_couleur}{Couleur} $\ast$couleur\-Gagne)
+\begin{DoxyCompactList}\small\item\em déplace la pièce sélectionnée à la position (y,x) et déclenche un combat si la case est occupée \end{DoxyCompactList}\item 
+\hyperlink{struct_piece}{Piece} $\ast$ \hyperlink{jeu_8h_a7d0eb81b581f3f558e083d7fb3512eff}{combat\-Pieces} (\hyperlink{struct_piece}{Piece} $\ast$piece\-Att, \hyperlink{struct_piece}{Piece} $\ast$piece\-Def, \hyperlink{struct_couleur}{Couleur} $\ast$couleur\-Gagne)
+\begin{DoxyCompactList}\small\item\em fait combattre les deux pièces passées en paramètre et détruit la pièce perdante \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Description détaillée}
@@ -52,3 +44,194 @@ G\-O\-N\-D\-R\-A\-S Pierre-\/\-Louis, G\-R\-E\-Y\-L Robin, S\-C\-H\-R\-E\-Y\-E\-
 \begin{DoxyDate}{Date}
 2014/04/21 
 \end{DoxyDate}
+
+
+\subsection{Documentation des fonctions}
+\hypertarget{jeu_8h_a7d0eb81b581f3f558e083d7fb3512eff}{\index{jeu.\-h@{jeu.\-h}!combat\-Pieces@{combat\-Pieces}}
+\index{combat\-Pieces@{combat\-Pieces}!jeu.h@{jeu.\-h}}
+\subsubsection[{combat\-Pieces}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Piece}$\ast$ combat\-Pieces (
+\begin{DoxyParamCaption}
+\item[{{\bf Piece} $\ast$}]{piece\-Att, }
+\item[{{\bf Piece} $\ast$}]{piece\-Def, }
+\item[{{\bf Couleur} $\ast$}]{couleur\-Gagne}
+\end{DoxyParamCaption}
+)}}\label{jeu_8h_a7d0eb81b581f3f558e083d7fb3512eff}
+
+
+fait combattre les deux pièces passées en paramètre et détruit la pièce perdante 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em piece\-Att} & adresse de la \hyperlink{struct_piece}{Piece} attaquante \\
+\hline
+{\em piece\-Def} & adresse de la \hyperlink{struct_piece}{Piece} en défense \\
+\hline
+{\em couleur\-Gagne} & contient la \hyperlink{struct_couleur}{Couleur} de la \hyperlink{struct_piece}{Piece} qui a gagné le combat à la fin de la fonction \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+adresse de la \hyperlink{struct_piece}{Piece} qui gagne le combat 
+\end{DoxyReturn}
+\hypertarget{jeu_8h_a2541d343c83c6434ce6547c7d17f615a}{\index{jeu.\-h@{jeu.\-h}!deplacer\-Piece@{deplacer\-Piece}}
+\index{deplacer\-Piece@{deplacer\-Piece}!jeu.h@{jeu.\-h}}
+\subsubsection[{deplacer\-Piece}]{\setlength{\rightskip}{0pt plus 5cm}void deplacer\-Piece (
+\begin{DoxyParamCaption}
+\item[{{\bf Plateau} $\ast$}]{plateau, }
+\item[{{\bf Piece} $\ast$}]{piece, }
+\item[{int}]{pos\-X, }
+\item[{int}]{pos\-Y, }
+\item[{{\bf Couleur} $\ast$}]{couleur\-Gagne}
+\end{DoxyParamCaption}
+)}}\label{jeu_8h_a2541d343c83c6434ce6547c7d17f615a}
+
+
+déplace la pièce sélectionnée à la position (y,x) et déclenche un combat si la case est occupée 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em plateau} & adresse du \hyperlink{struct_plateau}{Plateau} de jeu \\
+\hline
+{\em piece} & adresse de la \hyperlink{struct_piece}{Piece} à déplacer \\
+\hline
+{\em pos\-X} & abscisse de la \hyperlink{struct_case}{Case} d'arrivée \\
+\hline
+{\em pos\-Y} & ordonnée de la \hyperlink{struct_case}{Case} d'arrivée \\
+\hline
+{\em couleur\-Gagne} & adresse de la couleur gagnante si un combat se déclenche \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{Voir également}
+\hyperlink{jeu_8c_a7d0eb81b581f3f558e083d7fb3512eff}{combat\-Pieces} 
+\end{DoxySeeAlso}
+\begin{DoxyReturn}{Renvoie}
+Aucun 
+\end{DoxyReturn}
+\hypertarget{jeu_8h_a5936d2a519cea532e27bda5a4ca2dd32}{\index{jeu.\-h@{jeu.\-h}!detruire\-Jeu@{detruire\-Jeu}}
+\index{detruire\-Jeu@{detruire\-Jeu}!jeu.h@{jeu.\-h}}
+\subsubsection[{detruire\-Jeu}]{\setlength{\rightskip}{0pt plus 5cm}void detruire\-Jeu (
+\begin{DoxyParamCaption}
+\item[{{\bf Jeu} $\ast$}]{jeu}
+\end{DoxyParamCaption}
+)}}\label{jeu_8h_a5936d2a519cea532e27bda5a4ca2dd32}
+
+
+remet le joueur actif à N\-U\-L\-L et détruit le plateau 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em jeu} & adresse du \hyperlink{struct_jeu}{Jeu} à détruire \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+Aucun 
+\end{DoxyReturn}
+\hypertarget{jeu_8h_aeb0fc99110205ae8b08e619e95bbfdc1}{\index{jeu.\-h@{jeu.\-h}!get\-Joueur\-Actif@{get\-Joueur\-Actif}}
+\index{get\-Joueur\-Actif@{get\-Joueur\-Actif}!jeu.h@{jeu.\-h}}
+\subsubsection[{get\-Joueur\-Actif}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Joueur}$\ast$ get\-Joueur\-Actif (
+\begin{DoxyParamCaption}
+\item[{{\bf Jeu} $\ast$}]{jeu}
+\end{DoxyParamCaption}
+)}}\label{jeu_8h_aeb0fc99110205ae8b08e619e95bbfdc1}
+
+
+renvoie l'adresse du joueur actif 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em jeu} & adresse du \hyperlink{struct_jeu}{Jeu} courant \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+adresse du \hyperlink{struct_joueur}{Joueur} actif 
+\end{DoxyReturn}
+\hypertarget{jeu_8h_a3c0cd1a24854ffbe86067b848b42e790}{\index{jeu.\-h@{jeu.\-h}!get\-Joueur\-Inactif@{get\-Joueur\-Inactif}}
+\index{get\-Joueur\-Inactif@{get\-Joueur\-Inactif}!jeu.h@{jeu.\-h}}
+\subsubsection[{get\-Joueur\-Inactif}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Joueur}$\ast$ get\-Joueur\-Inactif (
+\begin{DoxyParamCaption}
+\item[{{\bf Jeu} $\ast$}]{jeu}
+\end{DoxyParamCaption}
+)}}\label{jeu_8h_a3c0cd1a24854ffbe86067b848b42e790}
+
+
+renvoie l'adresse du joueur inactif 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em jeu} & adresse du \hyperlink{struct_jeu}{Jeu} courant \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+adresse du \hyperlink{struct_joueur}{Joueur} inactif 
+\end{DoxyReturn}
+\hypertarget{jeu_8h_abddc6cebe6cf53fbad3ee4d0ed57822c}{\index{jeu.\-h@{jeu.\-h}!init\-Jeu@{init\-Jeu}}
+\index{init\-Jeu@{init\-Jeu}!jeu.h@{jeu.\-h}}
+\subsubsection[{init\-Jeu}]{\setlength{\rightskip}{0pt plus 5cm}void init\-Jeu (
+\begin{DoxyParamCaption}
+\item[{{\bf Jeu} $\ast$}]{jeu, }
+\item[{char $\ast$}]{pieces\-J1, }
+\item[{char $\ast$}]{pieces\-J2}
+\end{DoxyParamCaption}
+)}}\label{jeu_8h_abddc6cebe6cf53fbad3ee4d0ed57822c}
+
+
+initialise les joueurs, le plateau, et donne la main au joueur 1 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em jeu} & adresse du \hyperlink{struct_jeu}{Jeu} à initialiser \\
+\hline
+{\em pieces\-J1} & chemin d'accès des pièces du \hyperlink{struct_joueur}{Joueur} 1 \\
+\hline
+{\em pieces\-J2} & chemin d'accès des pièces du \hyperlink{struct_joueur}{Joueur} 2 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+Aucun 
+\end{DoxyReturn}
+\hypertarget{jeu_8h_ab3b33294a7383b6ab18f4b76d68bba62}{\index{jeu.\-h@{jeu.\-h}!select\-Piece@{select\-Piece}}
+\index{select\-Piece@{select\-Piece}!jeu.h@{jeu.\-h}}
+\subsubsection[{select\-Piece}]{\setlength{\rightskip}{0pt plus 5cm}void select\-Piece (
+\begin{DoxyParamCaption}
+\item[{{\bf Jeu} $\ast$}]{jeu, }
+\item[{int}]{pos\-X, }
+\item[{int}]{pos\-Y}
+\end{DoxyParamCaption}
+)}}\label{jeu_8h_ab3b33294a7383b6ab18f4b76d68bba62}
+
+
+selectionne une pièce et affiche les cases où elle peut se rendre 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em jeu} & adresse du \hyperlink{struct_jeu}{Jeu} courant \\
+\hline
+{\em pos\-X} & ordonnée de la \hyperlink{struct_piece}{Piece} sélectionnée \\
+\hline
+{\em pos\-Y} & abscisse de la \hyperlink{struct_piece}{Piece} sélectionnée \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+Aucun 
+\end{DoxyReturn}
+\hypertarget{jeu_8h_ad52557db4fe67c63ad45df61b6e6235d}{\index{jeu.\-h@{jeu.\-h}!set\-Joueur\-Actif@{set\-Joueur\-Actif}}
+\index{set\-Joueur\-Actif@{set\-Joueur\-Actif}!jeu.h@{jeu.\-h}}
+\subsubsection[{set\-Joueur\-Actif}]{\setlength{\rightskip}{0pt plus 5cm}void set\-Joueur\-Actif (
+\begin{DoxyParamCaption}
+\item[{{\bf Jeu} $\ast$}]{jeu, }
+\item[{{\bf Joueur} $\ast$}]{joueur}
+\end{DoxyParamCaption}
+)}}\label{jeu_8h_ad52557db4fe67c63ad45df61b6e6235d}
+
+
+modifie l'adresse contenue dans joueur\-Actif 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em jeu} & adresse du \hyperlink{struct_jeu}{Jeu} courant \\
+\hline
+{\em joueur} & adresse du \hyperlink{struct_joueur}{Joueur} qui devient le joueur actif \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+Aucun 
+\end{DoxyReturn}

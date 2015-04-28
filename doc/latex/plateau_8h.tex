@@ -15,21 +15,16 @@ struct \hyperlink{struct_plateau}{Plateau}
 \subsection*{Fonctions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{plateau_8h_a7ecd276672cbf8e3e8067f96dc1b3f52}{void {\bfseries init\-Plateau} (\hyperlink{struct_plateau}{Plateau} $\ast$plateau, \hyperlink{struct_couleur}{Couleur} C1, \hyperlink{struct_couleur}{Couleur} C2)}\label{plateau_8h_a7ecd276672cbf8e3e8067f96dc1b3f52}
-
-\item 
-\hypertarget{plateau_8h_a5bde77ef3e5d86d9313f23eed042629f}{void {\bfseries reinit\-Couleurs\-Echiquier} (\hyperlink{struct_plateau}{Plateau} $\ast$plateau)}\label{plateau_8h_a5bde77ef3e5d86d9313f23eed042629f}
-
-\item 
-\hypertarget{plateau_8h_a8a33db81848a8269c81b967e038c5684}{\hyperlink{struct_case}{Case} $\ast$ {\bfseries get\-Case} (\hyperlink{struct_plateau}{Plateau} $\ast$plateau, int pos\-X, int pos\-Y)}\label{plateau_8h_a8a33db81848a8269c81b967e038c5684}
-
-\item 
-\hypertarget{plateau_8h_ac7096b6febe048ce0889468e479d28fb}{int {\bfseries get\-Nb\-Tours} (\hyperlink{struct_plateau}{Plateau} $\ast$plateau)}\label{plateau_8h_ac7096b6febe048ce0889468e479d28fb}
-
-\item 
-\hypertarget{plateau_8h_a24377a241a3f537c8de8b898e97c0a93}{void {\bfseries vider\-Plateau} (\hyperlink{struct_plateau}{Plateau} $\ast$plateau)}\label{plateau_8h_a24377a241a3f537c8de8b898e97c0a93}
-
-\end{DoxyCompactItemize}
+void \hyperlink{plateau_8h_a7ecd276672cbf8e3e8067f96dc1b3f52}{init\-Plateau} (\hyperlink{struct_plateau}{Plateau} $\ast$plateau, \hyperlink{struct_couleur}{Couleur} C1, \hyperlink{struct_couleur}{Couleur} C2)
+\begin{DoxyCompactList}\small\item\em met en place les cases et les pièces à partir des couleurs des joueurs \end{DoxyCompactList}\item 
+void \hyperlink{plateau_8h_a5bde77ef3e5d86d9313f23eed042629f}{reinit\-Couleurs\-Echiquier} (\hyperlink{struct_plateau}{Plateau} $\ast$plateau)
+\begin{DoxyCompactList}\small\item\em redonne leur couleur de base (blanc / noir) aux cases du plateau \end{DoxyCompactList}\item 
+\hyperlink{struct_case}{Case} $\ast$ \hyperlink{plateau_8h_a8a33db81848a8269c81b967e038c5684}{get\-Case} (\hyperlink{struct_plateau}{Plateau} $\ast$plateau, int pos\-X, int pos\-Y)
+\begin{DoxyCompactList}\small\item\em renvoie l'adresse de la case aux coordonnées (pos\-Y, pos\-X) sur le plateau \end{DoxyCompactList}\item 
+int \hyperlink{plateau_8h_ac7096b6febe048ce0889468e479d28fb}{get\-Nb\-Tours} (\hyperlink{struct_plateau}{Plateau} $\ast$plateau)
+\begin{DoxyCompactList}\small\item\em renvoie le nombre de tours écoulés depuis le début de la partie \end{DoxyCompactList}\item 
+void \hyperlink{plateau_8h_a24377a241a3f537c8de8b898e97c0a93}{vider\-Plateau} (\hyperlink{struct_plateau}{Plateau} $\ast$plateau)
+\begin{DoxyCompactList}\small\item\em détruit le contenu des cases puis détruit le tableau ligne par ligne \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Description détaillée}
@@ -42,3 +37,113 @@ G\-O\-N\-D\-R\-A\-S Pierre-\/\-Louis, G\-R\-E\-Y\-L Robin, S\-C\-H\-R\-E\-Y\-E\-
 \begin{DoxyDate}{Date}
 2014/04/21 
 \end{DoxyDate}
+
+
+\subsection{Documentation des fonctions}
+\hypertarget{plateau_8h_a8a33db81848a8269c81b967e038c5684}{\index{plateau.\-h@{plateau.\-h}!get\-Case@{get\-Case}}
+\index{get\-Case@{get\-Case}!plateau.h@{plateau.\-h}}
+\subsubsection[{get\-Case}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Case}$\ast$ get\-Case (
+\begin{DoxyParamCaption}
+\item[{{\bf Plateau} $\ast$}]{plateau, }
+\item[{int}]{pos\-X, }
+\item[{int}]{pos\-Y}
+\end{DoxyParamCaption}
+)}}\label{plateau_8h_a8a33db81848a8269c81b967e038c5684}
+
+
+renvoie l'adresse de la case aux coordonnées (pos\-Y, pos\-X) sur le plateau 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em plateau} & adresse du \hyperlink{struct_plateau}{Plateau} sur lequel chercher la case \\
+\hline
+{\em pos\-X} & ordonnée de la case \\
+\hline
+{\em pos\-Y} & abcisse de la case \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+pointeur sur la \hyperlink{struct_case}{Case} de coordonnées passés en paramètres 
+\end{DoxyReturn}
+\hypertarget{plateau_8h_ac7096b6febe048ce0889468e479d28fb}{\index{plateau.\-h@{plateau.\-h}!get\-Nb\-Tours@{get\-Nb\-Tours}}
+\index{get\-Nb\-Tours@{get\-Nb\-Tours}!plateau.h@{plateau.\-h}}
+\subsubsection[{get\-Nb\-Tours}]{\setlength{\rightskip}{0pt plus 5cm}int get\-Nb\-Tours (
+\begin{DoxyParamCaption}
+\item[{{\bf Plateau} $\ast$}]{plateau}
+\end{DoxyParamCaption}
+)}}\label{plateau_8h_ac7096b6febe048ce0889468e479d28fb}
+
+
+renvoie le nombre de tours écoulés depuis le début de la partie 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em plateau} & adresse du \hyperlink{struct_plateau}{Plateau} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+nombre de tours écoulés 
+\end{DoxyReturn}
+\hypertarget{plateau_8h_a7ecd276672cbf8e3e8067f96dc1b3f52}{\index{plateau.\-h@{plateau.\-h}!init\-Plateau@{init\-Plateau}}
+\index{init\-Plateau@{init\-Plateau}!plateau.h@{plateau.\-h}}
+\subsubsection[{init\-Plateau}]{\setlength{\rightskip}{0pt plus 5cm}void init\-Plateau (
+\begin{DoxyParamCaption}
+\item[{{\bf Plateau} $\ast$}]{plateau, }
+\item[{{\bf Couleur}}]{C1, }
+\item[{{\bf Couleur}}]{C2}
+\end{DoxyParamCaption}
+)}}\label{plateau_8h_a7ecd276672cbf8e3e8067f96dc1b3f52}
+
+
+met en place les cases et les pièces à partir des couleurs des joueurs 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em plateau} & adresse du \hyperlink{struct_plateau}{Plateau} à initialiser \\
+\hline
+{\em C1} & \hyperlink{struct_couleur}{Couleur} choisie par le \hyperlink{struct_joueur}{Joueur} 1 \\
+\hline
+{\em C2} & \hyperlink{struct_couleur}{Couleur} choisie par le \hyperlink{struct_joueur}{Joueur} 2 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+Aucun 
+\end{DoxyReturn}
+\hypertarget{plateau_8h_a5bde77ef3e5d86d9313f23eed042629f}{\index{plateau.\-h@{plateau.\-h}!reinit\-Couleurs\-Echiquier@{reinit\-Couleurs\-Echiquier}}
+\index{reinit\-Couleurs\-Echiquier@{reinit\-Couleurs\-Echiquier}!plateau.h@{plateau.\-h}}
+\subsubsection[{reinit\-Couleurs\-Echiquier}]{\setlength{\rightskip}{0pt plus 5cm}void reinit\-Couleurs\-Echiquier (
+\begin{DoxyParamCaption}
+\item[{{\bf Plateau} $\ast$}]{plateau}
+\end{DoxyParamCaption}
+)}}\label{plateau_8h_a5bde77ef3e5d86d9313f23eed042629f}
+
+
+redonne leur couleur de base (blanc / noir) aux cases du plateau 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em plateau} & adresse du \hyperlink{struct_plateau}{Plateau} à réinitialiser \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+Aucun 
+\end{DoxyReturn}
+\hypertarget{plateau_8h_a24377a241a3f537c8de8b898e97c0a93}{\index{plateau.\-h@{plateau.\-h}!vider\-Plateau@{vider\-Plateau}}
+\index{vider\-Plateau@{vider\-Plateau}!plateau.h@{plateau.\-h}}
+\subsubsection[{vider\-Plateau}]{\setlength{\rightskip}{0pt plus 5cm}void vider\-Plateau (
+\begin{DoxyParamCaption}
+\item[{{\bf Plateau} $\ast$}]{plateau}
+\end{DoxyParamCaption}
+)}}\label{plateau_8h_a24377a241a3f537c8de8b898e97c0a93}
+
+
+détruit le contenu des cases puis détruit le tableau ligne par ligne 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em plateau} & adresse du \hyperlink{struct_plateau}{Plateau} à détruire \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+Aucun 
+\end{DoxyReturn}

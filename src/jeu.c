@@ -329,10 +329,14 @@ void setJoueurActif(Jeu * jeu, Joueur* joueur)
 }
 
 /**
-@brief
-@param
-@param
-@return
+@brief déplace la pièce sélectionnée à la position (y,x) et déclenche un combat si la case est occupée
+@param plateau adresse du Plateau de jeu
+@param piece adresse de la Piece à déplacer
+@param posX abscisse de la Case d'arrivée
+@param posY ordonnée de la Case d'arrivée
+@param couleurGagne adresse de la couleur gagnante si un combat se déclenche
+@see combatPieces
+@return Aucun
 */
 
 void deplacerPiece(Plateau * plateau, Piece * piece, int posX, int posY, Couleur * couleurGagne)
@@ -350,10 +354,11 @@ void deplacerPiece(Plateau * plateau, Piece * piece, int posX, int posY, Couleur
 }
 
 /**
-@brief
-@param
-@param
-@return
+@brief fait combattre les deux pièces passées en paramètre et détruit la pièce perdante
+@param pieceAtt adresse de la Piece attaquante
+@param pieceDef adresse de la Piece en défense
+@param couleurGagne contient la Couleur de la Piece qui a gagné le combat à la fin de la fonction
+@return adresse de la Piece qui gagne le combat
 */
 
 Piece* combatPieces(Piece * pieceAtt, Piece * pieceDef, Couleur * couleurGagne)
