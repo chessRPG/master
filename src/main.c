@@ -30,10 +30,10 @@ int main()
     #ifdef JEU_SDL
         JeuSDL jeuSdl;
 
-        SdlInit(&jeuSdl, BLANC, NOIR) ;
+        SdlInit(&jeuSdl) ;
 
-        setNomJoueur(&jeuSdl.jeu.J1, "JOUEUR 1");
-        setNomJoueur(&jeuSdl.jeu.J2, "TRUCMUCHE");
+        /*setNomJoueur(&jeuSdl.jeu.J1, "JOUEUR 1");
+        setNomJoueur(&jeuSdl.jeu.J2, "TRUCMUCHE");*/
 
         SdlBoucle(&jeuSdl);
         SdlLibere(&jeuSdl);

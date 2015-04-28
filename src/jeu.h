@@ -35,7 +35,7 @@ typedef struct
     Joueur * joueurActif ;
 } Jeu ;
 
-void initJeu(Jeu * jeu, Couleur C1, Couleur C2);
+void initJeu(Jeu * jeu, char * piecesJ1, char * piecesJ2);
 void detruireJeu(Jeu * jeu);
 
 Joueur * getJoueurActif(Jeu * jeu);

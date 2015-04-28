@@ -29,12 +29,13 @@ typedef struct
     Couleur couleur ;
 }  Joueur;
 
-void initJoueur(Joueur * joueur, Couleur couleur) ;
+void initJoueur(Joueur * joueur) ;
 
 char * getNomJoueur(Joueur * joueur) ;
 Couleur getCouleurJoueur(Joueur * joueur) ;
 
 void setNomJoueur(Joueur * joueur, char * nomJoueur) ;
 void setCouleurJoueur(Joueur * joueur, Couleur couleur) ;
+void setDonneesJoueurs(Joueur * joueur1, Joueur * joueur2, char * piecesJ1, char * piecesJ2) ;
 
 #endif

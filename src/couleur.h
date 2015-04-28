@@ -19,12 +19,12 @@
 
 @struct Couleur
 @brief liste des couleurs de pièces disponibles
-@param enum Blanc / Noir : couleurs de base \n
+@param enum Blanc / Noir / Bleu / Jaune : couleurs proposées \n
             num_couleur : nombre de couleurs disponibles
 
 */
 
-typedef enum {BLANC, NOIR, NUM_COULEUR} Couleur ;
+typedef enum {BLANC, NOIR, BLEU, JAUNE, NUM_COULEUR} Couleur ;
 
 Couleur * getListeCouleurs() ;
 

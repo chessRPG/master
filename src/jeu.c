@@ -2,12 +2,20 @@
 
 /*  Création/Destruction    */
 
-void initJeu(Jeu * jeu, Couleur C1, Couleur C2)
+void initJeu(Jeu * jeu, char * piecesJ1, char * piecesJ2)
 {
-    initPlateau(&jeu->plateau, C1, C2);
-    initJoueur(&jeu->J1, C1);
-    initJoueur(&jeu->J2, C2);
+    Couleur C1, C2;
+
+    initJoueur(&jeu->J1);
+    initJoueur(&jeu->J2);
+    setDonneesJoueurs(&jeu->J1, &jeu->J2, piecesJ1, piecesJ2);
+
+    C1 = getCouleurJoueur(&jeu->J1);
+    C2 = getCouleurJoueur(&jeu->J2);
+
     setJoueurActif(jeu, &jeu->J1);
+    initPlateau(&jeu->plateau, C1, C2);
+    reinitCouleursEchiquier(&jeu->plateau) ;
 }
 
 void detruireJeu(Jeu * jeu)
