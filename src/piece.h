@@ -1,9 +1,40 @@
+/**
+
+@brief Module de gestion des pièces
+@author GONDRAS Pierre-Louis, GREYL Robin, SCHREYECK Tiffanie
+@file src/piece.h
+@version 1.0
+@date 2014/04/21
+
+*/
+
+
 #ifndef _PIECE_H
 #define _PIECE_H
 
 #include "couleur.h"
 
+/**
+
+@struct Type
+@brief types possibles pour chaque pièce
+
+*/
+
 typedef enum {PION, TOUR, CAVALIER, FOU, DAME, ROI} Type ;
+
+/**
+
+@struct Piece
+@brief structure permettant de gérer une pièce
+@param type type de la pièce, permet de connaitre ses déplacements possibles
+@param couleur couleur de la pièce, permet de savoir quel joueur peut la jouer
+@param pointsVie points de vie de la pièce (entiere de 100 à 1100)
+@param pointsAttaque points d'attaque de la pièce (entier de 100 à 500)
+@see Couleur
+@see Type
+
+*/
 
 typedef struct
 {
