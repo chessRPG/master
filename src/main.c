@@ -15,11 +15,13 @@ int main()
 {
     #ifdef JEU_NCURSES
         Jeu jeu ;
+        char piecesJ1[32];
+        char piecesJ2[32];
 
-        initJeu(&jeu, BLANC, NOIR);
+        initJeu(&jeu, piecesJ1, piecesJ2);
 
-        setNomJoueur(&(jeu.J1), "joueur1");
-        setNomJoueur(&(jeu.J2), "joueur2");
+        /*setNomJoueur(&(jeu.J1), "joueur1");
+        setNomJoueur(&(jeu.J2), "joueur2");*/
 
         boucleEvent(&jeu);
 
@@ -31,9 +33,6 @@ int main()
         JeuSDL jeuSdl;
 
         SdlInit(&jeuSdl) ;
-
-        /*setNomJoueur(&jeuSdl.jeu.J1, "JOUEUR 1");
-        setNomJoueur(&jeuSdl.jeu.J2, "TRUCMUCHE");*/
 
         SdlBoucle(&jeuSdl);
         SdlLibere(&jeuSdl);

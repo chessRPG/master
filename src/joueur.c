@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "joueur.h"
 
@@ -100,6 +101,12 @@ Couleur getCouleurJoueur(Joueur * joueur)
 
 void setNomJoueur(Joueur * joueur, char * nomJoueur)
 {
+    int i = 0;
+    while(nomJoueur[i] != '\0')
+    {
+        nomJoueur[i] = toupper(nomJoueur[i]);
+        i++;
+    }
     strcpy(joueur->nomJoueur, nomJoueur);
 }
 

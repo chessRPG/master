@@ -118,6 +118,18 @@ void coloreDiagonales(Jeu * jeu, int x, int y)
         setCouleurCase(getCase(&(jeu->plateau), x+i, y+i), CBLEU);
 }
 
+void rechercherPiece(Plateau * plateau, Piece * piece, int * x, int * y)
+{
+    int cpt = 0;
+    while(caseValide(*x, *y) && getPieceCase(getCase(plateau, *x, *y)) != piece)
+    {
+        cpt++;
+
+        *y = cpt%8;
+        *x = cpt/8;
+    }
+}
+
 /* Accesseurs */
 
 Joueur * getJoueurActif(Jeu * jeu)
@@ -234,15 +246,10 @@ void setJoueurActif(Jeu * jeu, Joueur* joueur)
 
 void deplacerPiece(Plateau * plateau, Piece * piece, int posX, int posY, Couleur * couleurGagne)
 {
-    int i = 0, j = 0, cpt = 0;
+    int i = 0, j = 0;
 
-    while(caseValide(i, j) && getPieceCase(getCase(plateau, i, j)) != piece)
-    {
-        cpt++;
+    rechercherPiece(plateau, piece, &i, &j);
 
-        j = cpt%8;
-        i = cpt/8;
-    }
     setPieceCase(getCase(plateau, i, j), NULL);
 
     if(getPieceCase(getCase(plateau, posX, posY)) != NULL)
