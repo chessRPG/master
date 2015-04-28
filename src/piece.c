@@ -1,3 +1,13 @@
+/**
+
+@brief Module de gestion des joueurs
+@author GONDRAS Pierre-Louis, GREYL Robin, SCHREYECK Tiffanie
+@file src/piece.c
+@version 1.0
+@date 2014/04/21
+
+*/
+
 #include "piece.h"
 
 /* accesseurs */
@@ -185,6 +195,16 @@ Piece * creerPiece(Type type, Couleur couleur)
     return piece ;
 }
 
+/**
+@brief initialise la pièce passée en paramètre avec le type et la couleur donnée
+@param piece pointeur sur la Piece à initialiser
+@param type Type à donner à la pièce
+@param couleur Couleur à donner à la pièce
+@return Aucun
+
+les points de vie et d'attaque de la pièce sont déterminés automatiquement grâce à son type
+*/
+
 void initPiece(Piece * piece, Type type, Couleur couleur)
 {
     setTypePiece(piece, type) ;
@@ -192,6 +212,12 @@ void initPiece(Piece * piece, Type type, Couleur couleur)
     setPointsVie(piece, getPointsVieMax(type)) ;
     setPointsAttaque(piece, getPointsAttaqueMax(type)) ;
 }
+
+/**
+@brief détruit la pièce passée en paramètre
+@param piece pointeur sur la Piece à supprimer
+@return Aucun
+*/
 
 void detruirePiece(Piece * piece)
 {

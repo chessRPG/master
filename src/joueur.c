@@ -1,3 +1,13 @@
+/**
+
+@brief Module de gestion des joueurs
+@author GONDRAS Pierre-Louis, GREYL Robin, SCHREYECK Tiffanie
+@file src/joueur.c
+@version 1.0
+@date 2014/04/21
+
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -6,6 +16,16 @@
 #include "joueur.h"
 
 /* interne */
+
+/**
+@brief fonction permettant de déterminer le chemin d'accès des pièces que choisit le joueur en cours de création
+@param joueurRef pointeur sur le Joueur 1 (joueur de référence)
+@param joueur pointeur sur le Joueur en train de choisir ses pièces
+@param pieces chaine de 32 caractères, contient le chemin d'accès des pièces du joueur à la fin de la fonction
+@return Aucun
+
+le joueur de référence permet de savoir si on est en train de choisir les pièces du joueur 1 ou du joueur 2
+*/
 
 void saisiePieces(Joueur * joueurRef, Joueur * joueur, char * pieces)
 {
@@ -121,6 +141,15 @@ void setCouleurJoueur(Joueur * joueur, Couleur couleur)
 {
     joueur->couleur = couleur ;
 }
+
+/**
+@brief  Menu permettant de choisir le nom des joueurs et la couleur des pièces qu'ils vont jouer
+@param joueur1 pointeur sur le Joueur 1
+@param joueur2 pointeur sur le Joueur 2
+@param piecesJ1 chaine de 32 caractères, contient le chemin d'accès des pièces du joueur 1 à la fin de la fonction
+@param piecesJ2 chaine de 32 caractères, contient le chemin d'accès des pièces du joueur 2 à la fin de la fonction
+@return Aucun
+*/
 
 void setDonneesJoueurs(Joueur * joueur1, Joueur * joueur2, char * piecesJ1, char * piecesJ2)
 {

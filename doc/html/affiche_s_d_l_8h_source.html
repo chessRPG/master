@@ -129,22 +129,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Recherche');
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    SDL_Surface* surface_texteJ1 ;</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    SDL_Surface* surface_texteJ2 ;</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;} <a class="code" href="struct_jeu_s_d_l.html">JeuSDL</a> ;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keywordtype">void</span> SdlInit(<a class="code" href="struct_jeu_s_d_l.html">JeuSDL</a> * jeuSdl, <a class="code" href="struct_couleur.html">Couleur</a> C1, <a class="code" href="struct_couleur.html">Couleur</a> C2) ;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keywordtype">void</span> SdlAffichage(<a class="code" href="struct_jeu_s_d_l.html">JeuSDL</a> * jeuSDL) ;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keywordtype">void</span> SdlBoucle(<a class="code" href="struct_jeu_s_d_l.html">JeuSDL</a> * jeuSDL) ;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keywordtype">void</span> SdlLibere(<a class="code" href="struct_jeu_s_d_l.html">JeuSDL</a> * jeuSDL) ;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    SDL_Surface* surface_vainqueur;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;} <a class="code" href="struct_jeu_s_d_l.html">JeuSDL</a> ;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keywordtype">void</span> SdlInit(<a class="code" href="struct_jeu_s_d_l.html">JeuSDL</a> * jeuSdl) ;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keywordtype">void</span> SdlAffichage(<a class="code" href="struct_jeu_s_d_l.html">JeuSDL</a> * jeuSDL) ;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keywordtype">void</span> SdlVictoire(<a class="code" href="struct_joueur.html">Joueur</a> * joueurVainqueur, <a class="code" href="struct_jeu_s_d_l.html">JeuSDL</a> * jeuSDL) ;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keywordtype">void</span> SdlBoucle(<a class="code" href="struct_jeu_s_d_l.html">JeuSDL</a> * jeuSDL) ;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keywordtype">void</span> SdlLibere(<a class="code" href="struct_jeu_s_d_l.html">JeuSDL</a> * jeuSDL) ;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="struct_joueur_html"><div class="ttname"><a href="struct_joueur.html">Joueur</a></div><div class="ttdoc">structure stockant le nom du joueur et la couleur des pièces choisie </div><div class="ttdef"><b>Definition:</b> joueur.h:26</div></div>
 <div class="ttc" id="jeu_8h_html"><div class="ttname"><a href="jeu_8h.html">jeu.h</a></div><div class="ttdoc">Module de gestion du jeu, module principal du programme. </div></div>
 <div class="ttc" id="struct_jeu_html"><div class="ttname"><a href="struct_jeu.html">Jeu</a></div><div class="ttdoc">Structure permettant de gérer le plateau de jeu et les joueurs. </div><div class="ttdef"><b>Definition:</b> jeu.h:30</div></div>
-<div class="ttc" id="struct_couleur_html"><div class="ttname"><a href="struct_couleur.html">Couleur</a></div><div class="ttdoc">liste des couleurs de pièces disponibles </div></div>
 <div class="ttc" id="struct_jeu_s_d_l_html"><div class="ttname"><a href="struct_jeu_s_d_l.html">JeuSDL</a></div><div class="ttdef"><b>Definition:</b> afficheSDL.h:14</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Généré le Mardi 21 Avril 2015 11:45:52 pour ChessRPG par &#160;<a href="http://www.doxygen.org/index.html">
+Généré le Mardi 28 Avril 2015 10:49:52 pour ChessRPG par &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

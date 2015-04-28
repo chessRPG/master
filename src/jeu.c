@@ -1,6 +1,24 @@
+/**
+
+@brief Module de gestion des joueurs
+@author GONDRAS Pierre-Louis, GREYL Robin, SCHREYECK Tiffanie
+@file src/jeu.c
+@version 1.0
+@date 2014/04/21
+
+*/
+
 #include "jeu.h"
 
 /*  Création/Destruction    */
+
+/**
+@brief initialise les joueurs, le plateau, et donne la main au joueur 1
+@param jeu adresse du Jeu à initialiser
+@param piecesJ1 chemin d'accès des pièces du Joueur 1
+@param piecesJ2 chemin d'accès des pièces du Joueur 2
+@return Aucun
+*/
 
 void initJeu(Jeu * jeu, char * piecesJ1, char * piecesJ2)
 {
@@ -18,6 +36,12 @@ void initJeu(Jeu * jeu, char * piecesJ1, char * piecesJ2)
     reinitCouleursEchiquier(&jeu->plateau) ;
 }
 
+/**
+@brief remet le joueur actif à NULL et détruit le plateau
+@param jeu adresse du Jeu à détruire
+@return Aucun
+*/
+
 void detruireJeu(Jeu * jeu)
 {
     jeu->joueurActif = NULL;
@@ -25,6 +49,14 @@ void detruireJeu(Jeu * jeu)
 }
 
 /* Interne */
+
+/**
+@brief colorie en bleu toutes les cases que la pièce peut atteindre sur la ligne de la case (y,x)
+@param jeu adresse du Jeu à modifier
+@param x ordonnée de la case
+@param y abscisse de la case
+@return Aucun
+*/
 
 void coloreLigne(Jeu * jeu, int x, int y)
 {
@@ -50,6 +82,14 @@ void coloreLigne(Jeu * jeu, int x, int y)
         setCouleurCase(getCase(&(jeu->plateau), x, y+i), CBLEU);
 }
 
+/**
+@brief colorie en bleu toutes les cases que la pièce peut atteindre sur la colonne  de la case (y,x)
+@param jeu adresse du Jeu à modifier
+@param x ordonnée de la case
+@param y abscisse de la case
+@return Aucun
+*/
+
 void coloreColonne(Jeu * jeu, int x, int y)
 {
     int i = 1;
@@ -73,6 +113,14 @@ void coloreColonne(Jeu * jeu, int x, int y)
     if (caseValide(x+i, y) && getCouleurPiece(getPieceCase(getCase(&(jeu->plateau), x+i, y))) != couleur)
         setCouleurCase(getCase(&(jeu->plateau), x+i, y), CBLEU);
 }
+
+/**
+@brief colorie en bleu toutes les cases que la pièce peut atteindre sur les diagonales de la case (y,x)
+@param jeu adresse du Jeu à modifier
+@param x ordonnée de la case
+@param y abscisse de la case
+@return Aucun
+*/
 
 void coloreDiagonales(Jeu * jeu, int x, int y)
 {
@@ -118,6 +166,15 @@ void coloreDiagonales(Jeu * jeu, int x, int y)
         setCouleurCase(getCase(&(jeu->plateau), x+i, y+i), CBLEU);
 }
 
+/**
+@brief donne la position (y,x) de la pièce recherchée
+@param plateau adresse du Plateau sur lequel on recherche la pièce
+@param piece adresse de la Piece dont on veut la position
+@param x pointe sur l'ordonnée de la pièce recherchée
+@param y pointe sur l'abscisse de la pièce recherchée
+@return Aucun
+*/
+
 void rechercherPiece(Plateau * plateau, Piece * piece, int * x, int * y)
 {
     int cpt = 0;
@@ -132,16 +189,36 @@ void rechercherPiece(Plateau * plateau, Piece * piece, int * x, int * y)
 
 /* Accesseurs */
 
+/**
+@brief renvoie l'adresse du joueur actif
+@param jeu adresse du Jeu courant
+@return adresse du Joueur actif
+*/
+
 Joueur * getJoueurActif(Jeu * jeu)
 {
     return jeu->joueurActif;
 }
+
+/**
+@brief renvoie l'adresse du joueur inactif
+@param jeu adresse du Jeu courant
+@return adresse du Joueur inactif
+*/
 
 Joueur * getJoueurInactif(Jeu * jeu)
 {
     if(&(jeu->J1) == jeu->joueurActif) return &(jeu->J2) ;
     else return &(jeu->J1) ;
 }
+
+/**
+@brief selectionne une pièce et affiche les cases où elle peut se rendre
+@param jeu adresse du Jeu courant
+@param posX ordonnée de la Piece sélectionnée
+@param posY abscisse de la Piece sélectionnée
+@return Aucun
+*/
 
 void selectPiece(Jeu * jeu, int posX, int posY)
 {
@@ -239,10 +316,24 @@ void selectPiece(Jeu * jeu, int posX, int posY)
 
 /* Mutateurs */
 
+/**
+@brief modifie l'adresse contenue dans joueurActif
+@param jeu adresse du Jeu courant
+@param joueur adresse du Joueur qui devient le joueur actif
+@return Aucun
+*/
+
 void setJoueurActif(Jeu * jeu, Joueur* joueur)
 {
     jeu->joueurActif = joueur;
 }
+
+/**
+@brief
+@param
+@param
+@return
+*/
 
 void deplacerPiece(Plateau * plateau, Piece * piece, int posX, int posY, Couleur * couleurGagne)
 {
@@ -257,6 +348,13 @@ void deplacerPiece(Plateau * plateau, Piece * piece, int posX, int posY, Couleur
 
     setPieceCase(getCase(plateau, posX, posY), piece);
 }
+
+/**
+@brief
+@param
+@param
+@return
+*/
 
 Piece* combatPieces(Piece * pieceAtt, Piece * pieceDef, Couleur * couleurGagne)
 {

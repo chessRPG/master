@@ -67,7 +67,7 @@ void initCase(Case * cell)
 
 /**
 @brief si la Case était occupée par une pièce, on détruit cette pièce
-@param cell adresse de la case à vider
+@param cell adresse de la Case à vider
 @return Aucun
 */
 
@@ -83,7 +83,7 @@ void viderCase(Case * cell)
 
 /**
 @brief vide la Case pour la préparer à se faire détruire
-@param cell adresse de la case à vider
+@param cell adresse de la Case à vider
 @return Aucun
 @warning Le tableau n'est pas un tableau de pointeurs sur case mais un tableau de case, donc il ne faut pas free les cases ici
 */

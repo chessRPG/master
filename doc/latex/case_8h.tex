@@ -25,8 +25,6 @@ enum {\bfseries Couleur\-Case} \{ {\bfseries C\-B\-L\-A\-N\-C},
 \subsection*{Fonctions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{struct_case}{Case} $\ast$ \hyperlink{case_8h_a81b2002a69ded69ea164e6efe4e0334e}{creer\-Case} (\hyperlink{struct_couleur_case}{Couleur\-Case} couleur\-Case)
-\begin{DoxyCompactList}\small\item\em crée une structure \hyperlink{struct_case}{Case} dans le tas \end{DoxyCompactList}\item 
 void \hyperlink{case_8h_a1b66dc54d7f1039b85345507a610b648}{init\-Case} (\hyperlink{struct_case}{Case} $\ast$cell)
 \begin{DoxyCompactList}\small\item\em initiatilise proprement une case en faisant pointer sur N\-U\-L\-L le pointeur sur \hyperlink{struct_piece}{Piece} et la couleur de la case à 0 \end{DoxyCompactList}\item 
 \hyperlink{struct_couleur_case}{Couleur\-Case} \hyperlink{case_8h_a4a5739d169b022cb15480de4e492455c}{get\-Couleur\-Case} (\hyperlink{struct_case}{Case} $\ast$cell)
@@ -79,25 +77,6 @@ renvoie vrai si les coordonnées passés en paramètres correspond à une case s
 \end{DoxyParams}
 \begin{DoxyReturn}{Renvoie}
 booleen 
-\end{DoxyReturn}
-\hypertarget{case_8h_a81b2002a69ded69ea164e6efe4e0334e}{\index{case.\-h@{case.\-h}!creer\-Case@{creer\-Case}}
-\index{creer\-Case@{creer\-Case}!case.h@{case.\-h}}
-\subsubsection[{creer\-Case}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Case}$\ast$ creer\-Case (
-\begin{DoxyParamCaption}
-\item[{{\bf Couleur\-Case}}]{couleur\-Case}
-\end{DoxyParamCaption}
-)}}\label{case_8h_a81b2002a69ded69ea164e6efe4e0334e}
-
-
-crée une structure \hyperlink{struct_case}{Case} dans le tas 
-
-
-\begin{DoxyParams}{Paramètres}
-{\em couleur\-Case} & couleur de la case (\hyperlink{struct_couleur_case}{Couleur\-Case}) à donner à la case crée \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Renvoie}
-Pointeur sur la structure \hyperlink{struct_case}{Case} crée 
 \end{DoxyReturn}
 \hypertarget{case_8h_a4421c1de12cc3407f667f23c58ecff81}{\index{case.\-h@{case.\-h}!detruire\-Case@{detruire\-Case}}
 \index{detruire\-Case@{detruire\-Case}!case.h@{case.\-h}}

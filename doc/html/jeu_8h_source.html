@@ -103,7 +103,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Recherche');
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <a class="code" href="struct_joueur.html">Joueur</a> * joueurActif ;</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;} <a class="code" href="struct_jeu.html">Jeu</a> ;</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keywordtype">void</span> initJeu(<a class="code" href="struct_jeu.html">Jeu</a> * jeu, <a class="code" href="struct_couleur.html">Couleur</a> C1, <a class="code" href="struct_couleur.html">Couleur</a> C2);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keywordtype">void</span> initJeu(<a class="code" href="struct_jeu.html">Jeu</a> * jeu, <span class="keywordtype">char</span> * piecesJ1, <span class="keywordtype">char</span> * piecesJ2);</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keywordtype">void</span> detruireJeu(<a class="code" href="struct_jeu.html">Jeu</a> * jeu);</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<a class="code" href="struct_joueur.html">Joueur</a> * getJoueurActif(<a class="code" href="struct_jeu.html">Jeu</a> * jeu);</div>
@@ -111,9 +111,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Recherche');
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keywordtype">void</span> setJoueurActif(<a class="code" href="struct_jeu.html">Jeu</a> * jeu, <a class="code" href="struct_joueur.html">Joueur</a>* joueur);</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keywordtype">void</span> selectPiece(<a class="code" href="struct_jeu.html">Jeu</a> * jeu, <span class="keywordtype">int</span> posX, <span class="keywordtype">int</span> posY);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keywordtype">void</span> deplacerPiece(<a class="code" href="struct_plateau.html">Plateau</a> * plateau, <a class="code" href="struct_piece.html">Piece</a> * piece, <span class="keywordtype">int</span> posX, <span class="keywordtype">int</span> posY, <span class="keywordtype">int</span>* victoireAtt, <span class="keywordtype">int</span>* victoireDef);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keywordtype">void</span> deplacerPiece(<a class="code" href="struct_plateau.html">Plateau</a> * plateau, <a class="code" href="struct_piece.html">Piece</a> * piece, <span class="keywordtype">int</span> posX, <span class="keywordtype">int</span> posY, <a class="code" href="struct_couleur.html">Couleur</a> * couleurGagne);</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<a class="code" href="struct_piece.html">Piece</a> * combatPieces(<a class="code" href="struct_piece.html">Piece</a> * pieceAtt, <a class="code" href="struct_piece.html">Piece</a> * pieceDef, <span class="keywordtype">int</span>* victoireAtt, <span class="keywordtype">int</span>* victoireDef);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<a class="code" href="struct_piece.html">Piece</a> * combatPieces(<a class="code" href="struct_piece.html">Piece</a> * pieceAtt, <a class="code" href="struct_piece.html">Piece</a> * pieceDef, <a class="code" href="struct_couleur.html">Couleur</a> * couleurGagne);</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="struct_plateau_html"><div class="ttname"><a href="struct_plateau.html">Plateau</a></div><div class="ttdoc">structure permettant de gérer le plateau de jeu ainsi que le nombre de tours écoulés ...</div><div class="ttdef"><b>Definition:</b> plateau.h:26</div></div>
@@ -126,7 +126,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Recherche');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Généré le Mardi 21 Avril 2015 11:45:52 pour ChessRPG par &#160;<a href="http://www.doxygen.org/index.html">
+Généré le Mardi 28 Avril 2015 10:49:52 pour ChessRPG par &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

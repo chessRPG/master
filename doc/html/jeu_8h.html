@@ -107,9 +107,9 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Fonctions</h2></td></tr>
-<tr class="memitem:afefa45d9efb5be72d078794c5112058f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afefa45d9efb5be72d078794c5112058f"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>initJeu</b> (<a class="el" href="struct_jeu.html">Jeu</a> *jeu, <a class="el" href="struct_couleur.html">Couleur</a> C1, <a class="el" href="struct_couleur.html">Couleur</a> C2)</td></tr>
-<tr class="separator:afefa45d9efb5be72d078794c5112058f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abddc6cebe6cf53fbad3ee4d0ed57822c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abddc6cebe6cf53fbad3ee4d0ed57822c"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>initJeu</b> (<a class="el" href="struct_jeu.html">Jeu</a> *jeu, char *piecesJ1, char *piecesJ2)</td></tr>
+<tr class="separator:abddc6cebe6cf53fbad3ee4d0ed57822c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5936d2a519cea532e27bda5a4ca2dd32"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5936d2a519cea532e27bda5a4ca2dd32"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>detruireJeu</b> (<a class="el" href="struct_jeu.html">Jeu</a> *jeu)</td></tr>
 <tr class="separator:a5936d2a519cea532e27bda5a4ca2dd32"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -125,12 +125,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setJoueurActif</b> (<
 <tr class="memitem:ab3b33294a7383b6ab18f4b76d68bba62"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab3b33294a7383b6ab18f4b76d68bba62"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>selectPiece</b> (<a class="el" href="struct_jeu.html">Jeu</a> *jeu, int posX, int posY)</td></tr>
 <tr class="separator:ab3b33294a7383b6ab18f4b76d68bba62"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adbe1445fea93b3873cc73c93baa9a676"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adbe1445fea93b3873cc73c93baa9a676"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>deplacerPiece</b> (<a class="el" href="struct_plateau.html">Plateau</a> *plateau, <a class="el" href="struct_piece.html">Piece</a> *piece, int posX, int posY, int *victoireAtt, int *victoireDef)</td></tr>
-<tr class="separator:adbe1445fea93b3873cc73c93baa9a676"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa1ed8b39f68ef05c7dc07afcf4e3b10c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa1ed8b39f68ef05c7dc07afcf4e3b10c"></a>
-<a class="el" href="struct_piece.html">Piece</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>combatPieces</b> (<a class="el" href="struct_piece.html">Piece</a> *pieceAtt, <a class="el" href="struct_piece.html">Piece</a> *pieceDef, int *victoireAtt, int *victoireDef)</td></tr>
-<tr class="separator:aa1ed8b39f68ef05c7dc07afcf4e3b10c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2541d343c83c6434ce6547c7d17f615a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2541d343c83c6434ce6547c7d17f615a"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>deplacerPiece</b> (<a class="el" href="struct_plateau.html">Plateau</a> *plateau, <a class="el" href="struct_piece.html">Piece</a> *piece, int posX, int posY, <a class="el" href="struct_couleur.html">Couleur</a> *couleurGagne)</td></tr>
+<tr class="separator:a2541d343c83c6434ce6547c7d17f615a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d0eb81b581f3f558e083d7fb3512eff"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7d0eb81b581f3f558e083d7fb3512eff"></a>
+<a class="el" href="struct_piece.html">Piece</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>combatPieces</b> (<a class="el" href="struct_piece.html">Piece</a> *pieceAtt, <a class="el" href="struct_piece.html">Piece</a> *pieceDef, <a class="el" href="struct_couleur.html">Couleur</a> *couleurGagne)</td></tr>
+<tr class="separator:a7d0eb81b581f3f558e083d7fb3512eff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Description détaillée</h2>
 <div class="textblock"><p>Module de gestion du jeu, module principal du programme. </p>
@@ -140,7 +140,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>deplacerPiece</b> (<a
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Généré le Mardi 21 Avril 2015 11:45:52 pour ChessRPG par &#160;<a href="http://www.doxygen.org/index.html">
+Généré le Mardi 28 Avril 2015 10:49:52 pour ChessRPG par &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

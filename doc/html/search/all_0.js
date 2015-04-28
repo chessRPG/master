@@ -6,7 +6,5 @@ var searchData=
   ['couleur',['Couleur',['../struct_couleur.html',1,'']]],
   ['couleur_2eh',['couleur.h',['../couleur_8h.html',1,'']]],
   ['couleurcase',['CouleurCase',['../struct_couleur_case.html',1,'']]],
-  ['creercase',['creerCase',['../case_8h.html#a81b2002a69ded69ea164e6efe4e0334e',1,'case.c']]],
-  ['creerjoueur',['creerJoueur',['../joueur_8h.html#a7ff4f1781cf53041c2773726ef960d6d',1,'joueur.c']]],
-  ['creerpiece',['creerPiece',['../piece_8h.html#a6fc2302a3222d5ed3542cde8348fc21f',1,'piece.c']]]
+  ['creerpiece',['creerPiece',['../piece_8c.html#aeb281783721a8ec6d5a370475cc56c83',1,'creerPiece(Type type, Couleur couleur):&#160;piece.c'],['../piece_8h.html#a6fc2302a3222d5ed3542cde8348fc21f',1,'creerPiece(Type, Couleur):&#160;piece.c']]]
 ];
