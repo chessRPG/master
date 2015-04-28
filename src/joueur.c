@@ -67,10 +67,22 @@ void saisiePieces(Joueur * joueurRef, Joueur * joueur, char * pieces)
 
 /* accesseurs */
 
+/**
+@brief renvoie le nom du joueur passé en paramètre
+@param joueur pointeur sur le joueur dont on veut le nom
+@return chaine de caractères (char *) contenant le nom du joueur passé en paramètre
+*/
+
 char * getNomJoueur(Joueur * joueur)
 {
     return joueur->nomJoueur ;
 }
+
+/**
+@brief renvoie la couleur du joueur passé en paramètre
+@param joueur pointeur sur le Joueur dont on veut la couleur
+@return Couleur choisie par le joueur
+*/
 
 Couleur getCouleurJoueur(Joueur * joueur)
 {
@@ -79,10 +91,24 @@ Couleur getCouleurJoueur(Joueur * joueur)
 
 /* mutateurs */
 
+/**
+@brief modifie le nom du joueur passé en paramètre
+@param joueur pointeur sur le Joueur dont on veut modifier le nom
+@param nomJoueur chaine de caractère contenant le nom qu'on veut donner au joueur
+@return Aucun
+*/
+
 void setNomJoueur(Joueur * joueur, char * nomJoueur)
 {
     strcpy(joueur->nomJoueur, nomJoueur);
 }
+
+/**
+@brief modifie la couleur des pièces du joueur passé en paramètre
+@param joueur pointeur sur le Joueur dont on veut modifier la couleur des pièces
+@param couleur Couleur choisie par le joueur
+@return Aucun
+*/
 
 void setCouleurJoueur(Joueur * joueur, Couleur couleur)
 {
@@ -112,6 +138,13 @@ void setDonneesJoueurs(Joueur * joueur1, Joueur * joueur2, char * piecesJ1, char
 }
 
 /* creation / destruction(pas besoin) */
+
+/**
+@brief remplit la chaine de caractère contenant le nom du joueur par des '\0' et lui donne la couleur passée en paramètre
+@param joueur pointeur sur le Joueur à initialiser
+@param couleur Couleur à donner au joueur
+@return Aucun
+*/
 
 void initJoueur(Joueur * joueur)
 {
