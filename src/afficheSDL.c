@@ -265,6 +265,25 @@ void SdlLibere(JeuSDL* jeuSDL)
 
     SDL_FreeSurface(jeuSDL->surface_ecran);
 
+    SDL_FreeSurface(jeuSDL->surface_T1);
+    SDL_FreeSurface(jeuSDL->surface_C1);
+    SDL_FreeSurface(jeuSDL->surface_F1);
+    SDL_FreeSurface(jeuSDL->surface_D1);
+    SDL_FreeSurface(jeuSDL->surface_R1);
+    SDL_FreeSurface(jeuSDL->surface_P1);
+
+    SDL_FreeSurface(jeuSDL->surface_T2);
+    SDL_FreeSurface(jeuSDL->surface_C2);
+    SDL_FreeSurface(jeuSDL->surface_F2);
+    SDL_FreeSurface(jeuSDL->surface_D2);
+    SDL_FreeSurface(jeuSDL->surface_R2);
+    SDL_FreeSurface(jeuSDL->surface_P2);
+
+    SDL_FreeSurface(jeuSDL->surface_BLANC);
+    SDL_FreeSurface(jeuSDL->surface_NOIR);
+    SDL_FreeSurface(jeuSDL->surface_BLEU);
+    SDL_FreeSurface(jeuSDL->surface_ROUGE);
+
     detruireJeu(&jeuSDL->jeu);
 
     SDL_Quit();
