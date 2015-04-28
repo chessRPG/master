@@ -30,9 +30,8 @@ enum {\bfseries Type} \{ \\*
 \item 
 \hyperlink{struct_piece}{Piece} $\ast$ \hyperlink{piece_8h_a6fc2302a3222d5ed3542cde8348fc21f}{creer\-Piece} (\hyperlink{struct_type}{Type}, \hyperlink{struct_couleur}{Couleur})
 \begin{DoxyCompactList}\small\item\em crée une structure \hyperlink{struct_piece}{Piece} dans le tas \end{DoxyCompactList}\item 
-\hypertarget{piece_8h_a9fcf09dfb78d12de67abb2e4ec01dd0d}{void {\bfseries init\-Piece} (\hyperlink{struct_piece}{Piece} $\ast$, \hyperlink{struct_type}{Type}, \hyperlink{struct_couleur}{Couleur})}\label{piece_8h_a9fcf09dfb78d12de67abb2e4ec01dd0d}
-
-\item 
+void \hyperlink{piece_8h_a9fcf09dfb78d12de67abb2e4ec01dd0d}{init\-Piece} (\hyperlink{struct_piece}{Piece} $\ast$, \hyperlink{struct_type}{Type}, \hyperlink{struct_couleur}{Couleur})
+\begin{DoxyCompactList}\small\item\em initialise la pièce passée en paramètre avec le type et la couleur donnée \end{DoxyCompactList}\item 
 \hyperlink{struct_type}{Type} \hyperlink{piece_8h_a918b9a5321efa981c4b8bfbd43b7b8d2}{get\-Type\-Piece} (\hyperlink{struct_piece}{Piece} $\ast$piece)
 \begin{DoxyCompactList}\small\item\em renvoie le type de la pièce passé en paramètre \end{DoxyCompactList}\item 
 \hyperlink{struct_couleur}{Couleur} \hyperlink{piece_8h_a7157f67fa824f3cd7ac6670d36e0df3c}{get\-Couleur\-Piece} (\hyperlink{struct_piece}{Piece} $\ast$piece)
@@ -49,9 +48,8 @@ void \hyperlink{piece_8h_a98331bb6dc14aee347e3c159e655ccdd}{set\-Points\-Vie} (\
 \begin{DoxyCompactList}\small\item\em modifie les points de vie de pièce passée en paramètre \end{DoxyCompactList}\item 
 void \hyperlink{piece_8h_a35ede65b53e0b9972e21d390803c4caf}{set\-Points\-Attaque} (\hyperlink{struct_piece}{Piece} $\ast$piece, int points\-Attaque)
 \begin{DoxyCompactList}\small\item\em modifie les points d'attaque de pièce passée en paramètre \end{DoxyCompactList}\item 
-\hypertarget{piece_8h_ad7149a7c5b90d490a2a2f3a12ef55066}{void {\bfseries detruire\-Piece} (\hyperlink{struct_piece}{Piece} $\ast$piece)}\label{piece_8h_ad7149a7c5b90d490a2a2f3a12ef55066}
-
-\end{DoxyCompactItemize}
+void \hyperlink{piece_8h_ad7149a7c5b90d490a2a2f3a12ef55066}{detruire\-Piece} (\hyperlink{struct_piece}{Piece} $\ast$piece)
+\begin{DoxyCompactList}\small\item\em détruit la pièce passée en paramètre \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Description détaillée}
@@ -88,6 +86,25 @@ crée une structure \hyperlink{struct_piece}{Piece} dans le tas
 \end{DoxyParams}
 \begin{DoxyReturn}{Renvoie}
 Pointeur sur la structure \hyperlink{struct_piece}{Piece} crée 
+\end{DoxyReturn}
+\hypertarget{piece_8h_ad7149a7c5b90d490a2a2f3a12ef55066}{\index{piece.\-h@{piece.\-h}!detruire\-Piece@{detruire\-Piece}}
+\index{detruire\-Piece@{detruire\-Piece}!piece.h@{piece.\-h}}
+\subsubsection[{detruire\-Piece}]{\setlength{\rightskip}{0pt plus 5cm}void detruire\-Piece (
+\begin{DoxyParamCaption}
+\item[{{\bf Piece} $\ast$}]{piece}
+\end{DoxyParamCaption}
+)}}\label{piece_8h_ad7149a7c5b90d490a2a2f3a12ef55066}
+
+
+détruit la pièce passée en paramètre 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em piece} & pointeur sur la \hyperlink{struct_piece}{Piece} à supprimer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+Aucun 
 \end{DoxyReturn}
 \hypertarget{piece_8h_a7157f67fa824f3cd7ac6670d36e0df3c}{\index{piece.\-h@{piece.\-h}!get\-Couleur\-Piece@{get\-Couleur\-Piece}}
 \index{get\-Couleur\-Piece@{get\-Couleur\-Piece}!piece.h@{piece.\-h}}
@@ -165,7 +182,32 @@ renvoie le type de la pièce passé en paramètre
 \begin{DoxyReturn}{Renvoie}
 \hyperlink{struct_type}{Type} de la pièce 
 \end{DoxyReturn}
-\hypertarget{piece_8h_afa380329593be41575bbc652d4e1ba78}{\index{piece.\-h@{piece.\-h}!set\-Couleur\-Piece@{set\-Couleur\-Piece}}
+\hypertarget{piece_8h_a9fcf09dfb78d12de67abb2e4ec01dd0d}{\index{piece.\-h@{piece.\-h}!init\-Piece@{init\-Piece}}
+\index{init\-Piece@{init\-Piece}!piece.h@{piece.\-h}}
+\subsubsection[{init\-Piece}]{\setlength{\rightskip}{0pt plus 5cm}void init\-Piece (
+\begin{DoxyParamCaption}
+\item[{{\bf Piece} $\ast$}]{piece, }
+\item[{{\bf Type}}]{type, }
+\item[{{\bf Couleur}}]{couleur}
+\end{DoxyParamCaption}
+)}}\label{piece_8h_a9fcf09dfb78d12de67abb2e4ec01dd0d}
+
+
+initialise la pièce passée en paramètre avec le type et la couleur donnée 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em piece} & pointeur sur la \hyperlink{struct_piece}{Piece} à initialiser \\
+\hline
+{\em type} & \hyperlink{struct_type}{Type} à donner à la pièce \\
+\hline
+{\em couleur} & \hyperlink{struct_couleur}{Couleur} à donner à la pièce \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+Aucun
+\end{DoxyReturn}
+les points de vie et d'attaque de la pièce sont déterminés automatiquement grâce à son type \hypertarget{piece_8h_afa380329593be41575bbc652d4e1ba78}{\index{piece.\-h@{piece.\-h}!set\-Couleur\-Piece@{set\-Couleur\-Piece}}
 \index{set\-Couleur\-Piece@{set\-Couleur\-Piece}!piece.h@{piece.\-h}}
 \subsubsection[{set\-Couleur\-Piece}]{\setlength{\rightskip}{0pt plus 5cm}void set\-Couleur\-Piece (
 \begin{DoxyParamCaption}

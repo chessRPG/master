@@ -7,10 +7,10 @@
 
 var indexSectionsWithContent =
 {
-  0: "cdgijpstv",
+  0: "cdgijprstv",
   1: "cjpt",
   2: "cjp",
-  3: "cdgisv"
+  3: "cdgirsv"
 };
 
 var indexSectionNames =
