@@ -41,7 +41,6 @@ typedef struct
 
     SDL_Surface* surface_vainqueur;
 
-
 } JeuSDL ;
 void SdlInit(JeuSDL * jeuSdl) ;
 void SdlAffichage(JeuSDL * jeuSDL) ;

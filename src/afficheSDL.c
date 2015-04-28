@@ -157,7 +157,7 @@ void SdlInit(JeuSDL * jeuSDL)
     char piecesJ1[32];
     char piecesJ2[32];
     char temp[32];
-    int dimX = 8 * TAILLE_CASE ;
+    int dimX = 16 * TAILLE_CASE ;
     int dimY = 10 * TAILLE_CASE ;
 
     jeu = &(jeuSDL->jeu);
@@ -262,6 +262,7 @@ void SdlInit(JeuSDL * jeuSDL)
 void SdlLibere(JeuSDL* jeuSDL)
 {
     TTF_Quit();
+
     SDL_FreeSurface(jeuSDL->surface_ecran);
 
     detruireJeu(&jeuSDL->jeu);
@@ -304,25 +305,24 @@ void SdlAffichage(JeuSDL * jeuSDL)
     dessineRectangle(jeuSDL->surface_ecran, 0, 0, 8*TAILLE_CASE, 1*TAILLE_CASE, noire);
     dessineRectangle(jeuSDL->surface_ecran, 9*TAILLE_CASE, 0, 8*TAILLE_CASE, 1*TAILLE_CASE, noire);
 
-
-    TTF_Font * police = NULL;
+    TTF_Font * policeNom;
+    policeNom = TTF_OpenFont("data/rmegg.ttf", 40);
 
     char * joueur1 = getNomJoueur(&jeuSDL->jeu.J1) ;
     char * joueur2 = getNomJoueur(&jeuSDL->jeu.J2) ;
 
-    police = TTF_OpenFont("data/rmegg.ttf", 40);
     SDL_Color couleur1 = {255, 255, 255};
     SDL_Color couleur2 = {0, 255, 0};
 
     if (jeuSDL->jeu.joueurActif == &jeuSDL->jeu.J1)
     {
-        jeuSDL->surface_texteJ1 = TTF_RenderText_Blended(police, joueur1, couleur2);
-        jeuSDL->surface_texteJ2 = TTF_RenderText_Blended(police, joueur2, couleur1);
+        jeuSDL->surface_texteJ1 = TTF_RenderText_Blended(policeNom, joueur1, couleur2);
+        jeuSDL->surface_texteJ2 = TTF_RenderText_Blended(policeNom, joueur2, couleur1);
     }
     else
     {
-        jeuSDL->surface_texteJ1 = TTF_RenderText_Blended(police, joueur1, couleur1);
-        jeuSDL->surface_texteJ2 = TTF_RenderText_Blended(police, joueur2, couleur2);
+        jeuSDL->surface_texteJ1 = TTF_RenderText_Blended(policeNom, joueur1, couleur1);
+        jeuSDL->surface_texteJ2 = TTF_RenderText_Blended(policeNom, joueur2, couleur2);
     }
 
     longueur1 = jeuSDL->surface_texteJ1->w ;
@@ -331,23 +331,27 @@ void SdlAffichage(JeuSDL * jeuSDL)
     SDL_apply_surface(jeuSDL->surface_texteJ1, jeuSDL->surface_ecran, 9*TAILLE_CASE, (8*TAILLE_CASE-longueur1)/2);
     SDL_apply_surface(jeuSDL->surface_texteJ2, jeuSDL->surface_ecran, 0, (8*TAILLE_CASE-longueur2)/2);
 
-    TTF_CloseFont(police);
+    SDL_FreeSurface(jeuSDL->surface_texteJ1);
+    SDL_FreeSurface(jeuSDL->surface_texteJ2);
+
+    TTF_CloseFont(policeNom);
 
 }
 
 void SdlVictoire(Joueur * joueurVainqueur, JeuSDL * jeuSDL)
 {
-    TTF_Font * policeTexte = NULL;
     int longueur;
+    TTF_Font * policeTexte;
+
+    policeTexte = TTF_OpenFont("data/joystix.ttf", 40);
 
     SDL_Color rouge = {255, 0, 0};
     char * texte = getNomJoueur(joueurVainqueur) ;
 
-    policeTexte = TTF_OpenFont("data/joystix.ttf", 40);
-
     jeuSDL->surface_vainqueur = TTF_RenderText_Blended(policeTexte, "Vainqueur", rouge);
     longueur = jeuSDL->surface_vainqueur->w;
     SDL_apply_surface(jeuSDL->surface_vainqueur, jeuSDL->surface_ecran, 3*TAILLE_CASE, (8*TAILLE_CASE-longueur)/2);
+    SDL_FreeSurface(jeuSDL->surface_vainqueur);
 
     jeuSDL->surface_vainqueur = TTF_RenderText_Blended(policeTexte, texte, rouge);
     longueur = jeuSDL->surface_vainqueur->w;
@@ -360,18 +364,17 @@ void SdlVictoire(Joueur * joueurVainqueur, JeuSDL * jeuSDL)
     {
         SDL_apply_surface(jeuSDL->surface_vainqueur, jeuSDL->surface_ecran, 5*TAILLE_CASE, (8*TAILLE_CASE-longueur)/2);
     }
-
-
+    SDL_FreeSurface(jeuSDL->surface_vainqueur);
     TTF_CloseFont(policeTexte);
     policeTexte = TTF_OpenFont("data/joystix.ttf", 10);
 
     jeuSDL->surface_vainqueur = TTF_RenderText_Blended(policeTexte, "echap:quiter      entrer:recommencer", rouge);
     longueur = jeuSDL->surface_vainqueur->w;
     SDL_apply_surface(jeuSDL->surface_vainqueur, jeuSDL->surface_ecran, 6.5*TAILLE_CASE, (8*TAILLE_CASE-longueur)/2);
+    SDL_FreeSurface(jeuSDL->surface_vainqueur);
 
-
-    TTF_CloseFont(policeTexte);
     SDL_Flip( jeuSDL->surface_ecran );
+    TTF_CloseFont(policeTexte);
 }
 
 void SdlBoucle(JeuSDL * jeuSDL)
@@ -481,7 +484,7 @@ void SdlBoucle(JeuSDL * jeuSDL)
             continue_boucle = 1;
         }
 
-        usleep(1000);
+        usleep(10000);
 	}
 
 }
