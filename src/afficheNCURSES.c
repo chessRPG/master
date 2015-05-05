@@ -69,8 +69,11 @@ void boucleEvent(Jeu * jeu)
     WINDOW * win ;
     int continue_boucle ;
     int y = 0, x = 0; /*coordonées du curseur : y ligne, x colonne*/
-
+    int posX, posY;
     int c;
+    Couleur couleurGagne;
+
+    char * log;
 
     initscr() ;
     clear() ;
@@ -106,14 +109,23 @@ void boucleEvent(Jeu * jeu)
                 if (y<7) y++;
                 break;
             case KEY_BACKSPACE:
-                selectPiece(jeu, y, x);
+                if(getCouleurCase(getCase(&jeu->plateau, y, x)) == CBLEU)
+                {
+                    deplacerPiece(&jeu->plateau, getPieceCase(getCase(&jeu->plateau, posY, posX)), y, x, &couleurGagne, log, jeu);
+                }
+                else
+                {
+                    selectPiece(jeu, y, x);
+                    posX = x;
+                    posY = y;
+                }
                 break;
-            case ' ':
+            /*case ' ':
                 if(getJoueurActif(jeu) == &(jeu->J1))
                     setJoueurActif(jeu, &(jeu->J2));
                 else
                     setJoueurActif(jeu, &(jeu->J1));
-                break;
+                break;*/
             case 27: /* ECHAP */
                 continue_boucle = 0;
                 break;

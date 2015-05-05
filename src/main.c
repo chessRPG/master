@@ -1,7 +1,7 @@
 #include "jeu.h"
 
-//#define JEU_NCURSES
-#define JEU_SDL
+#define JEU_NCURSES
+//#define JEU_SDL
 
 #ifdef JEU_NCURSES
 #include "afficheNCURSES.h"
@@ -17,11 +17,9 @@ int main()
         Jeu jeu ;
         char piecesJ1[32];
         char piecesJ2[32];
+        char log[1024];
 
-        initJeu(&jeu, piecesJ1, piecesJ2);
-
-        /*setNomJoueur(&(jeu.J1), "joueur1");
-        setNomJoueur(&(jeu.J2), "joueur2");*/
+        initJeu(&jeu, piecesJ1, piecesJ2, log);
 
         boucleEvent(&jeu);
 
