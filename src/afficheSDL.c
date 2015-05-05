@@ -105,6 +105,37 @@ void dessineRectangle(SDL_Surface * ecran, int y, int x, int largeur, int hauteu
 	SDL_FillRect(ecran, &rectangle, cou);
 }
 
+void afficheInfosPiece(JeuSDL * jeuSDL, Piece * piece)
+{
+    TTF_Font * police;
+
+    int longueur;
+
+    char texte[50];
+
+    Uint32 noire = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 0, 0);
+    SDL_Color couleur = {255, 255, 255};    /*blanc*/
+
+    dessineRectangle(jeuSDL->surface_ecran, 0*TAILLE_CASE, 8*TAILLE_CASE, 8*TAILLE_CASE, 4*TAILLE_CASE, noire);
+
+    if (piece != NULL)
+    {
+        police = TTF_OpenFont("data/joystix.ttf", 10);
+
+        sprintf(texte, "pt vie : %d\npt Attaque : %d ", getPointsVie(piece), getPointsAttaque(piece));
+
+        jeuSDL->surface_texteInfos = TTF_RenderText_Blended(police, texte, couleur);
+
+        longueur = jeuSDL->surface_texteInfos->w ;
+
+        SDL_apply_surface(jeuSDL->surface_texteInfos, jeuSDL->surface_ecran, 0*TAILLE_CASE, 8*TAILLE_CASE+(8*TAILLE_CASE-longueur)/2);
+
+        SDL_FreeSurface(jeuSDL->surface_texteInfos);
+
+        TTF_CloseFont(police);
+    }
+}
+
 void chargerPieces(JeuSDL * jeuSDL, char * pieces)
 {
     char temp[32];
@@ -330,8 +361,8 @@ void SdlAffichage(JeuSDL * jeuSDL)
     char * joueur1 = getNomJoueur(&jeuSDL->jeu.J1) ;
     char * joueur2 = getNomJoueur(&jeuSDL->jeu.J2) ;
 
-    SDL_Color couleur1 = {255, 255, 255};
-    SDL_Color couleur2 = {0, 255, 0};
+    SDL_Color couleur1 = {255, 255, 255};   /*blanc*/
+    SDL_Color couleur2 = {0, 255, 0};       /*vert*/
 
     if (jeuSDL->jeu.joueurActif == &jeuSDL->jeu.J1)
     {
@@ -432,6 +463,8 @@ void SdlBoucle(JeuSDL * jeuSDL)
                 {
                     couleurTemp = getCouleurCase(getCase(&jeuSDL->jeu.plateau, x, y)) ;
                     setCouleurCase(getCase(&jeuSDL->jeu.plateau, x, y), CROUGE);
+                    piece = getPieceCase(getCase(&jeuSDL->jeu.plateau, x, y));
+                    afficheInfosPiece(jeuSDL, piece);
                 }
             }
 

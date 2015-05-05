@@ -101,6 +101,7 @@ Type getTypePiece(Piece * piece)
 
 Couleur getCouleurPiece(Piece * piece)
 {
+    if (piece == NULL) return NUM_COULEUR;
     return piece->couleur ;
 }
 
@@ -113,6 +114,7 @@ Couleur getCouleurPiece(Piece * piece)
 
 int getPointsAttaque(Piece * piece)
 {
+    if (piece == NULL) return 0;
     return piece->pointsAttaque ;
 }
 
@@ -124,6 +126,7 @@ int getPointsAttaque(Piece * piece)
 
 int getPointsVie(Piece * piece)
 {
+    if (piece == NULL) return 0;
     return piece->pointsVie ;
 }
 
