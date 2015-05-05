@@ -414,9 +414,9 @@ void deplacerPiece(Plateau * plateau, Piece * piece, int posX, int posY, Couleur
 
     rechercherPiece(plateau, piece, &i, &j);
 
-    setPieceCase(getCase(plateau, i, j), NULL);
-
     logDeplacement(log, piece, i, j, posX, posY) ;
+
+    setPieceCase(getCase(plateau, i, j), NULL);
 
     if(getPieceCase(getCase(plateau, posX, posY)) != NULL)
         piece = combatPieces(piece, getPieceCase(getCase(plateau, posX, posY)), couleurGagne, log, jeu);
