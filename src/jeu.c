@@ -1,3 +1,34 @@
+ #include <string.h>
+
+  /* reverse:  reverse string s in place */
+ void reverse(char s[])
+ {
+     int i, j;
+     char c;
+
+     for (i = 0, j = strlen(s)-1; i<j; i++, j--) {
+         c = s[i];
+         s[i] = s[j];
+         s[j] = c;
+     }
+ }
+
+ void itoa(int n, char s[])
+ {
+     int i, sign;
+
+     if ((sign = n) < 0)  /* record sign */
+         n = -n;          /* make n positive */
+     i = 0;
+     do {       /* generate digits in reverse order */
+         s[i++] = n % 10 + '0';   /* get next digit */
+     } while ((n /= 10) > 0);     /* delete it */
+     if (sign < 0)
+         s[i++] = '-';
+     s[i] = '\0';
+     reverse(s);
+ }
+
 /**
 
 @brief Module de gestion des joueurs
@@ -20,7 +51,7 @@
 @return Aucun
 */
 
-void initJeu(Jeu * jeu, char * piecesJ1, char * piecesJ2)
+void initJeu(Jeu * jeu, char * piecesJ1, char * piecesJ2, char * log)
 {
     Couleur C1, C2;
 
@@ -34,6 +65,8 @@ void initJeu(Jeu * jeu, char * piecesJ1, char * piecesJ2)
     setJoueurActif(jeu, &jeu->J1);
     initPlateau(&jeu->plateau, C1, C2);
     reinitCouleursEchiquier(&jeu->plateau) ;
+
+    sprintf(log, "Début de la partie !") ;
 }
 
 /**
@@ -327,6 +360,43 @@ void setJoueurActif(Jeu * jeu, Joueur* joueur)
 {
     jeu->joueurActif = joueur;
 }
+/* fonctions de jeu */
+
+void logDeplacement(char * log, Piece * piece, int i, int j, int posX, int posY)
+{
+    char buffer[8] ;
+    switch(getTypePiece(piece))
+    {
+    case PION:
+        sprintf(log, "Le pion en") ;
+        break ;
+    case TOUR:
+        sprintf(log, "La tour en") ;
+        break ;
+    case CAVALIER:
+        sprintf(log, "Le cavalier en") ;
+        break ;
+    case FOU:
+        sprintf(log, "Le fou en") ;
+        break ;
+    case DAME:
+        sprintf(log, "La dame en") ;
+        break ;
+    case ROI:
+        sprintf(log, "Le roi en") ;
+        break ;
+    }
+    itoa(i, buffer) ;
+    strcat(log, buffer) ;
+    itoa(j, buffer) ;
+    strcat(log, buffer) ;
+    strcat(log, "se déplace en") ;
+    itoa(posX, buffer) ;
+    strcat(log, buffer) ;
+    itoa(posY, buffer) ;
+    strcat(log, buffer) ;
+    strcat(log, ".\n") ;
+}
 
 /**
 @brief déplace la pièce sélectionnée à la position (y,x) et déclenche un combat si la case est occupée
@@ -339,7 +409,7 @@ void setJoueurActif(Jeu * jeu, Joueur* joueur)
 @return Aucun
 */
 
-void deplacerPiece(Plateau * plateau, Piece * piece, int posX, int posY, Couleur * couleurGagne)
+void deplacerPiece(Plateau * plateau, Piece * piece, int posX, int posY, Couleur * couleurGagne, char * log, Jeu * jeu)
 {
     int i = 0, j = 0;
 
@@ -347,11 +417,69 @@ void deplacerPiece(Plateau * plateau, Piece * piece, int posX, int posY, Couleur
 
     setPieceCase(getCase(plateau, i, j), NULL);
 
+    logDeplacement(log, piece, i, j, posX, posY) ;
+
     if(getPieceCase(getCase(plateau, posX, posY)) != NULL)
-        piece = combatPieces(piece, getPieceCase(getCase(plateau, posX, posY)), couleurGagne);
+        piece = combatPieces(piece, getPieceCase(getCase(plateau, posX, posY)), couleurGagne, log, jeu);
 
     setPieceCase(getCase(plateau, posX, posY), piece);
 }
+
+void logNomPiece(char * log, Piece * piece, Jeu * jeu)
+{
+    switch(getTypePiece(piece))
+    {
+    case PION:
+        strcat(log, "le pion de ") ;
+        break ;
+    case TOUR:
+        strcat(log, "la tour de ") ;
+        break ;
+    case CAVALIER:
+        strcat(log, "le cavalier de ") ;
+        break ;
+    case FOU:
+        strcat(log, "le fou de ") ;
+        break ;
+    case DAME:
+        strcat(log, "la dame de ") ;
+        break ;
+    case ROI:
+        strcat(log, "le roi de ") ;
+        break ;
+    }
+
+    if(getCouleurPiece(piece) == getCouleurJoueur(&(jeu->J1)))
+    {
+        strcat(log, getNomJoueur(&(jeu->J1))) ;
+    }
+    else
+    {
+        strcat(log, getNomJoueur(&(jeu->J2))) ;
+    }
+}
+
+void initLogCombat(char * log, Piece * pieceAtt, Piece * pieceDef, Jeu * jeu)
+{
+    sprintf(log, "") ;
+    logNomPiece(log, pieceAtt, jeu) ;
+    strcat(log, " attaque ") ;
+    logNomPiece(log, pieceDef, jeu) ;
+    strcat(log, ".\n") ;
+}
+
+void logCombat(char * log, Piece * vainqueur, Piece * perdant, Jeu * jeu)
+{
+    char buffer[8] ;
+    logNomPiece(log, vainqueur, jeu) ;
+    strcat(log, " gagne contre ") ;
+    logNomPiece(log, perdant, jeu) ;
+    strcat(log, ". Il lui reste ") ;
+    itoa(getPointsVie(vainqueur), buffer) ;
+    strcat(log, buffer) ;
+    strcat(log, "PV.") ;
+}
+
 
 /**
 @brief fait combattre les deux pièces passées en paramètre et détruit la pièce perdante
@@ -361,11 +489,12 @@ void deplacerPiece(Plateau * plateau, Piece * piece, int posX, int posY, Couleur
 @return adresse de la Piece qui gagne le combat
 */
 
-Piece* combatPieces(Piece * pieceAtt, Piece * pieceDef, Couleur * couleurGagne)
+Piece* combatPieces(Piece * pieceAtt, Piece * pieceDef, Couleur * couleurGagne, char * log, Jeu * jeu)
 {
     int BONUS = 1;
     int vie;
 
+    initLogCombat(log, pieceAtt, pieceDef, jeu) ;
 
     while(getPointsVie(pieceAtt) > 0 && getPointsVie(pieceDef) > 0)
     {
@@ -387,12 +516,14 @@ Piece* combatPieces(Piece * pieceAtt, Piece * pieceDef, Couleur * couleurGagne)
 
     if(getPointsVie(pieceAtt) > 0)
     {
+        logCombat(log, pieceAtt, pieceDef, jeu) ;
         if(pieceDef->type == ROI) *couleurGagne = getCouleurPiece(pieceAtt) ;
         detruirePiece(pieceDef) ;
         return pieceAtt ;
     }
     else
     {
+        logCombat(log, pieceDef, pieceAtt, jeu) ;
         if(pieceAtt->type == ROI) *couleurGagne = getCouleurPiece(pieceDef) ;
         detruirePiece(pieceAtt) ;
         return pieceDef ;
