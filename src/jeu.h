@@ -35,7 +35,7 @@ typedef struct
     Joueur * joueurActif ;
 } Jeu ;
 
-void initJeu(Jeu * jeu, char * piecesJ1, char * piecesJ2);
+void initJeu(Jeu * jeu, char * piecesJ1, char * piecesJ2, char * log);
 void detruireJeu(Jeu * jeu);
 
 Joueur * getJoueurActif(Jeu * jeu);
@@ -43,8 +43,8 @@ Joueur * getJoueurInactif(Jeu * jeu);
 void setJoueurActif(Jeu * jeu, Joueur* joueur);
 
 void selectPiece(Jeu * jeu, int posX, int posY);
-void deplacerPiece(Plateau * plateau, Piece * piece, int posX, int posY, Couleur * couleurGagne);
+void deplacerPiece(Plateau * plateau, Piece * piece, int posX, int posY, Couleur * couleurGagne, char * log, Jeu * jeu);
 
-Piece * combatPieces(Piece * pieceAtt, Piece * pieceDef, Couleur * couleurGagne);
+Piece * combatPieces(Piece * pieceAtt, Piece * pieceDef, Couleur * couleurGagne, char * log, Jeu * jeu);
 
 #endif
