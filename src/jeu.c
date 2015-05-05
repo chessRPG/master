@@ -66,7 +66,7 @@ void initJeu(Jeu * jeu, char * piecesJ1, char * piecesJ2, char * log)
     initPlateau(&jeu->plateau, C1, C2);
     reinitCouleursEchiquier(&jeu->plateau) ;
 
-    sprintf(log, "Début de la partie !") ;
+    sprintf(log, "Debut de la partie !") ;
 }
 
 /**
@@ -368,34 +368,33 @@ void logDeplacement(char * log, Piece * piece, int i, int j, int posX, int posY)
     switch(getTypePiece(piece))
     {
     case PION:
-        sprintf(log, "Le pion en") ;
+        sprintf(log, "Le pion en ") ;
         break ;
     case TOUR:
-        sprintf(log, "La tour en") ;
+        sprintf(log, "La tour en ") ;
         break ;
     case CAVALIER:
-        sprintf(log, "Le cavalier en") ;
+        sprintf(log, "Le cavalier en ") ;
         break ;
     case FOU:
-        sprintf(log, "Le fou en") ;
+        sprintf(log, "Le fou en ") ;
         break ;
     case DAME:
-        sprintf(log, "La dame en") ;
+        sprintf(log, "La dame en ") ;
         break ;
     case ROI:
-        sprintf(log, "Le roi en") ;
+        sprintf(log, "Le roi en ") ;
         break ;
     }
     itoa(i, buffer) ;
     strcat(log, buffer) ;
     itoa(j, buffer) ;
     strcat(log, buffer) ;
-    strcat(log, "se déplace en") ;
+    strcat(log, " se deplace en ") ;
     itoa(posX, buffer) ;
     strcat(log, buffer) ;
     itoa(posY, buffer) ;
     strcat(log, buffer) ;
-    strcat(log, ".\n") ;
 }
 
 /**

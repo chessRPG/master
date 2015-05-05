@@ -46,6 +46,8 @@ typedef struct
     TTF_Font* police10;
     TTF_Font* police40;
 
+    SDL_Surface* logs[10] ;
+
 
 } JeuSDL ;
 void SdlInit(JeuSDL * jeuSdl) ;
