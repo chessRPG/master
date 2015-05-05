@@ -25,7 +25,6 @@
 */
 
 typedef enum {BLANC, NOIR, BLEU, JAUNE, NUM_COULEUR} Couleur ;
-//const char *TabCouleur[] = {"BLANC", "NOIR", "BLEU", "JAUNE", "NULL"};
 
 Couleur * getListeCouleurs() ;
 

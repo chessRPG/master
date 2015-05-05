@@ -5,6 +5,8 @@
 @return Pointeur une liste des couleurs disponibles
 */
 
+const char *TabCouleur[] = {"BLANC", "NOIR", "BLEU", "JAUNE", "NULL"};
+
 Couleur * getListeCouleurs()
 {
     Couleur * liste ;
