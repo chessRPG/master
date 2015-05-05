@@ -131,6 +131,27 @@ void afficheInfosPiece(JeuSDL * jeuSDL, Piece * piece)
     }
 }
 
+void afficheLogs(JeuSDL * jeuSDL, char * log)
+{
+    Uint32 noire = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 0, 0);
+    SDL_Color couleur = {255, 255, 255};    /*blanc*/
+    int i = 10 ;
+    int longueur ;
+    char * pch ;
+
+    dessineRectangle(jeuSDL->surface_ecran, 4*TAILLE_CASE, 8*TAILLE_CASE, 8*TAILLE_CASE, 15*TAILLE_CASE, noire);
+
+    pch = strtok(log,",.-");
+    while(pch != NULL)
+    {
+        jeuSDL->logs[i] = TTF_RenderText_Blended(jeuSDL->police10, pch, couleur);
+        longueur = jeuSDL->logs[i]->w ;
+        SDL_apply_surface(jeuSDL->logs[i], jeuSDL->surface_ecran, (4+(10-i))*TAILLE_CASE, 8*TAILLE_CASE+(8*TAILLE_CASE-longueur)/2);
+        i-- ;
+        pch = strtok (NULL, ",.-");
+    }
+}
+
 void chargerPieces(JeuSDL * jeuSDL, char * pieces)
 {
     char temp[32];
@@ -287,6 +308,7 @@ void SdlInit(JeuSDL * jeuSDL)
     jeuSDL->policeNom = TTF_OpenFont("data/rmegg.ttf", 40);
     jeuSDL->police10 = TTF_OpenFont("data/joystix.ttf", 10);
     jeuSDL->police40 = TTF_OpenFont("data/joystix.ttf", 40);
+    afficheLogs(jeuSDL, log) ;
 }
 
 void SdlLibere(JeuSDL* jeuSDL)
@@ -466,7 +488,7 @@ void SdlBoucle(JeuSDL * jeuSDL)
                 if (couleurTemp == CBLEU && selectionne != 0 && (posX != x || posY != y))
                 {
                     deplacerPiece(&jeuSDL->jeu.plateau, getPieceCase(getCase(&jeuSDL->jeu.plateau, posX, posY)), x, y, &couleurGagne, log, &(jeuSDL->jeu)) ;
-
+                    afficheLogs(jeuSDL, log) ;
                     reinitCouleursEchiquier(&jeuSDL->jeu.plateau) ;
                     couleurTemp = (x+y)%2 ;
 
