@@ -107,8 +107,6 @@ void dessineRectangle(SDL_Surface * ecran, int y, int x, int largeur, int hauteu
 
 void afficheInfosPiece(JeuSDL * jeuSDL, Piece * piece)
 {
-    TTF_Font * police;
-
     int longueur;
 
     char texte[50];
@@ -120,11 +118,9 @@ void afficheInfosPiece(JeuSDL * jeuSDL, Piece * piece)
 
     if (piece != NULL)
     {
-        police = TTF_OpenFont("data/joystix.ttf", 10);
-
         sprintf(texte, "pt vie : %d\npt Attaque : %d ", getPointsVie(piece), getPointsAttaque(piece));
 
-        jeuSDL->surface_texteInfos = TTF_RenderText_Blended(police, texte, couleur);
+        jeuSDL->surface_texteInfos = TTF_RenderText_Blended(jeuSDL->police10, texte, couleur);
 
         longueur = jeuSDL->surface_texteInfos->w ;
 
@@ -132,7 +128,6 @@ void afficheInfosPiece(JeuSDL * jeuSDL, Piece * piece)
 
         SDL_FreeSurface(jeuSDL->surface_texteInfos);
 
-        TTF_CloseFont(police);
     }
 }
 
@@ -289,6 +284,9 @@ void SdlInit(JeuSDL * jeuSDL)
     assert(jeuSDL->surface_P2 != NULL);
 
     TTF_Init();
+    jeuSDL->policeNom = TTF_OpenFont("data/rmegg.ttf", 40);
+    jeuSDL->police10 = TTF_OpenFont("data/joystix.ttf", 10);
+    jeuSDL->police40 = TTF_OpenFont("data/joystix.ttf", 40);
 }
 
 void SdlLibere(JeuSDL* jeuSDL)
@@ -315,6 +313,10 @@ void SdlLibere(JeuSDL* jeuSDL)
     SDL_FreeSurface(jeuSDL->surface_NOIR);
     SDL_FreeSurface(jeuSDL->surface_BLEU);
     SDL_FreeSurface(jeuSDL->surface_ROUGE);
+
+    TTF_CloseFont(jeuSDL->policeNom);
+    TTF_CloseFont(jeuSDL->police10);
+    TTF_CloseFont(jeuSDL->police40);
 
     detruireJeu(&jeuSDL->jeu);
 
@@ -356,9 +358,6 @@ void SdlAffichage(JeuSDL * jeuSDL)
     dessineRectangle(jeuSDL->surface_ecran, 0, 0, 8*TAILLE_CASE, 1*TAILLE_CASE, noire);
     dessineRectangle(jeuSDL->surface_ecran, 9*TAILLE_CASE, 0, 8*TAILLE_CASE, 1*TAILLE_CASE, noire);
 
-    TTF_Font * policeNom;
-    policeNom = TTF_OpenFont("data/rmegg.ttf", 40);
-
     char * joueur1 = getNomJoueur(&jeuSDL->jeu.J1) ;
     char * joueur2 = getNomJoueur(&jeuSDL->jeu.J2) ;
 
@@ -367,13 +366,13 @@ void SdlAffichage(JeuSDL * jeuSDL)
 
     if (jeuSDL->jeu.joueurActif == &jeuSDL->jeu.J1)
     {
-        jeuSDL->surface_texteJ1 = TTF_RenderText_Blended(policeNom, joueur1, couleur2);
-        jeuSDL->surface_texteJ2 = TTF_RenderText_Blended(policeNom, joueur2, couleur1);
+        jeuSDL->surface_texteJ1 = TTF_RenderText_Blended(jeuSDL->policeNom, joueur1, couleur2);
+        jeuSDL->surface_texteJ2 = TTF_RenderText_Blended(jeuSDL->policeNom, joueur2, couleur1);
     }
     else
     {
-        jeuSDL->surface_texteJ1 = TTF_RenderText_Blended(policeNom, joueur1, couleur1);
-        jeuSDL->surface_texteJ2 = TTF_RenderText_Blended(policeNom, joueur2, couleur2);
+        jeuSDL->surface_texteJ1 = TTF_RenderText_Blended(jeuSDL->policeNom, joueur1, couleur1);
+        jeuSDL->surface_texteJ2 = TTF_RenderText_Blended(jeuSDL->policeNom, joueur2, couleur2);
     }
 
     longueur1 = jeuSDL->surface_texteJ1->w ;
@@ -385,26 +384,21 @@ void SdlAffichage(JeuSDL * jeuSDL)
     SDL_FreeSurface(jeuSDL->surface_texteJ1);
     SDL_FreeSurface(jeuSDL->surface_texteJ2);
 
-    TTF_CloseFont(policeNom);
-
 }
 
 void SdlVictoire(Joueur * joueurVainqueur, JeuSDL * jeuSDL)
 {
     int longueur;
-    TTF_Font * policeTexte;
-
-    policeTexte = TTF_OpenFont("data/joystix.ttf", 40);
 
     SDL_Color rouge = {255, 0, 0};
     char * texte = getNomJoueur(joueurVainqueur) ;
 
-    jeuSDL->surface_vainqueur = TTF_RenderText_Blended(policeTexte, "Vainqueur", rouge);
+    jeuSDL->surface_vainqueur = TTF_RenderText_Blended(jeuSDL->police40, "Vainqueur", rouge);
     longueur = jeuSDL->surface_vainqueur->w;
     SDL_apply_surface(jeuSDL->surface_vainqueur, jeuSDL->surface_ecran, 3*TAILLE_CASE, (8*TAILLE_CASE-longueur)/2);
     SDL_FreeSurface(jeuSDL->surface_vainqueur);
 
-    jeuSDL->surface_vainqueur = TTF_RenderText_Blended(policeTexte, texte, rouge);
+    jeuSDL->surface_vainqueur = TTF_RenderText_Blended(jeuSDL->police40, texte, rouge);
     longueur = jeuSDL->surface_vainqueur->w;
 
     if(joueurVainqueur == &(jeuSDL->jeu.J1))
@@ -416,16 +410,13 @@ void SdlVictoire(Joueur * joueurVainqueur, JeuSDL * jeuSDL)
         SDL_apply_surface(jeuSDL->surface_vainqueur, jeuSDL->surface_ecran, 5*TAILLE_CASE, (8*TAILLE_CASE-longueur)/2);
     }
     SDL_FreeSurface(jeuSDL->surface_vainqueur);
-    TTF_CloseFont(policeTexte);
-    policeTexte = TTF_OpenFont("data/joystix.ttf", 10);
 
-    jeuSDL->surface_vainqueur = TTF_RenderText_Blended(policeTexte, "echap:quiter      entrer:recommencer", rouge);
+    jeuSDL->surface_vainqueur = TTF_RenderText_Blended(jeuSDL->police10, "echap:quiter      entrer:recommencer", rouge);
     longueur = jeuSDL->surface_vainqueur->w;
     SDL_apply_surface(jeuSDL->surface_vainqueur, jeuSDL->surface_ecran, 6.5*TAILLE_CASE, (8*TAILLE_CASE-longueur)/2);
     SDL_FreeSurface(jeuSDL->surface_vainqueur);
 
     SDL_Flip( jeuSDL->surface_ecran );
-    TTF_CloseFont(policeTexte);
 }
 
 void SdlBoucle(JeuSDL * jeuSDL)

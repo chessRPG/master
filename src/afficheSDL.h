@@ -42,6 +42,11 @@ typedef struct
 
     SDL_Surface* surface_vainqueur;
 
+    TTF_Font* policeNom;
+    TTF_Font* police10;
+    TTF_Font* police40;
+
+
 } JeuSDL ;
 void SdlInit(JeuSDL * jeuSdl) ;
 void SdlAffichage(JeuSDL * jeuSDL) ;
