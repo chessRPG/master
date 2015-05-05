@@ -461,7 +461,7 @@ void logNomPiece(char * log, Piece * piece, Jeu * jeu)
 
 void initLogCombat(char * log, Piece * pieceAtt, Piece * pieceDef, Jeu * jeu)
 {
-    sprintf(log, "") ;
+    log[0] = '\0' ;
     logNomPiece(log, pieceAtt, jeu) ;
     strcat(log, " attaque ") ;
     logNomPiece(log, pieceDef, jeu) ;

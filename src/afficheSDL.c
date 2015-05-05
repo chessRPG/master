@@ -190,10 +190,11 @@ void SdlInit(JeuSDL * jeuSDL)
     char temp[32];
     int dimX = 16 * TAILLE_CASE ;
     int dimY = 10 * TAILLE_CASE ;
+    char log[3000] ;
 
     jeu = &(jeuSDL->jeu);
 
-    initJeu(jeu, piecesJ1, piecesJ2);
+    initJeu(jeu, piecesJ1, piecesJ2, log);
 
     strcpy(temp, piecesJ1);
     strcpy(piecesJ1, "data/");
@@ -437,6 +438,7 @@ void SdlBoucle(JeuSDL * jeuSDL)
 	bool selectionne = 0 ;
 	Piece* piece ;
 	Couleur couleurGagne = -1;
+	char log[3000] ;
 
     SdlAffichage(jeuSDL);
 	assert( SDL_Flip( jeuSDL->surface_ecran )!=-1 );
@@ -472,7 +474,7 @@ void SdlBoucle(JeuSDL * jeuSDL)
             {
                 if (couleurTemp == CBLEU && selectionne != 0 && (posX != x || posY != y))
                 {
-                    deplacerPiece(&jeuSDL->jeu.plateau, getPieceCase(getCase(&jeuSDL->jeu.plateau, posX, posY)), x, y, &couleurGagne) ;
+                    deplacerPiece(&jeuSDL->jeu.plateau, getPieceCase(getCase(&jeuSDL->jeu.plateau, posX, posY)), x, y, &couleurGagne, log, &(jeuSDL->jeu)) ;
 
                     reinitCouleursEchiquier(&jeuSDL->jeu.plateau) ;
                     couleurTemp = (x+y)%2 ;
