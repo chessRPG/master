@@ -10,8 +10,8 @@
 const int TAILLE_CASE = 40 ;
 
 /*  Origine de l'échiquier (en nombre de cases) */
-const int ORIG_X = 1;
-const int ORIG_Y = 0;
+const int ORIG_X = 2;
+const int ORIG_Y = 1;
 
 /* fonctions internes */
 
@@ -206,8 +206,8 @@ void SdlInit(JeuSDL * jeuSDL)
     char piecesJ1[32];
     char piecesJ2[32];
     char temp[32];
-    int dimX = 16 * TAILLE_CASE ;
-    int dimY = 10 * TAILLE_CASE ;
+    int dimX = 20 * TAILLE_CASE ;
+    int dimY = 12 * TAILLE_CASE ;
     char log[8000] ;
 
     jeu = &(jeuSDL->jeu);
@@ -380,8 +380,8 @@ void SdlAffichage(JeuSDL * jeuSDL)
 /*  affichage du nom du joueur actif    */
 
     Uint32 noire = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 0, 0);
-    dessineRectangle(jeuSDL->surface_ecran, 0, 0, 8*TAILLE_CASE, 1*TAILLE_CASE, noire);
-    dessineRectangle(jeuSDL->surface_ecran, 9*TAILLE_CASE, 0, 8*TAILLE_CASE, 1*TAILLE_CASE, noire);
+    dessineRectangle(jeuSDL->surface_ecran, (ORIG_X-1)*TAILLE_CASE, ORIG_Y*TAILLE_CASE, 8*TAILLE_CASE, 1*TAILLE_CASE, noire);
+    dessineRectangle(jeuSDL->surface_ecran, (ORIG_X+8)*TAILLE_CASE, ORIG_Y*TAILLE_CASE, 8*TAILLE_CASE, 1*TAILLE_CASE, noire);
 
     char * joueur1 = getNomJoueur(&jeuSDL->jeu.J1) ;
     char * joueur2 = getNomJoueur(&jeuSDL->jeu.J2) ;
@@ -403,8 +403,8 @@ void SdlAffichage(JeuSDL * jeuSDL)
     longueur1 = jeuSDL->surface_texteJ1->w ;
     longueur2 = jeuSDL->surface_texteJ2->w ;
 
-    SDL_apply_surface(jeuSDL->surface_texteJ1, jeuSDL->surface_ecran, 9*TAILLE_CASE, (8*TAILLE_CASE-longueur1)/2);
-    SDL_apply_surface(jeuSDL->surface_texteJ2, jeuSDL->surface_ecran, 0, (8*TAILLE_CASE-longueur2)/2);
+    SDL_apply_surface(jeuSDL->surface_texteJ1, jeuSDL->surface_ecran, (ORIG_X+8)*TAILLE_CASE, ORIG_Y*TAILLE_CASE+(8*TAILLE_CASE-longueur1)/2);
+    SDL_apply_surface(jeuSDL->surface_texteJ2, jeuSDL->surface_ecran, (ORIG_X-1)*TAILLE_CASE, ORIG_Y*TAILLE_CASE+(8*TAILLE_CASE-longueur2)/2);
 
     SDL_FreeSurface(jeuSDL->surface_texteJ1);
     SDL_FreeSurface(jeuSDL->surface_texteJ2);
