@@ -118,7 +118,7 @@ void afficheInfosPiece(JeuSDL * jeuSDL, Piece * piece)
 
     if (piece != NULL)
     {
-        sprintf(texte, "pt vie : %d\npt Attaque : %d ", getPointsVie(piece), getPointsAttaque(piece));
+        sprintf(texte, "pt vie : %d  pt Attaque : %d ", getPointsVie(piece), getPointsAttaque(piece));
 
         jeuSDL->surface_texteInfos = TTF_RenderText_Blended(jeuSDL->police10, texte, couleur);
 
@@ -141,7 +141,7 @@ void afficheLogs(JeuSDL * jeuSDL, char * log)
 
     dessineRectangle(jeuSDL->surface_ecran, 4*TAILLE_CASE, 8*TAILLE_CASE, 8*TAILLE_CASE, 15*TAILLE_CASE, noire);
 
-    pch = strtok(log,",.-");
+    pch = strtok(log,",-");
     while(pch != NULL)
     {
         jeuSDL->logs[i] = TTF_RenderText_Blended(jeuSDL->police10, pch, couleur);
@@ -206,7 +206,7 @@ void SdlInit(JeuSDL * jeuSDL)
     char temp[32];
     int dimX = 16 * TAILLE_CASE ;
     int dimY = 10 * TAILLE_CASE ;
-    char log[3000] ;
+    char log[8000] ;
 
     jeu = &(jeuSDL->jeu);
 

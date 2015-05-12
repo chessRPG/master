@@ -468,19 +468,19 @@ void initLogCombat(char * log, Piece * pieceAtt, Piece * pieceDef, Jeu * jeu)
     logNomPiece(log, pieceAtt, jeu) ;
     strcat(log, " attaque ") ;
     logNomPiece(log, pieceDef, jeu) ;
-    strcat(log, ".\n") ;
+    strcat(log, ".,") ;
 }
 
 void logCombat(char * log, Piece * vainqueur, Piece * perdant, Jeu * jeu)
 {
     char buffer[8] ;
     logNomPiece(log, vainqueur, jeu) ;
-    strcat(log, " gagne contre ") ;
+    strcat(log, " gagne,contre ") ;
     logNomPiece(log, perdant, jeu) ;
     strcat(log, ". Il lui reste ") ;
     itoa(getPointsVie(vainqueur), buffer) ;
     strcat(log, buffer) ;
-    strcat(log, "PV.") ;
+    strcat(log, "PV.,") ;
 }
 
 
