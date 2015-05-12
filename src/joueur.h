@@ -25,7 +25,7 @@
 
 typedef struct
 {
-    char nomJoueur[32] ;
+    char nomJoueur[13] ;
     Couleur couleur ;
 }  Joueur;
 

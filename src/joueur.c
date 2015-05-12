@@ -154,12 +154,20 @@ void setCouleurJoueur(Joueur * joueur, Couleur couleur)
 void setDonneesJoueurs(Joueur * joueur1, Joueur * joueur2, char * piecesJ1, char * piecesJ2)
 {
     char nom[32];
+    char nomSecure[13];
+    int cpt = 0;
 
     system("clear");
     printf("JOUEUR 1 :\n");
     printf("Nom : ");
     scanf("%s", nom);
-    setNomJoueur(joueur1, nom);
+    while(cpt < 12 && nom[cpt] != '\0')
+    {
+        nomSecure[cpt] = nom[cpt];
+        cpt++;
+    }
+    nomSecure[cpt] = '\0';
+    setNomJoueur(joueur1, nomSecure);
     printf("\nChoisis ton camp !\n");
     saisiePieces(joueur1, joueur1, piecesJ1);
 
@@ -168,7 +176,14 @@ void setDonneesJoueurs(Joueur * joueur1, Joueur * joueur2, char * piecesJ1, char
     printf("JOUEUR 2 :\n");
     printf("Nom : ");
     scanf("%s", nom);
-    setNomJoueur(joueur2, nom);
+    cpt = 0;
+    while(cpt < 12 && nom[cpt] != '\0')
+    {
+        nomSecure[cpt] = nom[cpt];
+        cpt++;
+    }
+    nomSecure[cpt] = '\0';
+    setNomJoueur(joueur2, nomSecure);
     printf("\nChoisis ton camp !\n");
     saisiePieces(joueur1, joueur2, piecesJ2);
     system("clear");

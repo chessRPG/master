@@ -10,7 +10,7 @@
 const int TAILLE_CASE = 40 ;
 
 /*  Origine de l'échiquier (en nombre de cases) */
-const int ORIG_X = 1;
+const int ORIG_X = 2;
 const int ORIG_Y = 2;
 
 /* fonctions internes */
@@ -138,8 +138,9 @@ void afficheLogs(JeuSDL * jeuSDL, char * log)
     int i = 9 ;
     int longueur ;
     char * pch ;
+    int largeur = jeuSDL->surface_ecran->w;
 
-    dessineRectangle(jeuSDL->surface_ecran, 4*TAILLE_CASE, 8*TAILLE_CASE, 8*TAILLE_CASE, 15*TAILLE_CASE, noire);
+    dessineRectangle(jeuSDL->surface_ecran, (ORIG_X+3)*TAILLE_CASE, (ORIG_Y+8)*TAILLE_CASE, (largeur-ORIG_X-8)*TAILLE_CASE, 8*TAILLE_CASE, noire);
 
 
     pch = strtok(log,",-");
@@ -147,54 +148,18 @@ void afficheLogs(JeuSDL * jeuSDL, char * log)
     {
         jeuSDL->logs[i] = TTF_RenderText_Blended(jeuSDL->police10, pch, couleur);
         longueur = jeuSDL->logs[i]->w ;
-        SDL_apply_surface(jeuSDL->logs[i], jeuSDL->surface_ecran, (4+(9-i))*TAILLE_CASE, 8*TAILLE_CASE+(8*TAILLE_CASE-longueur)/2);
+        SDL_apply_surface(jeuSDL->logs[i], jeuSDL->surface_ecran, (ORIG_X+3+(9-i))*TAILLE_CASE, (ORIG_Y+8)*TAILLE_CASE+((8)*TAILLE_CASE-longueur)/2);
         SDL_FreeSurface(jeuSDL->logs[i]) ;
         i-- ;
         pch = strtok (NULL, ",-");
     }
 }
 
-void chargerPieces(JeuSDL * jeuSDL, char * pieces)
+char* dossierParent(char * str)
 {
     char temp[32];
-
-    /*strcpy(temp, pieces);
-    strcat(temp, "T.png");*/
-    sprintf(temp, "%sT.png", pieces);
-    printf("%s\n", temp);
-    jeuSDL->surface_T1 = IMG_Load(temp);
-    /*if(jeuSDL->surface_T1 == NULL) jeuSDL->surface_T1 = IMG_Load("../data/BLANC/T.png");*/
-    assert(jeuSDL->surface_T1 != NULL);
-
-    strcpy(temp, pieces);
-    strcat(temp, "C.png");
-    jeuSDL->surface_C1 = IMG_Load("data/STANDARD/BLANC/T.png");
-    /*if(jeuSDL->surface_C1 == NULL) jeuSDL->surface_C1 = IMG_Load("../data/BLANC/C.png");*/
-    assert(jeuSDL->surface_C1 != NULL);
-
-    strcpy(temp, pieces);
-    strcat(temp, "F.png");
-    jeuSDL->surface_F1 = IMG_Load("data/STANDARD/BLANC/T.png");
-    /*if(jeuSDL->surface_F1 == NULL) jeuSDL->surface_F1 = IMG_Load("../data/BLANC/F.png");*/
-    assert(jeuSDL->surface_F1 != NULL);
-
-    strcpy(temp, pieces);
-    strcat(temp, "R.png");
-    jeuSDL->surface_R1 = IMG_Load("data/STANDARD/BLANC/T.png");
-    /*if(jeuSDL->surface_R1 == NULL) jeuSDL->surface_R1 = IMG_Load("../data/BLANC/R.png");*/
-    assert(jeuSDL->surface_R1 != NULL);
-
-    strcpy(temp, pieces);
-    strcat(temp, "D.png");
-    jeuSDL->surface_D1 = IMG_Load("data/STANDARD/BLANC/T.png");
-    /*if(jeuSDL->surface_D1 == NULL) jeuSDL->surface_D1 = IMG_Load("../data/BLANC/D.png");*/
-    assert(jeuSDL->surface_D1 != NULL);
-
-    strcpy(temp, pieces);
-    strcat(temp, "P.png");
-    jeuSDL->surface_P1 = IMG_Load("data/STANDARD/BLANC/T.png");
-    /*if(jeuSDL->surface_P1 == NULL) jeuSDL->surface_P1 = IMG_Load("../data/BLANC/P.png");*/
-    assert(jeuSDL->surface_P1 != NULL);
+    sprintf(temp, "../%s", str);
+    return temp;
 }
 
 /* fonctions externes */
@@ -247,63 +212,63 @@ void SdlInit(JeuSDL * jeuSDL)
     /*  Pièces Joueur 1 */
     sprintf(temp, "%sT.png", piecesJ1);
     jeuSDL->surface_T1 = IMG_Load(temp);
-    /*if(jeuSDL->surface_T1 == NULL) jeuSDL->surface_T1 = IMG_Load("../data/BLANC/T.png");*/
+    if(jeuSDL->surface_T1 == NULL) jeuSDL->surface_T1 = IMG_Load(dossierParent(temp));
     assert(jeuSDL->surface_T1 != NULL);
 
     sprintf(temp, "%sC.png", piecesJ1);
     jeuSDL->surface_C1 = IMG_Load(temp);
-    /*if(jeuSDL->surface_C1 == NULL) jeuSDL->surface_C1 = IMG_Load("../data/BLANC/C.png");*/
+    if(jeuSDL->surface_C1 == NULL) jeuSDL->surface_C1 = IMG_Load(dossierParent(temp));
     assert(jeuSDL->surface_C1 != NULL);
 
     sprintf(temp, "%sF.png", piecesJ1);
     jeuSDL->surface_F1 = IMG_Load(temp);
-    /*if(jeuSDL->surface_F1 == NULL) jeuSDL->surface_F1 = IMG_Load("../data/BLANC/F.png");*/
+    if(jeuSDL->surface_F1 == NULL) jeuSDL->surface_F1 = IMG_Load(dossierParent(temp));
     assert(jeuSDL->surface_F1 != NULL);
 
     sprintf(temp, "%sR.png", piecesJ1);
     jeuSDL->surface_R1 = IMG_Load(temp);
-    /*if(jeuSDL->surface_R1 == NULL) jeuSDL->surface_R1 = IMG_Load("../data/BLANC/R.png");*/
+    if(jeuSDL->surface_R1 == NULL) jeuSDL->surface_R1 = IMG_Load(dossierParent(temp));
     assert(jeuSDL->surface_R1 != NULL);
 
     sprintf(temp, "%sD.png", piecesJ1);
     jeuSDL->surface_D1 = IMG_Load(temp);
-    /*if(jeuSDL->surface_D1 == NULL) jeuSDL->surface_D1 = IMG_Load("../data/BLANC/D.png");*/
+    if(jeuSDL->surface_D1 == NULL) jeuSDL->surface_D1 = IMG_Load(dossierParent(temp));
     assert(jeuSDL->surface_D1 != NULL);
 
     sprintf(temp, "%sP.png", piecesJ1);
     jeuSDL->surface_P1 = IMG_Load(temp);
-    /*if(jeuSDL->surface_P1 == NULL) jeuSDL->surface_P1 = IMG_Load("../data/BLANC/P.png");*/
+    if(jeuSDL->surface_P1 == NULL) jeuSDL->surface_P1 = IMG_Load(dossierParent(temp));
     assert(jeuSDL->surface_P1 != NULL);
 
     /*  Pièces Joueur 2   */
     sprintf(temp, "%sT.png", piecesJ2);
     jeuSDL->surface_T2 = IMG_Load(temp);
-    /*if(jeuSDL->surface_T2 == NULL) jeuSDL->surface_T2 = IMG_Load("../data/BLANC/T.png");*/
+    if(jeuSDL->surface_T2 == NULL) jeuSDL->surface_T2 = IMG_Load(dossierParent(temp));
     assert(jeuSDL->surface_T2 != NULL);
 
     sprintf(temp, "%sC.png", piecesJ2);
     jeuSDL->surface_C2 = IMG_Load(temp);
-    /*if(jeuSDL->surface_C2 == NULL) jeuSDL->surface_C2 = IMG_Load("../data/BLANC/C.png");*/
+    if(jeuSDL->surface_C2 == NULL) jeuSDL->surface_C2 = IMG_Load(dossierParent(temp));
     assert(jeuSDL->surface_C2 != NULL);
 
     sprintf(temp, "%sF.png", piecesJ2);
     jeuSDL->surface_F2 = IMG_Load(temp);
-    /*if(jeuSDL->surface_F2 == NULL) jeuSDL->surface_F2 = IMG_Load("../data/BLANC/F.png");*/
+    if(jeuSDL->surface_F2 == NULL) jeuSDL->surface_F2 = IMG_Load(dossierParent(temp));
     assert(jeuSDL->surface_F2 != NULL);
 
     sprintf(temp, "%sR.png", piecesJ2);
     jeuSDL->surface_R2 = IMG_Load(temp);
-    /*if(jeuSDL->surface_R2 == NULL) jeuSDL->surface_R2 = IMG_Load("../data/BLANC/R.png");*/
+    if(jeuSDL->surface_R2 == NULL) jeuSDL->surface_R2 = IMG_Load(dossierParent(temp));
     assert(jeuSDL->surface_R2 != NULL);
 
     sprintf(temp, "%sD.png", piecesJ2);
     jeuSDL->surface_D2 = IMG_Load(temp);
-    /*if(jeuSDL->surface_D2 == NULL) jeuSDL->surface_D2 = IMG_Load("../data/BLANC/D.png");*/
+    if(jeuSDL->surface_D2 == NULL) jeuSDL->surface_D2 = IMG_Load(dossierParent(temp));
     assert(jeuSDL->surface_D2 != NULL);
 
     sprintf(temp, "%sP.png", piecesJ2);
     jeuSDL->surface_P2 = IMG_Load(temp);
-    /*if(jeuSDL->surface_P2 == NULL) jeuSDL->surface_P2 = IMG_Load("../data/BLANC/P.png");*/
+    if(jeuSDL->surface_P2 == NULL) jeuSDL->surface_P2 = IMG_Load(dossierParent(temp));
     assert(jeuSDL->surface_P2 != NULL);
 
 
@@ -353,6 +318,9 @@ void SdlAffichage(JeuSDL * jeuSDL)
     int i, j, x, y, longueur1, longueur2;
     Case * cell;
     Piece * piece;
+    Uint32 couleur = SDL_MapRGB(jeuSDL->surface_ecran->format, 126, 51, 0);
+
+    dessineRectangle(jeuSDL->surface_ecran, (ORIG_X-1)*TAILLE_CASE, (ORIG_Y-1)*TAILLE_CASE, 10*TAILLE_CASE, 10*TAILLE_CASE, couleur);
 
     for (i=0 ; i < 8 ; i++)
     {
@@ -377,34 +345,35 @@ void SdlAffichage(JeuSDL * jeuSDL)
         }
     }
 
-/*  affichage du nom du joueur actif    */
+/*  affichage du nom des joueurs    */
 
-    Uint32 noire = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 0, 0);
-    dessineRectangle(jeuSDL->surface_ecran, (ORIG_X-1)*TAILLE_CASE, ORIG_Y*TAILLE_CASE, 8*TAILLE_CASE, 1*TAILLE_CASE, noire);
-    dessineRectangle(jeuSDL->surface_ecran, (ORIG_X+8)*TAILLE_CASE, ORIG_Y*TAILLE_CASE, 8*TAILLE_CASE, 1*TAILLE_CASE, noire);
+    Uint32 couleurJoueur = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 0, 0);  /* noir */
+    Uint32 couleurJoueurActif = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 86, 27);   /* vert  */
 
     char * joueur1 = getNomJoueur(&jeuSDL->jeu.J1) ;
     char * joueur2 = getNomJoueur(&jeuSDL->jeu.J2) ;
 
-    SDL_Color couleur1 = {255, 255, 255};   /*blanc*/
-    SDL_Color couleur2 = {0, 255, 0};       /*vert*/
+    SDL_Color couleurNom = {255, 255, 255};   /* blanc */
 
     if (jeuSDL->jeu.joueurActif == &jeuSDL->jeu.J1)
     {
-        jeuSDL->surface_texteJ1 = TTF_RenderText_Blended(jeuSDL->policeNom, joueur1, couleur2);
-        jeuSDL->surface_texteJ2 = TTF_RenderText_Blended(jeuSDL->policeNom, joueur2, couleur1);
+        dessineRectangle(jeuSDL->surface_ecran, (ORIG_X-2)*TAILLE_CASE, ORIG_Y*TAILLE_CASE, 8*TAILLE_CASE, 1*TAILLE_CASE, couleurJoueur);
+        dessineRectangle(jeuSDL->surface_ecran, (ORIG_X+9)*TAILLE_CASE, ORIG_Y*TAILLE_CASE, 8*TAILLE_CASE, 1*TAILLE_CASE, couleurJoueurActif);
     }
     else
     {
-        jeuSDL->surface_texteJ1 = TTF_RenderText_Blended(jeuSDL->policeNom, joueur1, couleur1);
-        jeuSDL->surface_texteJ2 = TTF_RenderText_Blended(jeuSDL->policeNom, joueur2, couleur2);
+        dessineRectangle(jeuSDL->surface_ecran, (ORIG_X-2)*TAILLE_CASE, ORIG_Y*TAILLE_CASE, 8*TAILLE_CASE, 1*TAILLE_CASE, couleurJoueurActif);
+        dessineRectangle(jeuSDL->surface_ecran, (ORIG_X+9)*TAILLE_CASE, ORIG_Y*TAILLE_CASE, 8*TAILLE_CASE, 1*TAILLE_CASE, couleurJoueur);
     }
+
+    jeuSDL->surface_texteJ1 = TTF_RenderText_Blended(jeuSDL->policeNom, joueur1, couleurNom);
+    jeuSDL->surface_texteJ2 = TTF_RenderText_Blended(jeuSDL->policeNom, joueur2, couleurNom);
 
     longueur1 = jeuSDL->surface_texteJ1->w ;
     longueur2 = jeuSDL->surface_texteJ2->w ;
 
-    SDL_apply_surface(jeuSDL->surface_texteJ1, jeuSDL->surface_ecran, (ORIG_X+8)*TAILLE_CASE, ORIG_Y*TAILLE_CASE+(8*TAILLE_CASE-longueur1)/2);
-    SDL_apply_surface(jeuSDL->surface_texteJ2, jeuSDL->surface_ecran, (ORIG_X-1)*TAILLE_CASE, ORIG_Y*TAILLE_CASE+(8*TAILLE_CASE-longueur2)/2);
+    SDL_apply_surface(jeuSDL->surface_texteJ1, jeuSDL->surface_ecran, (ORIG_X+9)*TAILLE_CASE, ORIG_Y*TAILLE_CASE+(8*TAILLE_CASE-longueur1)/2);
+    SDL_apply_surface(jeuSDL->surface_texteJ2, jeuSDL->surface_ecran, (ORIG_X-2)*TAILLE_CASE, ORIG_Y*TAILLE_CASE+(8*TAILLE_CASE-longueur2)/2);
 
     SDL_FreeSurface(jeuSDL->surface_texteJ1);
     SDL_FreeSurface(jeuSDL->surface_texteJ2);
