@@ -313,6 +313,10 @@ void SdlInit(JeuSDL * jeuSDL)
 
 void SdlLibere(JeuSDL* jeuSDL)
 {
+    TTF_CloseFont(jeuSDL->policeNom);
+    TTF_CloseFont(jeuSDL->police10);
+    TTF_CloseFont(jeuSDL->police40);
+
     TTF_Quit();
 
     SDL_FreeSurface(jeuSDL->surface_ecran);
@@ -335,10 +339,6 @@ void SdlLibere(JeuSDL* jeuSDL)
     SDL_FreeSurface(jeuSDL->surface_NOIR);
     SDL_FreeSurface(jeuSDL->surface_BLEU);
     SDL_FreeSurface(jeuSDL->surface_ROUGE);
-
-    TTF_CloseFont(jeuSDL->policeNom);
-    TTF_CloseFont(jeuSDL->police10);
-    TTF_CloseFont(jeuSDL->police40);
 
     detruireJeu(&jeuSDL->jeu);
 
@@ -433,7 +433,7 @@ void SdlVictoire(Joueur * joueurVainqueur, JeuSDL * jeuSDL)
     }
     SDL_FreeSurface(jeuSDL->surface_vainqueur);
 
-    jeuSDL->surface_vainqueur = TTF_RenderText_Blended(jeuSDL->police10, "echap:quiter      entrer:recommencer", rouge);
+    jeuSDL->surface_vainqueur = TTF_RenderText_Blended(jeuSDL->police10, "echap:quitter      entrer:recommencer", rouge);
     longueur = jeuSDL->surface_vainqueur->w;
     SDL_apply_surface(jeuSDL->surface_vainqueur, jeuSDL->surface_ecran, 6.5*TAILLE_CASE, (8*TAILLE_CASE-longueur)/2);
     SDL_FreeSurface(jeuSDL->surface_vainqueur);
@@ -451,7 +451,7 @@ void SdlBoucle(JeuSDL * jeuSDL)
 	bool selectionne = 0 ;
 	Piece* piece ;
 	Couleur couleurGagne = -1;
-	char log[3000] ;
+	char log[1000] ;
 
     SdlAffichage(jeuSDL);
 	assert( SDL_Flip( jeuSDL->surface_ecran )!=-1 );
