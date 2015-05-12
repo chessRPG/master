@@ -171,6 +171,7 @@ void setDonneesJoueurs(Joueur * joueur1, Joueur * joueur2, char * piecesJ1, char
     setNomJoueur(joueur2, nom);
     printf("\nChoisis ton camp !\n");
     saisiePieces(joueur1, joueur2, piecesJ2);
+    system("clear");
 }
 
 /* creation / destruction(pas besoin) */

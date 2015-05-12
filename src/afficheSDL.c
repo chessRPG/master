@@ -10,8 +10,8 @@
 const int TAILLE_CASE = 40 ;
 
 /*  Origine de l'échiquier (en nombre de cases) */
-const int ORIG_X = 2;
-const int ORIG_Y = 1;
+const int ORIG_X = 1;
+const int ORIG_Y = 2;
 
 /* fonctions internes */
 
@@ -420,7 +420,7 @@ void SdlVictoire(Joueur * joueurVainqueur, JeuSDL * jeuSDL)
 
     jeuSDL->surface_vainqueur = TTF_RenderText_Blended(jeuSDL->police40, "Vainqueur", rouge);
     longueur = jeuSDL->surface_vainqueur->w;
-    SDL_apply_surface(jeuSDL->surface_vainqueur, jeuSDL->surface_ecran, 3*TAILLE_CASE, (8*TAILLE_CASE-longueur)/2);
+    SDL_apply_surface(jeuSDL->surface_vainqueur, jeuSDL->surface_ecran, (ORIG_X+2)*TAILLE_CASE, ORIG_Y*TAILLE_CASE+(8*TAILLE_CASE-longueur)/2);
     SDL_FreeSurface(jeuSDL->surface_vainqueur);
 
     jeuSDL->surface_vainqueur = TTF_RenderText_Blended(jeuSDL->police40, texte, rouge);
@@ -428,17 +428,17 @@ void SdlVictoire(Joueur * joueurVainqueur, JeuSDL * jeuSDL)
 
     if(joueurVainqueur == &(jeuSDL->jeu.J1))
     {
-        SDL_apply_surface(jeuSDL->surface_vainqueur, jeuSDL->surface_ecran, 5*TAILLE_CASE, (8*TAILLE_CASE-longueur)/2);
+        SDL_apply_surface(jeuSDL->surface_vainqueur, jeuSDL->surface_ecran, (ORIG_X+4)*TAILLE_CASE, ORIG_Y*TAILLE_CASE+(8*TAILLE_CASE-longueur)/2);
     }
     else
     {
-        SDL_apply_surface(jeuSDL->surface_vainqueur, jeuSDL->surface_ecran, 5*TAILLE_CASE, (8*TAILLE_CASE-longueur)/2);
+        SDL_apply_surface(jeuSDL->surface_vainqueur, jeuSDL->surface_ecran, (ORIG_X+4)*TAILLE_CASE, ORIG_Y*TAILLE_CASE+(8*TAILLE_CASE-longueur)/2);
     }
     SDL_FreeSurface(jeuSDL->surface_vainqueur);
 
     jeuSDL->surface_vainqueur = TTF_RenderText_Blended(jeuSDL->police10, "echap:quitter      entrer:recommencer", rouge);
     longueur = jeuSDL->surface_vainqueur->w;
-    SDL_apply_surface(jeuSDL->surface_vainqueur, jeuSDL->surface_ecran, 6.5*TAILLE_CASE, (8*TAILLE_CASE-longueur)/2);
+    SDL_apply_surface(jeuSDL->surface_vainqueur, jeuSDL->surface_ecran, (ORIG_X+5.5)*TAILLE_CASE, ORIG_Y*TAILLE_CASE+(8*TAILLE_CASE-longueur)/2);
     SDL_FreeSurface(jeuSDL->surface_vainqueur);
 
     SDL_Flip( jeuSDL->surface_ecran );
