@@ -135,20 +135,22 @@ void afficheLogs(JeuSDL * jeuSDL, char * log)
 {
     Uint32 noire = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 0, 0);
     SDL_Color couleur = {255, 255, 255};    /*blanc*/
-    int i = 10 ;
+    int i = 9 ;
     int longueur ;
     char * pch ;
 
     dessineRectangle(jeuSDL->surface_ecran, 4*TAILLE_CASE, 8*TAILLE_CASE, 8*TAILLE_CASE, 15*TAILLE_CASE, noire);
+
 
     pch = strtok(log,",-");
     while(pch != NULL)
     {
         jeuSDL->logs[i] = TTF_RenderText_Blended(jeuSDL->police10, pch, couleur);
         longueur = jeuSDL->logs[i]->w ;
-        SDL_apply_surface(jeuSDL->logs[i], jeuSDL->surface_ecran, (4+(10-i))*TAILLE_CASE, 8*TAILLE_CASE+(8*TAILLE_CASE-longueur)/2);
+        SDL_apply_surface(jeuSDL->logs[i], jeuSDL->surface_ecran, (4+(9-i))*TAILLE_CASE, 8*TAILLE_CASE+(8*TAILLE_CASE-longueur)/2);
+        SDL_FreeSurface(jeuSDL->logs[i]) ;
         i-- ;
-        pch = strtok (NULL, ",.-");
+        pch = strtok (NULL, ",-");
     }
 }
 
@@ -304,6 +306,7 @@ void SdlInit(JeuSDL * jeuSDL)
     /*if(jeuSDL->surface_P2 == NULL) jeuSDL->surface_P2 = IMG_Load("../data/BLANC/P.png");*/
     assert(jeuSDL->surface_P2 != NULL);
 
+
     TTF_Init();
     jeuSDL->policeNom = TTF_OpenFont("data/rmegg.ttf", 40);
     jeuSDL->police10 = TTF_OpenFont("data/joystix.ttf", 10);
@@ -451,7 +454,7 @@ void SdlBoucle(JeuSDL * jeuSDL)
 	bool selectionne = 0 ;
 	Piece* piece ;
 	Couleur couleurGagne = -1;
-	char log[1000] ;
+	char log[8000] ;
 
     SdlAffichage(jeuSDL);
 	assert( SDL_Flip( jeuSDL->surface_ecran )!=-1 );
