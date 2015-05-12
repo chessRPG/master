@@ -364,6 +364,7 @@ void setJoueurActif(Jeu * jeu, Joueur* joueur)
 
 void logDeplacement(char * log, Piece * piece, int i, int j, int posX, int posY)
 {
+
     char buffer[8] ;
     switch(getTypePiece(piece))
     {
@@ -386,14 +387,17 @@ void logDeplacement(char * log, Piece * piece, int i, int j, int posX, int posY)
         sprintf(log, "Le roi en ") ;
         break ;
     }
-    itoa(i, buffer) ;
-    strcat(log, buffer) ;
+
     itoa(j, buffer) ;
+    buffer[0] = buffer[0] + 'A' - '0';
+    strcat(log, buffer) ;
+    itoa(8-i, buffer) ;
     strcat(log, buffer) ;
     strcat(log, " se deplace en ") ;
-    itoa(posX, buffer) ;
-    strcat(log, buffer) ;
     itoa(posY, buffer) ;
+    buffer[0] = buffer[0] + 'A' - '0';
+    strcat(log, buffer) ;
+    itoa(8-posX, buffer) ;
     strcat(log, buffer) ;
 }
 
