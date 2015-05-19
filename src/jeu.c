@@ -432,7 +432,7 @@ void deplacerPiece(Jeu * jeu, Piece * piece, int posX, int posY, Couleur * coule
     setPieceCase(getCase(plateau, i, j), NULL);
 
     if(getPieceCase(getCase(plateau, posX, posY)) != NULL)
-        piece = combatPieces(piece, getPieceCase(getCase(plateau, posX, posY)), couleurGagne, log, jeu);
+        piece = combatPieces(jeu, piece, getPieceCase(getCase(plateau, posX, posY)), couleurGagne, log);
 
     setPieceCase(getCase(plateau, posX, posY), piece);
 }
