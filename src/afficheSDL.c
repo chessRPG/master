@@ -318,6 +318,7 @@ void afficheCadre(JeuSDL * jeuSDL)
     int i;
     char s[2];
 
+    /*  Cadre autour de l'échiquier */
     Uint32 couleur = SDL_MapRGB(jeuSDL->surface_ecran->format, 126, 51, 0); /*  marron  */
     dessineRectangle(jeuSDL->surface_ecran, (ORIG_X-1)*TAILLE_CASE, (ORIG_Y-1)*TAILLE_CASE, 10*TAILLE_CASE, 10*TAILLE_CASE, couleur);
 
@@ -332,6 +333,7 @@ void afficheCadre(JeuSDL * jeuSDL)
     jeuSDL->lettres[6] = TTF_RenderText_Blended(jeuSDL->police10, "G", couleurLettre);
     jeuSDL->lettres[7] = TTF_RenderText_Blended(jeuSDL->police10, "H", couleurLettre);
 
+    /*  Indices des cases   */
     for (i=0; i<8; i++)
     {
         SDL_apply_surface(jeuSDL->lettres[i], jeuSDL->surface_ecran, (ORIG_X+8)*TAILLE_CASE, (ORIG_Y+0.4+i)*TAILLE_CASE);
@@ -341,10 +343,6 @@ void afficheCadre(JeuSDL * jeuSDL)
         jeuSDL->lettres[8+i] = TTF_RenderText_Blended(jeuSDL->police10, s, couleurLettre);
         SDL_apply_surface(jeuSDL->lettres[8+i], jeuSDL->surface_ecran, (ORIG_X+7.35-i)*TAILLE_CASE, (ORIG_Y-0.3)*TAILLE_CASE);
         SDL_FreeSurface(jeuSDL->lettres[8+i]);
-    }
-    for(i=8; i<16; i++)
-    {
-
     }
 }
 
