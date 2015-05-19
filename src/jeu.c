@@ -41,46 +41,6 @@
 
 #include "jeu.h"
 
-/*  Création/Destruction    */
-
-/**
-@brief initialise les joueurs, le plateau, et donne la main au joueur 1
-@param jeu adresse du Jeu à initialiser
-@param piecesJ1 chemin d'accès des pièces du Joueur 1
-@param piecesJ2 chemin d'accès des pièces du Joueur 2
-@return Aucun
-*/
-
-void initJeu(Jeu * jeu, char * piecesJ1, char * piecesJ2, char * log)
-{
-    Couleur C1, C2;
-
-    initJoueur(&jeu->J1);
-    initJoueur(&jeu->J2);
-    setDonneesJoueurs(&jeu->J1, &jeu->J2, piecesJ1, piecesJ2);
-
-    C1 = getCouleurJoueur(&jeu->J1);
-    C2 = getCouleurJoueur(&jeu->J2);
-
-    setJoueurActif(jeu, &jeu->J1);
-    initPlateau(&jeu->plateau, C1, C2);
-    reinitCouleursEchiquier(&jeu->plateau) ;
-
-    sprintf(log, "Debut de la partie !") ;
-}
-
-/**
-@brief remet le joueur actif à NULL et détruit le plateau
-@param jeu adresse du Jeu à détruire
-@return Aucun
-*/
-
-void detruireJeu(Jeu * jeu)
-{
-    jeu->joueurActif = NULL;
-    viderPlateau(&jeu->plateau);
-}
-
 /* Interne */
 
 /**
@@ -220,24 +180,12 @@ void rechercherPiece(Plateau * plateau, Piece * piece, int * x, int * y)
     }
 }
 
-/* Accesseurs */
-
-/**
-@brief renvoie l'adresse du joueur actif
-@param jeu adresse du Jeu courant
-@return adresse du Joueur actif
-*/
+/* accesseurs */
 
 Joueur * getJoueurActif(Jeu * jeu)
 {
     return jeu->joueurActif;
 }
-
-/**
-@brief renvoie l'adresse du joueur inactif
-@param jeu adresse du Jeu courant
-@return adresse du Joueur inactif
-*/
 
 Joueur * getJoueurInactif(Jeu * jeu)
 {
@@ -245,13 +193,138 @@ Joueur * getJoueurInactif(Jeu * jeu)
     else return &(jeu->J1) ;
 }
 
-/**
-@brief selectionne une pièce et affiche les cases où elle peut se rendre
-@param jeu adresse du Jeu courant
-@param posX ordonnée de la Piece sélectionnée
-@param posY abscisse de la Piece sélectionnée
-@return Aucun
-*/
+/* Mutateurs */
+
+void setJoueurActif(Jeu * jeu, Joueur* joueur)
+{
+    jeu->joueurActif = joueur;
+}
+
+/*  Création/Destruction    */
+
+void initJeu(Jeu * jeu, char * piecesJ1, char * piecesJ2, char * log)
+{
+    Couleur C1, C2;
+
+    initJoueur(&jeu->J1);
+    initJoueur(&jeu->J2);
+    setDonneesJoueurs(&jeu->J1, &jeu->J2, piecesJ1, piecesJ2);
+
+    C1 = getCouleurJoueur(&jeu->J1);
+    C2 = getCouleurJoueur(&jeu->J2);
+
+    setJoueurActif(jeu, &jeu->J1);
+    initPlateau(&jeu->plateau, C1, C2);
+    reinitCouleursEchiquier(&jeu->plateau) ;
+
+    sprintf(log, "Debut de la partie !") ;
+}
+
+void detruireJeu(Jeu * jeu)
+{
+    jeu->joueurActif = NULL;
+    viderPlateau(&jeu->plateau);
+}
+
+
+/* fonctions de logs */
+
+void logDeplacement(char * log, Piece * piece, int i, int j, int posX, int posY)
+{
+
+    char buffer[8] ;
+    switch(getTypePiece(piece))
+    {
+    case PION:
+        sprintf(log, "Le pion en ") ;
+        break ;
+    case TOUR:
+        sprintf(log, "La tour en ") ;
+        break ;
+    case CAVALIER:
+        sprintf(log, "Le cavalier en ") ;
+        break ;
+    case FOU:
+        sprintf(log, "Le fou en ") ;
+        break ;
+    case DAME:
+        sprintf(log, "La dame en ") ;
+        break ;
+    case ROI:
+        sprintf(log, "Le roi en ") ;
+        break ;
+    }
+
+    itoa(j, buffer) ;
+    buffer[0] = buffer[0] + 'A' - '0';
+    strcat(log, buffer) ;
+    itoa(8-i, buffer) ;
+    strcat(log, buffer) ;
+    strcat(log, " se deplace en ") ;
+    itoa(posY, buffer) ;
+    buffer[0] = buffer[0] + 'A' - '0';
+    strcat(log, buffer) ;
+    itoa(8-posX, buffer) ;
+    strcat(log, buffer) ;
+}
+
+void logNomPiece(char * log, Piece * piece, Jeu * jeu)
+{
+    switch(getTypePiece(piece))
+    {
+    case PION:
+        strcat(log, "le pion de ") ;
+        break ;
+    case TOUR:
+        strcat(log, "la tour de ") ;
+        break ;
+    case CAVALIER:
+        strcat(log, "le cavalier de ") ;
+        break ;
+    case FOU:
+        strcat(log, "le fou de ") ;
+        break ;
+    case DAME:
+        strcat(log, "la dame de ") ;
+        break ;
+    case ROI:
+        strcat(log, "le roi de ") ;
+        break ;
+    }
+
+    if(getCouleurPiece(piece) == getCouleurJoueur(&(jeu->J1)))
+    {
+        strcat(log, getNomJoueur(&(jeu->J1))) ;
+    }
+    else
+    {
+        strcat(log, getNomJoueur(&(jeu->J2))) ;
+    }
+}
+
+void initLogCombat(char * log, Piece * pieceAtt, Piece * pieceDef, Jeu * jeu)
+{
+    log[0] = '\0' ;
+    logNomPiece(log, pieceAtt, jeu) ;
+    strcat(log, " attaque ") ;
+    logNomPiece(log, pieceDef, jeu) ;
+    strcat(log, ".,") ;
+}
+
+void logCombat(char * log, Piece * vainqueur, Piece * perdant, Jeu * jeu)
+{
+    char buffer[8] ;
+    logNomPiece(log, vainqueur, jeu) ;
+    strcat(log, " gagne,contre ") ;
+    logNomPiece(log, perdant, jeu) ;
+    strcat(log, ". Il lui reste ") ;
+    itoa(getPointsVie(vainqueur), buffer) ;
+    strcat(log, buffer) ;
+    strcat(log, "PV.,") ;
+}
+
+
+/* fonctions de jeu */
 
 void selectPiece(Jeu * jeu, int posX, int posY)
 {
@@ -347,73 +420,9 @@ void selectPiece(Jeu * jeu, int posX, int posY)
     }
 }
 
-/* Mutateurs */
-
-/**
-@brief modifie l'adresse contenue dans joueurActif
-@param jeu adresse du Jeu courant
-@param joueur adresse du Joueur qui devient le joueur actif
-@return Aucun
-*/
-
-void setJoueurActif(Jeu * jeu, Joueur* joueur)
+void deplacerPiece(Jeu * jeu, Piece * piece, int posX, int posY, Couleur * couleurGagne, char * log)
 {
-    jeu->joueurActif = joueur;
-}
-/* fonctions de jeu */
-
-void logDeplacement(char * log, Piece * piece, int i, int j, int posX, int posY)
-{
-
-    char buffer[8] ;
-    switch(getTypePiece(piece))
-    {
-    case PION:
-        sprintf(log, "Le pion en ") ;
-        break ;
-    case TOUR:
-        sprintf(log, "La tour en ") ;
-        break ;
-    case CAVALIER:
-        sprintf(log, "Le cavalier en ") ;
-        break ;
-    case FOU:
-        sprintf(log, "Le fou en ") ;
-        break ;
-    case DAME:
-        sprintf(log, "La dame en ") ;
-        break ;
-    case ROI:
-        sprintf(log, "Le roi en ") ;
-        break ;
-    }
-
-    itoa(j, buffer) ;
-    buffer[0] = buffer[0] + 'A' - '0';
-    strcat(log, buffer) ;
-    itoa(8-i, buffer) ;
-    strcat(log, buffer) ;
-    strcat(log, " se deplace en ") ;
-    itoa(posY, buffer) ;
-    buffer[0] = buffer[0] + 'A' - '0';
-    strcat(log, buffer) ;
-    itoa(8-posX, buffer) ;
-    strcat(log, buffer) ;
-}
-
-/**
-@brief déplace la pièce sélectionnée à la position (y,x) et déclenche un combat si la case est occupée
-@param plateau adresse du Plateau de jeu
-@param piece adresse de la Piece à déplacer
-@param posX abscisse de la Case d'arrivée
-@param posY ordonnée de la Case d'arrivée
-@param couleurGagne adresse de la couleur gagnante si un combat se déclenche
-@see combatPieces
-@return Aucun
-*/
-
-void deplacerPiece(Plateau * plateau, Piece * piece, int posX, int posY, Couleur * couleurGagne, char * log, Jeu * jeu)
-{
+    Plateau * plateau = &(jeu->plateau) ;
     int i = 0, j = 0;
 
     rechercherPiece(plateau, piece, &i, &j);
@@ -423,76 +432,12 @@ void deplacerPiece(Plateau * plateau, Piece * piece, int posX, int posY, Couleur
     setPieceCase(getCase(plateau, i, j), NULL);
 
     if(getPieceCase(getCase(plateau, posX, posY)) != NULL)
-        piece = combatPieces(piece, getPieceCase(getCase(plateau, posX, posY)), couleurGagne, log, jeu);
+        piece = combatPieces(jeu, piece, getPieceCase(getCase(plateau, posX, posY)), couleurGagne, log);
 
     setPieceCase(getCase(plateau, posX, posY), piece);
 }
 
-void logNomPiece(char * log, Piece * piece, Jeu * jeu)
-{
-    switch(getTypePiece(piece))
-    {
-    case PION:
-        strcat(log, "le pion de ") ;
-        break ;
-    case TOUR:
-        strcat(log, "la tour de ") ;
-        break ;
-    case CAVALIER:
-        strcat(log, "le cavalier de ") ;
-        break ;
-    case FOU:
-        strcat(log, "le fou de ") ;
-        break ;
-    case DAME:
-        strcat(log, "la dame de ") ;
-        break ;
-    case ROI:
-        strcat(log, "le roi de ") ;
-        break ;
-    }
-
-    if(getCouleurPiece(piece) == getCouleurJoueur(&(jeu->J1)))
-    {
-        strcat(log, getNomJoueur(&(jeu->J1))) ;
-    }
-    else
-    {
-        strcat(log, getNomJoueur(&(jeu->J2))) ;
-    }
-}
-
-void initLogCombat(char * log, Piece * pieceAtt, Piece * pieceDef, Jeu * jeu)
-{
-    log[0] = '\0' ;
-    logNomPiece(log, pieceAtt, jeu) ;
-    strcat(log, " attaque ") ;
-    logNomPiece(log, pieceDef, jeu) ;
-    strcat(log, ".,") ;
-}
-
-void logCombat(char * log, Piece * vainqueur, Piece * perdant, Jeu * jeu)
-{
-    char buffer[8] ;
-    logNomPiece(log, vainqueur, jeu) ;
-    strcat(log, " gagne,contre ") ;
-    logNomPiece(log, perdant, jeu) ;
-    strcat(log, ". Il lui reste ") ;
-    itoa(getPointsVie(vainqueur), buffer) ;
-    strcat(log, buffer) ;
-    strcat(log, "PV.,") ;
-}
-
-
-/**
-@brief fait combattre les deux pièces passées en paramètre et détruit la pièce perdante
-@param pieceAtt adresse de la Piece attaquante
-@param pieceDef adresse de la Piece en défense
-@param couleurGagne contient la Couleur de la Piece qui a gagné le combat à la fin de la fonction
-@return adresse de la Piece qui gagne le combat
-*/
-
-Piece* combatPieces(Piece * pieceAtt, Piece * pieceDef, Couleur * couleurGagne, char * log, Jeu * jeu)
+Piece* combatPieces(Jeu * jeu, Piece * pieceAtt, Piece * pieceDef, Couleur * couleurGagne, char * log)
 {
     int BONUS = 1;
     int vie;
