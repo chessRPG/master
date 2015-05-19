@@ -316,12 +316,11 @@ void afficheCadre(JeuSDL * jeuSDL)
 {
     int i;
     char s[2];
+    SDL_Color couleurLettre = {255, 255, 255};   /* blanc */
 
     /*  Cadre autour de l'échiquier */
     Uint32 couleur = SDL_MapRGB(jeuSDL->surface_ecran->format, 126, 51, 0); /*  marron  */
     dessineRectangle(jeuSDL->surface_ecran, (ORIG_X-1)*TAILLE_CASE, (ORIG_Y-1)*TAILLE_CASE, 10*TAILLE_CASE, 10*TAILLE_CASE, couleur);
-
-    SDL_Color couleurLettre = {255, 255, 255};   /* blanc */
 
     jeuSDL->lettres[0] = TTF_RenderText_Blended(jeuSDL->police10, "A", couleurLettre);
     jeuSDL->lettres[1] = TTF_RenderText_Blended(jeuSDL->police10, "B", couleurLettre);
@@ -350,6 +349,8 @@ void SdlAffichage(JeuSDL * jeuSDL)
     int i, j, x, y, longueur1, longueur2;
     Case * cell;
     Piece * piece;
+    Uint32 couleurJoueur = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 0, 0);  /* noir */
+    Uint32 couleurJoueurActif = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 86, 27);   /* vert  */
 
     for (i=0 ; i < 8 ; i++)
     {
@@ -375,9 +376,6 @@ void SdlAffichage(JeuSDL * jeuSDL)
     }
 
 /*  affichage du nom des joueurs    */
-
-    Uint32 couleurJoueur = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 0, 0);  /* noir */
-    Uint32 couleurJoueurActif = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 86, 27);   /* vert  */
 
     char * joueur1 = getNomJoueur(&jeuSDL->jeu.J1) ;
     char * joueur2 = getNomJoueur(&jeuSDL->jeu.J2) ;
@@ -409,7 +407,7 @@ void SdlAffichage(JeuSDL * jeuSDL)
 
 }
 
-void SdlVictoire(Joueur * joueurVainqueur, JeuSDL * jeuSDL)
+void SdlVictoire(JeuSDL * jeuSDL, Joueur * joueurVainqueur)
 {
     int longueur;
 
@@ -531,9 +529,9 @@ void SdlBoucle(JeuSDL * jeuSDL)
         if(couleurGagne != -1)
         {
             if(getCouleurJoueur(&jeuSDL->jeu.J1) == couleurGagne)
-                SdlVictoire(&jeuSDL->jeu.J1, jeuSDL) ;
+                SdlVictoire(jeuSDL, &jeuSDL->jeu.J1) ;
             else
-                SdlVictoire(&jeuSDL->jeu.J2, jeuSDL) ;
+                SdlVictoire(jeuSDL, &jeuSDL->jeu.J2) ;
 
             continue_boucle = ChoixRecommencer() ;
         }
