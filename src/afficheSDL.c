@@ -7,6 +7,14 @@
 #include <unistd.h>
 #include <string.h>
 
+/*
+
+TRUC
+A
+ENLEVER
+
+*/
+
 extern int usleep(__useconds_t __useconds);
 
 const int TAILLE_CASE = 40 ;
