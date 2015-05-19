@@ -47,4 +47,6 @@ void deplacerPiece(Plateau * plateau, Piece * piece, int posX, int posY, Couleur
 
 Piece * combatPieces(Piece * pieceAtt, Piece * pieceDef, Couleur * couleurGagne, char * log, Jeu * jeu);
 
+void itoa(int n, char s[]) ;
+
 #endif
