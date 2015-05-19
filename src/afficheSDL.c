@@ -165,11 +165,11 @@ void afficheLogs(JeuSDL * jeuSDL)
     }
 }
 
-char* dossierParent(char * str)
+void dossierParent(char * str)
 {
     char temp[32];
     sprintf(temp, "../%s", str);
-    return temp;
+    strcpy(str, temp) ;
 }
 
 /* fonctions externes */
@@ -226,63 +226,75 @@ void SdlInit(JeuSDL * jeuSDL)
     /*  Pièces Joueur 1 */
     sprintf(temp, "%sT.png", piecesJ1);
     jeuSDL->surface_T1 = IMG_Load(temp);
-    if(jeuSDL->surface_T1 == NULL) jeuSDL->surface_T1 = IMG_Load(dossierParent(temp));
+    dossierParent(temp);
+    if(jeuSDL->surface_T1 == NULL) jeuSDL->surface_T1 = IMG_Load(temp);
     assert(jeuSDL->surface_T1 != NULL);
 
     sprintf(temp, "%sC.png", piecesJ1);
     jeuSDL->surface_C1 = IMG_Load(temp);
-    if(jeuSDL->surface_C1 == NULL) jeuSDL->surface_C1 = IMG_Load(dossierParent(temp));
+    dossierParent(temp);
+    if(jeuSDL->surface_C1 == NULL) jeuSDL->surface_C1 = IMG_Load(temp);
     assert(jeuSDL->surface_C1 != NULL);
 
     sprintf(temp, "%sF.png", piecesJ1);
     jeuSDL->surface_F1 = IMG_Load(temp);
-    if(jeuSDL->surface_F1 == NULL) jeuSDL->surface_F1 = IMG_Load(dossierParent(temp));
+    dossierParent(temp);
+    if(jeuSDL->surface_F1 == NULL) jeuSDL->surface_F1 = IMG_Load(temp);
     assert(jeuSDL->surface_F1 != NULL);
 
     sprintf(temp, "%sR.png", piecesJ1);
     jeuSDL->surface_R1 = IMG_Load(temp);
-    if(jeuSDL->surface_R1 == NULL) jeuSDL->surface_R1 = IMG_Load(dossierParent(temp));
+    dossierParent(temp);
+    if(jeuSDL->surface_R1 == NULL) jeuSDL->surface_R1 = IMG_Load(temp);
     assert(jeuSDL->surface_R1 != NULL);
 
     sprintf(temp, "%sD.png", piecesJ1);
     jeuSDL->surface_D1 = IMG_Load(temp);
-    if(jeuSDL->surface_D1 == NULL) jeuSDL->surface_D1 = IMG_Load(dossierParent(temp));
+    dossierParent(temp);
+    if(jeuSDL->surface_D1 == NULL) jeuSDL->surface_D1 = IMG_Load(temp);
     assert(jeuSDL->surface_D1 != NULL);
 
     sprintf(temp, "%sP.png", piecesJ1);
     jeuSDL->surface_P1 = IMG_Load(temp);
-    if(jeuSDL->surface_P1 == NULL) jeuSDL->surface_P1 = IMG_Load(dossierParent(temp));
+    dossierParent(temp);
+    if(jeuSDL->surface_P1 == NULL) jeuSDL->surface_P1 = IMG_Load(temp);
     assert(jeuSDL->surface_P1 != NULL);
 
     /*  Pièces Joueur 2   */
     sprintf(temp, "%sT.png", piecesJ2);
     jeuSDL->surface_T2 = IMG_Load(temp);
-    if(jeuSDL->surface_T2 == NULL) jeuSDL->surface_T2 = IMG_Load(dossierParent(temp));
+    dossierParent(temp);
+    if(jeuSDL->surface_T2 == NULL) jeuSDL->surface_T2 = IMG_Load(temp);
     assert(jeuSDL->surface_T2 != NULL);
 
     sprintf(temp, "%sC.png", piecesJ2);
     jeuSDL->surface_C2 = IMG_Load(temp);
-    if(jeuSDL->surface_C2 == NULL) jeuSDL->surface_C2 = IMG_Load(dossierParent(temp));
+    dossierParent(temp);
+    if(jeuSDL->surface_C2 == NULL) jeuSDL->surface_C2 = IMG_Load(temp);
     assert(jeuSDL->surface_C2 != NULL);
 
     sprintf(temp, "%sF.png", piecesJ2);
     jeuSDL->surface_F2 = IMG_Load(temp);
-    if(jeuSDL->surface_F2 == NULL) jeuSDL->surface_F2 = IMG_Load(dossierParent(temp));
+    dossierParent(temp);
+    if(jeuSDL->surface_F2 == NULL) jeuSDL->surface_F2 = IMG_Load(temp);
     assert(jeuSDL->surface_F2 != NULL);
 
     sprintf(temp, "%sR.png", piecesJ2);
     jeuSDL->surface_R2 = IMG_Load(temp);
-    if(jeuSDL->surface_R2 == NULL) jeuSDL->surface_R2 = IMG_Load(dossierParent(temp));
+    dossierParent(temp);
+    if(jeuSDL->surface_R2 == NULL) jeuSDL->surface_R2 = IMG_Load(temp);
     assert(jeuSDL->surface_R2 != NULL);
 
     sprintf(temp, "%sD.png", piecesJ2);
     jeuSDL->surface_D2 = IMG_Load(temp);
-    if(jeuSDL->surface_D2 == NULL) jeuSDL->surface_D2 = IMG_Load(dossierParent(temp));
+    dossierParent(temp);
+    if(jeuSDL->surface_D2 == NULL) jeuSDL->surface_D2 = IMG_Load(temp);
     assert(jeuSDL->surface_D2 != NULL);
 
     sprintf(temp, "%sP.png", piecesJ2);
     jeuSDL->surface_P2 = IMG_Load(temp);
-    if(jeuSDL->surface_P2 == NULL) jeuSDL->surface_P2 = IMG_Load(dossierParent(temp));
+    dossierParent(temp);
+    if(jeuSDL->surface_P2 == NULL) jeuSDL->surface_P2 = IMG_Load(temp);
     assert(jeuSDL->surface_P2 != NULL);
 
     afficheLogs(jeuSDL) ;
