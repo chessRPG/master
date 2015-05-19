@@ -158,11 +158,7 @@ void setDonneesJoueurs(Joueur * joueur1, Joueur * joueur2, char * piecesJ1, char
 
 void initJoueur(Joueur * joueur)
 {
-    int i = 0;
-    for (i = 0 ; i < 32 ; i++)
-    {
-        joueur->nomJoueur[i] = '\0';
-    }
+    joueur->nomJoueur[0] = '\0';
 
     setCouleurJoueur(joueur, NUM_COULEUR);
 }
