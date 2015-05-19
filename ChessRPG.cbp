@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add option="-DJEU_SDL" />
 				</Compiler>
 				<Linker>
 					<Add option="-lncurses" />
@@ -24,6 +25,7 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add option="-DJEU_SDL" />
 		</Compiler>
 		<Linker>
 			<Add option="-lncurses" />

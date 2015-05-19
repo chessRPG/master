@@ -202,9 +202,30 @@ void SdlInit(JeuSDL * jeuSDL)
     SDL_WM_SetCaption("ChessRPG", NULL) ;
 
     TTF_Init();
-    jeuSDL->policeNom = TTF_OpenFont("data/rmegg.ttf", 40);
-    jeuSDL->police10 = TTF_OpenFont("data/joystix.ttf", 10);
-    jeuSDL->police40 = TTF_OpenFont("data/joystix.ttf", 40);
+
+    sprintf(temp, "data/rmegg.ttf");
+    jeuSDL->policeNom = TTF_OpenFont(temp, 40);
+    dossierParent(temp);
+    if(jeuSDL->policeNom == NULL) jeuSDL->policeNom = TTF_OpenFont(temp, 40);
+    assert(jeuSDL->policeNom != NULL);
+
+    sprintf(temp, "data/joystix.ttf");
+    jeuSDL->police10 = TTF_OpenFont(temp, 10);
+    dossierParent(temp);
+    if(jeuSDL->police10 == NULL) jeuSDL->police10 = TTF_OpenFont(temp, 10);
+    assert(jeuSDL->police10 != NULL);
+
+    sprintf(temp, "data/joystix.ttf");
+    jeuSDL->police10 = TTF_OpenFont(temp, 10);
+    dossierParent(temp);
+    if(jeuSDL->police10 == NULL) jeuSDL->police10 = TTF_OpenFont(temp, 10);
+    assert(jeuSDL->police10 != NULL);
+
+    sprintf(temp, "data/joystix.ttf");
+    jeuSDL->police40 = TTF_OpenFont(temp, 40);
+    dossierParent(temp);
+    if(jeuSDL->police40 == NULL) jeuSDL->police40 = TTF_OpenFont(temp, 40);
+    assert(jeuSDL->police40 != NULL);
 
     /*  Cases   */
     jeuSDL->surface_BLANC = IMG_Load("data/CB.bmp") ;
