@@ -492,7 +492,7 @@ void SdlBoucle(JeuSDL * jeuSDL)
             {
                 if (couleurTemp == CBLEU && selectionne != 0 && (posX != x || posY != y))
                 {
-                    deplacerPiece(&jeuSDL->jeu.plateau, getPieceCase(getCase(&jeuSDL->jeu.plateau, posX, posY)), x, y, &couleurGagne, log, &(jeuSDL->jeu)) ;
+                    deplacerPiece(&jeuSDL->jeu, getPieceCase(getCase(&jeuSDL->jeu.plateau, posX, posY)), x, y, &couleurGagne, log) ;
                     afficheLogs(jeuSDL, log) ;
                     reinitCouleursEchiquier(&jeuSDL->jeu.plateau) ;
                     couleurTemp = (x+y)%2 ;
