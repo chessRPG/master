@@ -1,34 +1,3 @@
- #include <string.h>
-
-  /* reverse:  reverse string s in place */
- void reverse(char s[])
- {
-     int i, j;
-     char c;
-
-     for (i = 0, j = strlen(s)-1; i<j; i++, j--) {
-         c = s[i];
-         s[i] = s[j];
-         s[j] = c;
-     }
- }
-
- void itoa(int n, char s[])
- {
-     int i, sign;
-
-     if ((sign = n) < 0)  /* record sign */
-         n = -n;          /* make n positive */
-     i = 0;
-     do {       /* generate digits in reverse order */
-         s[i++] = n % 10 + '0';   /* get next digit */
-     } while ((n /= 10) > 0);     /* delete it */
-     if (sign < 0)
-         s[i++] = '-';
-     s[i] = '\0';
-     reverse(s);
- }
-
 /**
 
 @brief Module de gestion des joueurs
@@ -40,8 +9,9 @@
 */
 
 #include "jeu.h"
+#include <string.h>
 
-/* Interne */
+/* Interne : coloriage des cases quand une pièce est sélectionnée */
 
 /**
 @brief colorie en bleu toutes les cases que la pièce peut atteindre sur la ligne de la case (y,x)
@@ -180,6 +150,37 @@ void rechercherPiece(Plateau * plateau, Piece * piece, int * x, int * y)
     }
 }
 
+/* autre : modifications sur les chaines de caractères */
+
+ void reverse(char s[])
+ {
+     int i, j;
+     char c;
+
+     for (i = 0, j = strlen(s)-1; i<j; i++, j--) {
+         c = s[i];
+         s[i] = s[j];
+         s[j] = c;
+     }
+ }
+
+ void itoa(int n, char s[])
+ {
+     int i, sign;
+
+     if ((sign = n) < 0)  /* record sign */
+         n = -n;          /* make n positive */
+     i = 0;
+     do {       /* generate digits in reverse order */
+         s[i++] = n % 10 + '0';   /* get next digit */
+     } while ((n /= 10) > 0);     /* delete it */
+     if (sign < 0)
+         s[i++] = '-';
+     s[i] = '\0';
+     reverse(s);
+ }
+
+
 /* accesseurs */
 
 Joueur * getJoueurActif(Jeu * jeu)
@@ -200,7 +201,7 @@ void setJoueurActif(Jeu * jeu, Joueur* joueur)
     jeu->joueurActif = joueur;
 }
 
-/*  Création/Destruction    */
+/* Création/Destruction */
 
 void initJeu(Jeu * jeu, char * piecesJ1, char * piecesJ2, char * log)
 {
@@ -227,7 +228,18 @@ void detruireJeu(Jeu * jeu)
 }
 
 
-/* fonctions de logs */
+/* fonctions de création des logs */
+
+/**
+@brief crée un log lors du déplacement d'une pièce
+@param log chaine de caractères où écrire
+@param piece adresse de la Piece qui se déplace
+@param i abcisse d'origine de la pièce
+@param j ordonnée d'origine de la pièce
+@param posX abcisse d'arrivée de la pièce
+@param posY ordonnée d'arrivée de la pièce
+@return Aucun
+*/
 
 void logDeplacement(char * log, Piece * piece, int i, int j, int posX, int posY)
 {
@@ -268,6 +280,14 @@ void logDeplacement(char * log, Piece * piece, int i, int j, int posX, int posY)
     strcat(log, buffer) ;
 }
 
+/**
+@brief écrit le type de la pièce et le joueur qui la possède
+@param log chaine de caractères où écrire
+@param piece adresse de la Piece dont on veut le type dans le log
+@param jeu adresse du Jeu (nécessaire pour connaitre le nom du joueur actif)
+@return Aucun
+*/
+
 void logNomPiece(char * log, Piece * piece, Jeu * jeu)
 {
     switch(getTypePiece(piece))
@@ -302,6 +322,16 @@ void logNomPiece(char * log, Piece * piece, Jeu * jeu)
     }
 }
 
+/**
+@brief crée la première ligne du log de combat
+@param log chaine de caractères où écrire
+@param pieceAtt adresse de la Piece attaquante
+@param pieceDef adresse de la Piece en défense
+@param jeu adresse du Jeu (nécessaire pour appeler logNomPiece)
+@see logNomPiece
+@return Aucun
+*/
+
 void initLogCombat(char * log, Piece * pieceAtt, Piece * pieceDef, Jeu * jeu)
 {
     log[0] = '\0' ;
@@ -310,6 +340,15 @@ void initLogCombat(char * log, Piece * pieceAtt, Piece * pieceDef, Jeu * jeu)
     logNomPiece(log, pieceDef, jeu) ;
     strcat(log, ".,") ;
 }
+
+/**
+@brief ajoute les pièces gagnante et perdante dans le log
+@param log chaine de caractère où écrire
+@param vainqueur adresse de la Piece qui a gagné le combat
+@param perdant adresse de la Piece qui a perdu
+@param jeu adresse du Jeu
+@return Aucun
+*/
 
 void logCombat(char * log, Piece * vainqueur, Piece * perdant, Jeu * jeu)
 {

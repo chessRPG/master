@@ -122,6 +122,21 @@ Piece * combatPieces(Jeu * jeu, Piece * pieceAtt, Piece * pieceDef, Couleur * co
 
 /* autre */
 
+/**
+@brief convertit un entier en chaine de caractères
+@param n entier à convertir
+@param s chaine de caractère contenant les caractères de n à la fin de la fonction
+@return Aucun
+*/
+
 void itoa(int n, char s[]) ;
+
+/**
+@brief renverse la chaine de caractère passée en paramètre
+@param s chaine à renverser
+@return Aucun
+*/
+
+void reverse(char s []);
 
 #endif
