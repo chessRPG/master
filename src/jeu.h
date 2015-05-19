@@ -35,17 +35,92 @@ typedef struct
     Joueur * joueurActif ;
 } Jeu ;
 
-void initJeu(Jeu * jeu, char * piecesJ1, char * piecesJ2, char * log);
-void detruireJeu(Jeu * jeu);
+/* accesseurs */
+
+/**
+@brief renvoie l'adresse du joueur actif
+@param jeu adresse du Jeu courant
+@return adresse du Joueur actif
+*/
 
 Joueur * getJoueurActif(Jeu * jeu);
+
+/**
+@brief renvoie l'adresse du joueur inactif
+@param jeu adresse du Jeu courant
+@return adresse du Joueur inactif
+*/
+
 Joueur * getJoueurInactif(Jeu * jeu);
+
+/* mutateurs */
+
+/**
+@brief modifie l'adresse contenue dans joueurActif
+@param jeu adresse du Jeu courant
+@param joueur adresse du Joueur qui devient le joueur actif
+@return Aucun
+*/
+
 void setJoueurActif(Jeu * jeu, Joueur* joueur);
 
-void selectPiece(Jeu * jeu, int posX, int posY);
-void deplacerPiece(Plateau * plateau, Piece * piece, int posX, int posY, Couleur * couleurGagne, char * log, Jeu * jeu);
+/* création / destruction */
 
-Piece * combatPieces(Piece * pieceAtt, Piece * pieceDef, Couleur * couleurGagne, char * log, Jeu * jeu);
+/**
+@brief initialise les joueurs, le plateau, et donne la main au joueur 1
+@param jeu adresse du Jeu à initialiser
+@param piecesJ1 chemin d'accès des pièces du Joueur 1
+@param piecesJ2 chemin d'accès des pièces du Joueur 2
+@return Aucun
+*/
+
+void initJeu(Jeu * jeu, char * piecesJ1, char * piecesJ2, char * log);
+
+/**
+@brief remet le joueur actif à NULL et détruit le plateau
+@param jeu adresse du Jeu à détruire
+@return Aucun
+*/
+
+
+void detruireJeu(Jeu * jeu);
+
+/* fonctions de jeu */
+
+/**
+@brief selectionne une pièce et affiche les cases où elle peut se rendre
+@param jeu adresse du Jeu courant
+@param posX ordonnée de la Piece sélectionnée
+@param posY abscisse de la Piece sélectionnée
+@return Aucun
+*/
+
+void selectPiece(Jeu * jeu, int posX, int posY);
+
+/**
+@brief déplace la pièce sélectionnée à la position (y,x) et déclenche un combat si la case est occupée
+@param plateau adresse du Plateau de jeu
+@param piece adresse de la Piece à déplacer
+@param posX abscisse de la Case d'arrivée
+@param posY ordonnée de la Case d'arrivée
+@param couleurGagne adresse de la couleur gagnante si un combat se déclenche
+@see combatPieces
+@return Aucun
+*/
+
+void deplacerPiece(Jeu * jeu, Piece * piece, int posX, int posY, Couleur * couleurGagne, char * log);
+
+/**
+@brief fait combattre les deux pièces passées en paramètre et détruit la pièce perdante
+@param pieceAtt adresse de la Piece attaquante
+@param pieceDef adresse de la Piece en défense
+@param couleurGagne contient la Couleur de la Piece qui a gagné le combat à la fin de la fonction
+@return adresse de la Piece qui gagne le combat
+*/
+
+Piece * combatPieces(Jeu * jeu, Piece * pieceAtt, Piece * pieceDef, Couleur * couleurGagne, char * log);
+
+/* autre */
 
 void itoa(int n, char s[]) ;
 
