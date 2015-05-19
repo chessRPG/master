@@ -114,7 +114,7 @@ void afficheInfosPiece(JeuSDL * jeuSDL, Piece * piece)
     Uint32 noire = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 0, 0);
     SDL_Color couleur = {255, 255, 255};    /*blanc*/
 
-    dessineRectangle(jeuSDL->surface_ecran, 0*TAILLE_CASE, 8*TAILLE_CASE, 8*TAILLE_CASE, 4*TAILLE_CASE, noire);
+    dessineRectangle(jeuSDL->surface_ecran, 0*TAILLE_CASE, 12*TAILLE_CASE, 8*TAILLE_CASE, 1*TAILLE_CASE, noire);
 
     if (piece != NULL)
     {
@@ -124,7 +124,7 @@ void afficheInfosPiece(JeuSDL * jeuSDL, Piece * piece)
 
         longueur = jeuSDL->surface_texteInfos->w ;
 
-        SDL_apply_surface(jeuSDL->surface_texteInfos, jeuSDL->surface_ecran, 0*TAILLE_CASE, 8*TAILLE_CASE+(8*TAILLE_CASE-longueur)/2);
+        SDL_apply_surface(jeuSDL->surface_texteInfos, jeuSDL->surface_ecran, 0*TAILLE_CASE, 12*TAILLE_CASE+(8*TAILLE_CASE-longueur)/2);
 
         SDL_FreeSurface(jeuSDL->surface_texteInfos);
 
@@ -140,7 +140,7 @@ void afficheLogs(JeuSDL * jeuSDL, char * log)
     char * pch ;
     int largeur = jeuSDL->surface_ecran->w;
 
-    dessineRectangle(jeuSDL->surface_ecran, (ORIG_X+3)*TAILLE_CASE, (ORIG_Y+8)*TAILLE_CASE, (largeur-ORIG_X-8)*TAILLE_CASE, 8*TAILLE_CASE, noire);
+    dessineRectangle(jeuSDL->surface_ecran, (ORIG_X+3)*TAILLE_CASE, (ORIG_Y+9)*TAILLE_CASE, (largeur-ORIG_X-12)*TAILLE_CASE, 8*TAILLE_CASE, noire);
 
 
     pch = strtok(log,",-");
@@ -148,7 +148,7 @@ void afficheLogs(JeuSDL * jeuSDL, char * log)
     {
         jeuSDL->logs[i] = TTF_RenderText_Blended(jeuSDL->police10, pch, couleur);
         longueur = jeuSDL->logs[i]->w ;
-        SDL_apply_surface(jeuSDL->logs[i], jeuSDL->surface_ecran, (ORIG_X+3+(9-i))*TAILLE_CASE, (ORIG_Y+8)*TAILLE_CASE+((8)*TAILLE_CASE-longueur)/2);
+        SDL_apply_surface(jeuSDL->logs[i], jeuSDL->surface_ecran, (ORIG_X+3+(9-i))*TAILLE_CASE, (ORIG_Y+10)*TAILLE_CASE+((8)*TAILLE_CASE-longueur)/2);
         SDL_FreeSurface(jeuSDL->logs[i]) ;
         i-- ;
         pch = strtok (NULL, ",-");
@@ -171,7 +171,7 @@ void SdlInit(JeuSDL * jeuSDL)
     char piecesJ1[32];
     char piecesJ2[32];
     char temp[32];
-    int dimX = 20 * TAILLE_CASE ;
+    int dimX = 21 * TAILLE_CASE ;
     int dimY = 12 * TAILLE_CASE ;
     char log[8000] ;
 
@@ -313,14 +313,46 @@ void SdlLibere(JeuSDL* jeuSDL)
     SDL_Quit();
 }
 
+void afficheCadre(JeuSDL * jeuSDL)
+{
+    int i;
+    char s[2];
+
+    Uint32 couleur = SDL_MapRGB(jeuSDL->surface_ecran->format, 126, 51, 0); /*  marron  */
+    dessineRectangle(jeuSDL->surface_ecran, (ORIG_X-1)*TAILLE_CASE, (ORIG_Y-1)*TAILLE_CASE, 10*TAILLE_CASE, 10*TAILLE_CASE, couleur);
+
+    SDL_Color couleurLettre = {255, 255, 255};   /* blanc */
+
+    jeuSDL->lettres[0] = TTF_RenderText_Blended(jeuSDL->police10, "A", couleurLettre);
+    jeuSDL->lettres[1] = TTF_RenderText_Blended(jeuSDL->police10, "B", couleurLettre);
+    jeuSDL->lettres[2] = TTF_RenderText_Blended(jeuSDL->police10, "C", couleurLettre);
+    jeuSDL->lettres[3] = TTF_RenderText_Blended(jeuSDL->police10, "D", couleurLettre);
+    jeuSDL->lettres[4] = TTF_RenderText_Blended(jeuSDL->police10, "E", couleurLettre);
+    jeuSDL->lettres[5] = TTF_RenderText_Blended(jeuSDL->police10, "F", couleurLettre);
+    jeuSDL->lettres[6] = TTF_RenderText_Blended(jeuSDL->police10, "G", couleurLettre);
+    jeuSDL->lettres[7] = TTF_RenderText_Blended(jeuSDL->police10, "H", couleurLettre);
+
+    for (i=0; i<8; i++)
+    {
+        SDL_apply_surface(jeuSDL->lettres[i], jeuSDL->surface_ecran, (ORIG_X+8)*TAILLE_CASE, (ORIG_Y+0.4+i)*TAILLE_CASE);
+        SDL_FreeSurface(jeuSDL->lettres[i]);
+
+        itoa(i+1, s);
+        jeuSDL->lettres[8+i] = TTF_RenderText_Blended(jeuSDL->police10, s, couleurLettre);
+        SDL_apply_surface(jeuSDL->lettres[8+i], jeuSDL->surface_ecran, (ORIG_X+7.35-i)*TAILLE_CASE, (ORIG_Y-0.3)*TAILLE_CASE);
+        SDL_FreeSurface(jeuSDL->lettres[8+i]);
+    }
+    for(i=8; i<16; i++)
+    {
+
+    }
+}
+
 void SdlAffichage(JeuSDL * jeuSDL)
 {
     int i, j, x, y, longueur1, longueur2;
     Case * cell;
     Piece * piece;
-    Uint32 couleur = SDL_MapRGB(jeuSDL->surface_ecran->format, 126, 51, 0);
-
-    dessineRectangle(jeuSDL->surface_ecran, (ORIG_X-1)*TAILLE_CASE, (ORIG_Y-1)*TAILLE_CASE, 10*TAILLE_CASE, 10*TAILLE_CASE, couleur);
 
     for (i=0 ; i < 8 ; i++)
     {
@@ -426,6 +458,7 @@ void SdlBoucle(JeuSDL * jeuSDL)
 	char log[8000] ;
 
     SdlAffichage(jeuSDL);
+    afficheCadre(jeuSDL);
 	assert( SDL_Flip( jeuSDL->surface_ecran )!=-1 );
 
 	while ( continue_boucle == 1 )

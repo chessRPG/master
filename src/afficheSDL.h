@@ -42,6 +42,8 @@ typedef struct
 
     SDL_Surface* surface_vainqueur;
 
+    SDL_Surface* lettres[16];
+
     TTF_Font* policeNom;
     TTF_Font* police10;
     TTF_Font* police40;
