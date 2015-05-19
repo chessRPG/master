@@ -1,16 +1,25 @@
 CC = gcc -Wall -pedantic -ansi -c
+OBJ = obj/jeu.o obj/plateau.o obj/case.o obj/piece.o obj/joueur.o obj/couleur.o
+H = src/jeu.h src/plateau.h src/case.h src/piece.h src/joueur.h src/couleur.h
 
+all: sdl,ncurses
 
+sdl: obj/sdl.o obj/afficheSDL.o $(OBJ)
+	gcc obj/sdl.o obj/afficheSDL.o $(OBJ) -lSDL -lSDL_ttf -lSDL_image -o bin/ChessRPG_sdl
 
-all: ncurses
+ncurses: obj/ncurses.o obj/afficheNCURSES.o $(OBJ)
+	gcc obj/ncurses.o obj/afficheNCURSES.o $(OBJ) -lncurses -o bin/ChessRPG_ncurses
 
-ncurses: obj/ncurses.o obj/afficheNCURSES.o obj/jeu.o obj/plateau.o obj/case.o obj/piece.o obj/joueur.o obj/couleur.o
-	gcc obj/ncurses.o obj/afficheNCURSES.o obj/jeu.o obj/plateau.o obj/case.o obj/piece.o obj/joueur.o obj/couleur.o -lncurses -o bin/ncurses
+obj/sdl.o: src/main.c src/afficheSDL.h $(H)
+	$(CC) src/main.c -DJEU_SDL -o obj/sdl.o
 
-obj/ncurses.o: src/main.c src/afficheNCURSES.h src/jeu.h src/plateau.h src/case.h src/piece.h src/joueur.h src/couleur.h
-	$(CC) src/main.c -DNCURSES -o obj/ncurses.o
+obj/afficheSDL.o: src/afficheSDL.c src/afficheSDL.h $(H)
+	$(CC) src/afficheSDL.c -o obj/afficheSDL.o
 
-obj/afficheNCURSES.o: src/afficheNCURSES.c src/afficheNCURSES.h src/jeu.h src/plateau.h src/case.h src/piece.h src/joueur.h src/couleur.h
+obj/ncurses.o: src/main.c src/afficheNCURSES.h $(H)
+	$(CC) src/main.c -DJEU_NCURSES -o obj/ncurses.o
+
+obj/afficheNCURSES.o: src/afficheNCURSES.c src/afficheNCURSES.h $(H)
 	$(CC) src/afficheNCURSES.c -o obj/afficheNCURSES.o
 
 obj/jeu.o: src/jeu.c src/jeu.h src/plateau.h src/case.h src/piece.h src/joueur.h  src/couleur.h
