@@ -7,6 +7,8 @@
 #include <unistd.h>
 #include <string.h>
 
+extern int usleep(__useconds_t __useconds);
+
 const int TAILLE_CASE = 40 ;
 
 /*  Origine de l'échiquier (en nombre de cases) */
@@ -352,6 +354,7 @@ void SdlAffichage(JeuSDL * jeuSDL)
 
     Uint32 couleurJoueur = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 0, 0);  /* noir */
     Uint32 couleurJoueurActif = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 86, 27);   /* vert  */
+    SDL_Color couleurNom = {255, 255, 255};   /* blanc */
 
     char * joueur1 = getNomJoueur(&jeuSDL->jeu.J1) ;
     char * joueur2 = getNomJoueur(&jeuSDL->jeu.J2) ;
@@ -380,8 +383,6 @@ void SdlAffichage(JeuSDL * jeuSDL)
     }
 
 /*  affichage du nom des joueurs    */
-
-    SDL_Color couleurNom = {255, 255, 255};   /* blanc */
 
     if (jeuSDL->jeu.joueurActif == &jeuSDL->jeu.J1)
     {
