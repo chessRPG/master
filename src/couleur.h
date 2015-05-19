@@ -17,15 +17,18 @@
 #include <string.h>
 
 /**
-
 @struct Couleur
 @brief liste des couleurs de pièces disponibles
 @param enum Blanc / Noir / Bleu / Jaune : couleurs proposées \n
             num_couleur : nombre de couleurs disponibles
-
 */
 
 typedef enum {BLANC, NOIR, BLEU, JAUNE, NUM_COULEUR} Couleur ;
+
+/**
+@brief crée une liste des couleurs de pièces disponibles
+@return Pointeur une liste des couleurs disponibles
+*/
 
 Couleur * getListeCouleurs() ;
 

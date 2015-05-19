@@ -1,9 +1,14 @@
-#include "couleur.h"
-
 /**
-@brief crée une liste des couleurs de pièces disponibles
-@return Pointeur une liste des couleurs disponibles
+
+@brief Module de gestion des couleurs possibles pour les pièces
+@author GONDRAS Pierre-Louis, GREYL Robin, SCHREYECK Tiffanie
+@file src/couleur.c
+@version 1.0
+@date 2014/04/21
+
 */
+
+#include "couleur.h"
 
 const char *TabCouleur[] = {"BLANC", "NOIR", "BLEU", "JAUNE", "NULL"};
 

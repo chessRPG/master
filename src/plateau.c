@@ -10,45 +10,12 @@
 
 #include "plateau.h"
 
-/**
-@brief redonne leur couleur de base (blanc / noir) aux cases du plateau
-@param plateau adresse du Plateau à réinitialiser
-@return Aucun
-*/
-
-void reinitCouleursEchiquier(Plateau * plateau)
-{
-    int i, j;
-
-    for(i = 0 ; i < 8 ; i++)
-    {
-        for(j = 0 ; j < 8 ; j++)
-        {
-            setCouleurCase(getCase(plateau, i, j), (i+j)%2);
-        }
-    }
-}
-
 /* accesseurs */
-
-/**
-@brief renvoie l'adresse de la case aux coordonnées (posY, posX) sur le plateau
-@param plateau adresse du Plateau sur lequel chercher la case
-@param posX ordonnée de la case
-@param posY abcisse de la case
-@return pointeur sur la Case de coordonnées passés en paramètres
-*/
 
 Case * getCase(Plateau * plateau, int posX, int posY)
 {
     return &(plateau->echiquier[posX][posY]) ;
 }
-
-/**
-@brief renvoie le nombre de tours écoulés depuis le début de la partie
-@param plateau adresse du Plateau
-@return nombre de tours écoulés
-*/
 
 int getNbTours(Plateau * plateau)
 {
@@ -56,14 +23,6 @@ int getNbTours(Plateau * plateau)
 }
 
 /* creation / destruction */
-
-/**
-@brief met en place les cases et les pièces à partir des couleurs des joueurs
-@param plateau adresse du Plateau à initialiser
-@param C1 Couleur choisie par le Joueur 1
-@param C2 Couleur choisie par le Joueur 2
-@return Aucun
-*/
 
 void initPlateau(Plateau * plateau, Couleur C1, Couleur C2)
 {
@@ -116,12 +75,6 @@ void initPlateau(Plateau * plateau, Couleur C1, Couleur C2)
     plateau->nbTours = 0 ;
 }
 
-/**
-@brief détruit le contenu des cases puis détruit le tableau ligne par ligne
-@param plateau adresse du Plateau à détruire
-@return Aucun
-*/
-
 void viderPlateau(Plateau * plateau)
 {
     int i, j ;
@@ -135,4 +88,17 @@ void viderPlateau(Plateau * plateau)
         free(plateau->echiquier[i]);
     }
     free(plateau->echiquier);
+}
+
+void reinitCouleursEchiquier(Plateau * plateau)
+{
+    int i, j;
+
+    for(i = 0 ; i < 8 ; i++)
+    {
+        for(j = 0 ; j < 8 ; j++)
+        {
+            setCouleurCase(getCase(plateau, i, j), (i+j)%2);
+        }
+    }
 }

@@ -88,22 +88,10 @@ void saisiePieces(Joueur * joueurRef, Joueur * joueur, char * pieces)
 
 /* accesseurs */
 
-/**
-@brief renvoie le nom du joueur passé en paramètre
-@param joueur pointeur sur le joueur dont on veut le nom
-@return chaine de caractères (char *) contenant le nom du joueur passé en paramètre
-*/
-
 char * getNomJoueur(Joueur * joueur)
 {
     return joueur->nomJoueur ;
 }
-
-/**
-@brief renvoie la couleur du joueur passé en paramètre
-@param joueur pointeur sur le Joueur dont on veut la couleur
-@return Couleur choisie par le joueur
-*/
 
 Couleur getCouleurJoueur(Joueur * joueur)
 {
@@ -111,13 +99,6 @@ Couleur getCouleurJoueur(Joueur * joueur)
 }
 
 /* mutateurs */
-
-/**
-@brief modifie le nom du joueur passé en paramètre
-@param joueur pointeur sur le Joueur dont on veut modifier le nom
-@param nomJoueur chaine de caractère contenant le nom qu'on veut donner au joueur
-@return Aucun
-*/
 
 void setNomJoueur(Joueur * joueur, char * nomJoueur)
 {
@@ -130,26 +111,10 @@ void setNomJoueur(Joueur * joueur, char * nomJoueur)
     strcpy(joueur->nomJoueur, nomJoueur);
 }
 
-/**
-@brief modifie la couleur des pièces du joueur passé en paramètre
-@param joueur pointeur sur le Joueur dont on veut modifier la couleur des pièces
-@param couleur Couleur choisie par le joueur
-@return Aucun
-*/
-
 void setCouleurJoueur(Joueur * joueur, Couleur couleur)
 {
     joueur->couleur = couleur ;
 }
-
-/**
-@brief  Menu permettant de choisir le nom des joueurs et la couleur des pièces qu'ils vont jouer
-@param joueur1 pointeur sur le Joueur 1
-@param joueur2 pointeur sur le Joueur 2
-@param piecesJ1 chaine de 32 caractères, contient le chemin d'accès des pièces du joueur 1 à la fin de la fonction
-@param piecesJ2 chaine de 32 caractères, contient le chemin d'accès des pièces du joueur 2 à la fin de la fonction
-@return Aucun
-*/
 
 void setDonneesJoueurs(Joueur * joueur1, Joueur * joueur2, char * piecesJ1, char * piecesJ2)
 {
@@ -189,14 +154,7 @@ void setDonneesJoueurs(Joueur * joueur1, Joueur * joueur2, char * piecesJ1, char
     system("clear");
 }
 
-/* creation / destruction(pas besoin) */
-
-/**
-@brief remplit la chaine de caractère contenant le nom du joueur par des '\0' et lui donne la couleur passée en paramètre
-@param joueur pointeur sur le Joueur à initialiser
-@param couleur Couleur à donner au joueur
-@return Aucun
-*/
+/* creation / destruction */
 
 void initJoueur(Joueur * joueur)
 {
