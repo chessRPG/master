@@ -203,7 +203,7 @@ void setJoueurActif(Jeu * jeu, Joueur* joueur)
 
 /* Création/Destruction */
 
-void initJeu(Jeu * jeu, char * piecesJ1, char * piecesJ2, char * log)
+void initJeu(Jeu * jeu, char * piecesJ1, char * piecesJ2)
 {
     Couleur C1, C2;
 
@@ -218,7 +218,7 @@ void initJeu(Jeu * jeu, char * piecesJ1, char * piecesJ2, char * log)
     initPlateau(&jeu->plateau, C1, C2);
     reinitCouleursEchiquier(&jeu->plateau) ;
 
-    sprintf(log, "Debut de la partie !") ;
+    sprintf(jeu->log, "Debut de la partie !") ;
 }
 
 void detruireJeu(Jeu * jeu)
@@ -459,29 +459,29 @@ void selectPiece(Jeu * jeu, int posX, int posY)
     }
 }
 
-void deplacerPiece(Jeu * jeu, Piece * piece, int posX, int posY, Couleur * couleurGagne, char * log)
+void deplacerPiece(Jeu * jeu, Piece * piece, int posX, int posY, Couleur * couleurGagne)
 {
     Plateau * plateau = &(jeu->plateau) ;
     int i = 0, j = 0;
 
     rechercherPiece(plateau, piece, &i, &j);
 
-    logDeplacement(log, piece, i, j, posX, posY) ;
+    logDeplacement(jeu->log, piece, i, j, posX, posY) ;
 
     setPieceCase(getCase(plateau, i, j), NULL);
 
     if(getPieceCase(getCase(plateau, posX, posY)) != NULL)
-        piece = combatPieces(jeu, piece, getPieceCase(getCase(plateau, posX, posY)), couleurGagne, log);
+        piece = combatPieces(jeu, piece, getPieceCase(getCase(plateau, posX, posY)), couleurGagne);
 
     setPieceCase(getCase(plateau, posX, posY), piece);
 }
 
-Piece* combatPieces(Jeu * jeu, Piece * pieceAtt, Piece * pieceDef, Couleur * couleurGagne, char * log)
+Piece* combatPieces(Jeu * jeu, Piece * pieceAtt, Piece * pieceDef, Couleur * couleurGagne)
 {
     int BONUS = 1;
     int vie;
 
-    initLogCombat(log, pieceAtt, pieceDef, jeu) ;
+    initLogCombat(jeu->log, pieceAtt, pieceDef, jeu) ;
 
     while(getPointsVie(pieceAtt) > 0 && getPointsVie(pieceDef) > 0)
     {
@@ -503,14 +503,14 @@ Piece* combatPieces(Jeu * jeu, Piece * pieceAtt, Piece * pieceDef, Couleur * cou
 
     if(getPointsVie(pieceAtt) > 0)
     {
-        logCombat(log, pieceAtt, pieceDef, jeu) ;
+        logCombat(jeu->log, pieceAtt, pieceDef, jeu) ;
         if(pieceDef->type == ROI) *couleurGagne = getCouleurPiece(pieceAtt) ;
         detruirePiece(pieceDef) ;
         return pieceAtt ;
     }
     else
     {
-        logCombat(log, pieceDef, pieceAtt, jeu) ;
+        logCombat(jeu->log, pieceDef, pieceAtt, jeu) ;
         if(pieceAtt->type == ROI) *couleurGagne = getCouleurPiece(pieceDef) ;
         detruirePiece(pieceAtt) ;
         return pieceDef ;

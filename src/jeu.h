@@ -33,6 +33,7 @@ typedef struct
     Joueur J1 ;
     Joueur J2 ;
     Joueur * joueurActif ;
+    char log[1000];
 } Jeu ;
 
 /* accesseurs */
@@ -74,7 +75,7 @@ void setJoueurActif(Jeu * jeu, Joueur* joueur);
 @return Aucun
 */
 
-void initJeu(Jeu * jeu, char * piecesJ1, char * piecesJ2, char * log);
+void initJeu(Jeu * jeu, char * piecesJ1, char * piecesJ2);
 
 /**
 @brief remet le joueur actif à NULL et détruit le plateau
@@ -108,7 +109,7 @@ void selectPiece(Jeu * jeu, int posX, int posY);
 @return Aucun
 */
 
-void deplacerPiece(Jeu * jeu, Piece * piece, int posX, int posY, Couleur * couleurGagne, char * log);
+void deplacerPiece(Jeu * jeu, Piece * piece, int posX, int posY, Couleur * couleurGagne);
 
 /**
 @brief fait combattre les deux pièces passées en paramètre et détruit la pièce perdante
@@ -118,7 +119,7 @@ void deplacerPiece(Jeu * jeu, Piece * piece, int posX, int posY, Couleur * coule
 @return adresse de la Piece qui gagne le combat
 */
 
-Piece * combatPieces(Jeu * jeu, Piece * pieceAtt, Piece * pieceDef, Couleur * couleurGagne, char * log);
+Piece * combatPieces(Jeu * jeu, Piece * pieceAtt, Piece * pieceDef, Couleur * couleurGagne);
 
 /* autre */
 

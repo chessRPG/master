@@ -131,7 +131,7 @@ void afficheInfosPiece(JeuSDL * jeuSDL, Piece * piece)
     }
 }
 
-void afficheLogs(JeuSDL * jeuSDL, char * log)
+void afficheLogs(JeuSDL * jeuSDL)
 {
     Uint32 noire = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 0, 0);
     SDL_Color couleur = {255, 255, 255};    /*blanc*/
@@ -143,7 +143,7 @@ void afficheLogs(JeuSDL * jeuSDL, char * log)
     dessineRectangle(jeuSDL->surface_ecran, (ORIG_X+3)*TAILLE_CASE, (ORIG_Y+9)*TAILLE_CASE, (largeur-ORIG_X-12)*TAILLE_CASE, 8*TAILLE_CASE, noire);
 
 
-    pch = strtok(log,",-");
+    pch = strtok(jeuSDL->jeu.log,",-");
     while(pch != NULL)
     {
         jeuSDL->logs[i] = TTF_RenderText_Blended(jeuSDL->police10, pch, couleur);
@@ -173,11 +173,10 @@ void SdlInit(JeuSDL * jeuSDL)
     char temp[32];
     int dimX = 21 * TAILLE_CASE ;
     int dimY = 12 * TAILLE_CASE ;
-    char log[8000] ;
 
     jeu = &(jeuSDL->jeu);
 
-    initJeu(jeu, piecesJ1, piecesJ2, log);
+    initJeu(jeu, piecesJ1, piecesJ2);
 
     strcpy(temp, piecesJ1);
     strcpy(piecesJ1, "data/");
@@ -276,7 +275,7 @@ void SdlInit(JeuSDL * jeuSDL)
     jeuSDL->policeNom = TTF_OpenFont("data/rmegg.ttf", 40);
     jeuSDL->police10 = TTF_OpenFont("data/joystix.ttf", 10);
     jeuSDL->police40 = TTF_OpenFont("data/joystix.ttf", 40);
-    afficheLogs(jeuSDL, log) ;
+    afficheLogs(jeuSDL) ;
 }
 
 void SdlLibere(JeuSDL* jeuSDL)
@@ -453,7 +452,6 @@ void SdlBoucle(JeuSDL * jeuSDL)
 	bool selectionne = 0 ;
 	Piece* piece ;
 	Couleur couleurGagne = -1;
-	char log[8000] ;
 
     SdlAffichage(jeuSDL);
     afficheCadre(jeuSDL);
@@ -490,8 +488,8 @@ void SdlBoucle(JeuSDL * jeuSDL)
             {
                 if (couleurTemp == CBLEU && selectionne != 0 && (posX != x || posY != y))
                 {
-                    deplacerPiece(&jeuSDL->jeu, getPieceCase(getCase(&jeuSDL->jeu.plateau, posX, posY)), x, y, &couleurGagne, log) ;
-                    afficheLogs(jeuSDL, log) ;
+                    deplacerPiece(&jeuSDL->jeu, getPieceCase(getCase(&jeuSDL->jeu.plateau, posX, posY)), x, y, &couleurGagne) ;
+                    afficheLogs(jeuSDL) ;
                     reinitCouleursEchiquier(&jeuSDL->jeu.plateau) ;
                     couleurTemp = (x+y)%2 ;
 
