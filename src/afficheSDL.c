@@ -191,6 +191,11 @@ void SdlInit(JeuSDL * jeuSDL)
     assert(jeuSDL->surface_ecran != NULL);
     SDL_WM_SetCaption("ChessRPG", NULL) ;
 
+    TTF_Init();
+    jeuSDL->policeNom = TTF_OpenFont("data/rmegg.ttf", 40);
+    jeuSDL->police10 = TTF_OpenFont("data/joystix.ttf", 10);
+    jeuSDL->police40 = TTF_OpenFont("data/joystix.ttf", 40);
+
     /*  Cases   */
     jeuSDL->surface_BLANC = IMG_Load("data/CB.bmp") ;
     if(jeuSDL->surface_BLANC == NULL) jeuSDL->surface_BLANC = IMG_Load("../data/CB.bmp") ;
@@ -270,11 +275,6 @@ void SdlInit(JeuSDL * jeuSDL)
     if(jeuSDL->surface_P2 == NULL) jeuSDL->surface_P2 = IMG_Load(dossierParent(temp));
     assert(jeuSDL->surface_P2 != NULL);
 
-
-    TTF_Init();
-    jeuSDL->policeNom = TTF_OpenFont("data/rmegg.ttf", 40);
-    jeuSDL->police10 = TTF_OpenFont("data/joystix.ttf", 10);
-    jeuSDL->police40 = TTF_OpenFont("data/joystix.ttf", 40);
     afficheLogs(jeuSDL) ;
 }
 
@@ -349,8 +349,12 @@ void SdlAffichage(JeuSDL * jeuSDL)
     int i, j, x, y, longueur1, longueur2;
     Case * cell;
     Piece * piece;
+
     Uint32 couleurJoueur = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 0, 0);  /* noir */
     Uint32 couleurJoueurActif = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 86, 27);   /* vert  */
+
+    char * joueur1 = getNomJoueur(&jeuSDL->jeu.J1) ;
+    char * joueur2 = getNomJoueur(&jeuSDL->jeu.J2) ;
 
     for (i=0 ; i < 8 ; i++)
     {
@@ -376,9 +380,6 @@ void SdlAffichage(JeuSDL * jeuSDL)
     }
 
 /*  affichage du nom des joueurs    */
-
-    char * joueur1 = getNomJoueur(&jeuSDL->jeu.J1) ;
-    char * joueur2 = getNomJoueur(&jeuSDL->jeu.J2) ;
 
     SDL_Color couleurNom = {255, 255, 255};   /* blanc */
 

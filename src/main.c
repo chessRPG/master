@@ -19,7 +19,7 @@ int main()
         char piecesJ2[32];
         char log[1024];
 
-        initJeu(&jeu, piecesJ1, piecesJ2, log);
+        initJeu(&jeu, piecesJ1, piecesJ2);
 
         boucleEvent(&jeu);
 
