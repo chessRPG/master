@@ -12,7 +12,6 @@
 #define _JOUEUR_H
 
 #include "couleur.h"
-#include "piece.h"
 
 /**
 @struct Joueur

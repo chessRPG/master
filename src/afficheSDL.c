@@ -1,14 +1,25 @@
+/**
+
+@brief Module d'affichage du jeu en utilisant SDL
+@author GONDRAS Pierre-Louis, GREYL Robin, SCHREYECK Tiffanie
+@file src/afficheSDL.c
+@version 1.0
+@date 2015/05/22
+
+*/
+
 #include "afficheSDL.h"
 
-#include <SDL/SDL.h>
-#include <SDL/SDL_ttf.h>
-#include <SDL/SDL_image.h>
+/* il faut répéter la déclaration de la fonction ici pour ne pas déclencher de warning à la compilation avec pedantic et ansi */
 
 extern int usleep(__useconds_t __useconds);
+
+/* taille d'une case en pixels */
 
 const int TAILLE_CASE = 40 ;
 
 /*  Origine de l'échiquier (en nombre de cases) */
+
 const int ORIG_X = 2;
 const int ORIG_Y = 2;
 
@@ -351,7 +362,7 @@ void SdlInit(JeuSDL * jeuSDL)
     assert(jeuSDL->police40 != NULL);
 
     SdlSaisieNomJoueurs(jeuSDL, nom1, nom2);
-    sleep(3000);
+    //sleep(3000);
 
     /*  Cases   */
     jeuSDL->surface_BLANC = IMG_Load("data/CB.bmp") ;

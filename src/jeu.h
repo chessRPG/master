@@ -22,6 +22,7 @@
 @param J1 structure Joueur contenant le nom et la couleur des pièces du joueur 1
 @param J2 structure Joueur contenant le nom et la couleur des pièces du joueur 2
 @param joueurActif pointeur sur Joueur permettant d'accéder rapidement au joueur actif
+@param log chaine de caractères utilisée pour stocker et afficher les logs
 @see Joueur
 @see Plateau
 
@@ -100,7 +101,7 @@ void selectPiece(Jeu * jeu, int posX, int posY);
 
 /**
 @brief déplace la pièce sélectionnée à la position (y,x) et déclenche un combat si la case est occupée
-@param plateau adresse du Plateau de jeu
+@param jeu adresse du Jeu (utilisée pour accéder au plateau et écrire dans log)
 @param piece adresse de la Piece à déplacer
 @param posX abscisse de la Case d'arrivée
 @param posY ordonnée de la Case d'arrivée
@@ -113,6 +114,7 @@ void deplacerPiece(Jeu * jeu, Piece * piece, int posX, int posY, Couleur * coule
 
 /**
 @brief fait combattre les deux pièces passées en paramètre et détruit la pièce perdante
+@param jeu adresse du Jeu (utilisée pour accéder au plateau et écrire dans log)
 @param pieceAtt adresse de la Piece attaquante
 @param pieceDef adresse de la Piece en défense
 @param couleurGagne contient la Couleur de la Piece qui a gagné le combat à la fin de la fonction
