@@ -101,10 +101,41 @@ typedef struct
 
 } JeuSDL ;
 
+/**
+@brief Initialise une partie : \n
+    - lancement du mode vidéo SDL et création de la fenêtre de jeu \n
+    - initialisation des polices \n
+    - saisie du nom des joueurs et choix des pièces \n
+    - chargement des images des cases et des pièces dans les surfaces prévues \n
+    - affichage du log de début de partie \n
+@param jeuSDL adresse du jeu à initialiser
+@return Aucun
+*/
 
+void SdlInit(JeuSDL * jeuSDL) ;
 
-void SdlInit(JeuSDL * jeuSdl) ;
+/**
+@brief fonction principale qui appelle toutes les autres fonctions nécéssaires au déroulement d'une partie : \n
+    - les fonctions d'affichage
+    - ges
+@param jeuSDL adresse de la structure ou sont stockés toutes les surfaces ainsi que le jeu
+@return Aucun
+*/
+
 void SdlBoucle(JeuSDL * jeuSDL) ;
+
+/**
+@brief Libère tout ce qui a été alloué (en préparation à la fermture du programme) : \n
+    - les polices \n
+    - la surface d'écran \n
+    - les surfaces de pièces et de cases \n
+    - appelle une fonction pour détruire le jeu \n
+    - quitte l'affichage SDL \n
+@param jeuSDL adresse du jeu à détruire
+@see detruireJeu
+@return Aucun
+*/
+
 void SdlLibere(JeuSDL * jeuSDL) ;
 
 #endif

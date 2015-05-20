@@ -326,14 +326,14 @@ void SdlInit(JeuSDL * jeuSDL)
 
     jeu = &(jeuSDL->jeu);
 
-    /*initJeu(jeu, piecesJ1, piecesJ2);
+    initJeu(jeu, piecesJ1, piecesJ2);
 
     strcpy(temp, piecesJ1);
     strcpy(piecesJ1, "data/");
     strcat(piecesJ1, temp);
     strcpy(temp, piecesJ2);
     strcpy(piecesJ2, "data/");
-    strcat(piecesJ2, temp);*/
+    strcat(piecesJ2, temp);
 
     assert(SDL_Init(SDL_INIT_VIDEO)!= -1) ;
 
@@ -361,8 +361,7 @@ void SdlInit(JeuSDL * jeuSDL)
     if(jeuSDL->police40 == NULL) jeuSDL->police40 = TTF_OpenFont(temp, 40);
     assert(jeuSDL->police40 != NULL);
 
-    SdlSaisieNomJoueurs(jeuSDL, nom1, nom2);
-    //sleep(3000);
+    //SdlSaisieNomJoueurs(jeuSDL, nom1, nom2);
 
     /*  Cases   */
     jeuSDL->surface_BLANC = IMG_Load("data/CB.bmp") ;
