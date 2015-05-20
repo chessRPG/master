@@ -63,6 +63,14 @@ void setNomJoueur(Joueur * joueur, char * nomJoueur) ;
 void setCouleurJoueur(Joueur * joueur, Couleur couleur) ;
 
 /**
+@brief Securise une chaine de  12 caractères en la coupant si elle est trop longue
+@param nomSecure chaine de 12 caractères sécurisée
+@param nom chaine caractères à sécuriser
+@return Aucun
+*/
+
+void secureNom(char* nomSecure, char* nom) ;
+/**
 @brief  Menu permettant de choisir le nom des joueurs et la couleur des pièces qu'ils vont jouer
 @param joueur1 pointeur sur le Joueur 1
 @param joueur2 pointeur sur le Joueur 2
