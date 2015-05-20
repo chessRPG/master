@@ -4,15 +4,13 @@
 @author GONDRAS Pierre-Louis, GREYL Robin, SCHREYECK Tiffanie
 @file src/case.h
 @version 1.0
-@date 2014/04/21
+@date 2015/05/22
 
 */
-
 
 #ifndef _CASE_H
 #define _CASE_H
 
-#include <stdbool.h>
 #include "piece.h"
 
 /**
@@ -67,7 +65,7 @@ Piece * getPieceCase(Case * cell) ;
 /**
 @brief modifie la couleur de la case (CouleurCase) passée en paramètre
 @param cell pointeur sur la Case à modifier
-@param couleur couleur à donner à la case
+@param couleur couleur à donner à la Case
 @return Aucun
 */
 
@@ -76,7 +74,7 @@ void setCouleurCase(Case * cell, CouleurCase couleur) ;
 /**
 @brief modifie le pointeur sur la Piece posée sur la case
 @param cell pointeur sur la Case à modifier
-@param piece adresse de la nouvelle pièce à poser sur la case
+@param piece adresse de la Piece à poser sur la Case
 @return Aucun
 */
 
@@ -102,9 +100,9 @@ void viderCase(Case * cell) ;
 
 /**
 @brief vide la Case pour la préparer à se faire détruire
-@param cell adresse de la Case à vider
+@param cell adresse de la Case à supprimer
 @return Aucun
-@warning Le tableau n'est pas un tableau de pointeurs sur case mais un tableau de case, donc il ne faut pas free les cases ici
+@warning Le tableau n'est pas un tableau de pointeurs sur case mais un tableau de case, donc il ne faut pas libérer les cases ici
 */
 
 void detruireCase(Case * cell) ;

@@ -4,14 +4,11 @@
 @author GONDRAS Pierre-Louis, GREYL Robin, SCHREYECK Tiffanie
 @file src/joueur.c
 @version 1.0
-@date 2014/04/21
+@date 2015/05/22
 
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
+
 
 #include "joueur.h"
 

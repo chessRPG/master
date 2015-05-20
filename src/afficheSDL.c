@@ -3,17 +3,6 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
 #include <SDL/SDL_image.h>
-#include <assert.h>
-#include <unistd.h>
-#include <string.h>
-
-/*
-
-TRUC
-A
-ENLEVER
-
-*/
 
 extern int usleep(__useconds_t __useconds);
 

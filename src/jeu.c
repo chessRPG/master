@@ -1,15 +1,14 @@
 /**
 
-@brief Module de gestion des joueurs
+@brief Module de gestion du jeu, module principal du programme
 @author GONDRAS Pierre-Louis, GREYL Robin, SCHREYECK Tiffanie
 @file src/jeu.c
 @version 1.0
-@date 2014/04/21
+@date 2015/05/22
 
 */
 
 #include "jeu.h"
-#include <string.h>
 
 /* Interne : coloriage des cases quand une pièce est sélectionnée */
 

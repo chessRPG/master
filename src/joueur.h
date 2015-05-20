@@ -4,7 +4,7 @@
 @author GONDRAS Pierre-Louis, GREYL Robin, SCHREYECK Tiffanie
 @file src/joueur.h
 @version 1.0
-@date 2014/04/21
+@date 2015/05/22
 
 */
 
@@ -28,6 +28,8 @@ typedef struct
     Couleur couleur ;
 }  Joueur;
 
+/* accesseurs */
+
 /**
 @brief renvoie le nom du joueur passé en paramètre
 @param joueur pointeur sur le joueur dont on veut le nom
@@ -43,6 +45,8 @@ char * getNomJoueur(Joueur * joueur) ;
 */
 
 Couleur getCouleurJoueur(Joueur * joueur) ;
+
+/* mutateurs */
 
 /**
 @brief modifie le nom du joueur passé en paramètre
@@ -63,14 +67,6 @@ void setNomJoueur(Joueur * joueur, char * nomJoueur) ;
 void setCouleurJoueur(Joueur * joueur, Couleur couleur) ;
 
 /**
-@brief Securise une chaine de  12 caractères en la coupant si elle est trop longue
-@param nomSecure chaine de 12 caractères sécurisée
-@param nom chaine caractères à sécuriser
-@return Aucun
-*/
-
-void secureNom(char* nomSecure, char* nom) ;
-/**
 @brief  Menu permettant de choisir le nom des joueurs et la couleur des pièces qu'ils vont jouer
 @param joueur1 pointeur sur le Joueur 1
 @param joueur2 pointeur sur le Joueur 2
@@ -81,6 +77,8 @@ void secureNom(char* nomSecure, char* nom) ;
 
 void setDonneesJoueurs(Joueur * joueur1, Joueur * joueur2, char * piecesJ1, char * piecesJ2) ;
 
+/* creation / destruction */
+
 /**
 @brief remplit la chaine de caractère contenant le nom du joueur par des '\0' et lui donne la couleur passée en paramètre
 @param joueur pointeur sur le Joueur à initialiser
@@ -89,5 +87,16 @@ void setDonneesJoueurs(Joueur * joueur1, Joueur * joueur2, char * piecesJ1, char
 */
 
 void initJoueur(Joueur * joueur) ;
+
+/* ... */
+
+/**
+@brief Securise une chaine de  12 caractères en la coupant si elle est trop longue
+@param nomSecure chaine de 12 caractères sécurisée
+@param nom chaine caractères à sécuriser
+@return Aucun
+*/
+
+void secureNom(char* nomSecure, char* nom) ;
 
 #endif

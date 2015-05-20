@@ -4,11 +4,10 @@
 @author GONDRAS Pierre-Louis, GREYL Robin, SCHREYECK Tiffanie
 @file src/case.c
 @version 1.0
-@date 2014/04/21
+@date 2015/05/22
 
 */
 
-#include <stdbool.h>
 #include "case.h"
 
 /* accesseurs */

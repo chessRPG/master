@@ -1,10 +1,10 @@
 /**
 
-@brief Module de gestion des joueurs
+@brief Module de gestion du plateau
 @author GONDRAS Pierre-Louis, GREYL Robin, SCHREYECK Tiffanie
 @file src/plateau.c
 @version 1.0
-@date 2014/04/21
+@date 2015/05/22
 
 */
 
@@ -89,6 +89,8 @@ void viderPlateau(Plateau * plateau)
     }
     free(plateau->echiquier);
 }
+
+/* autre */
 
 void reinitCouleursEchiquier(Plateau * plateau)
 {

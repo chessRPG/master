@@ -4,10 +4,9 @@
 @author GONDRAS Pierre-Louis, GREYL Robin, SCHREYECK Tiffanie
 @file src/piece.h
 @version 1.0
-@date 2014/04/21
+@date 2015/05/22
 
 */
-
 
 #ifndef _PIECE_H
 #define _PIECE_H
@@ -44,7 +43,7 @@ typedef struct
 
 /**
 @brief renvoie le type de la pièce passé en paramètre
-@param type pointeur sur la Piece dont on veut le type
+@param piece pointeur sur la Piece dont on veut le type
 @return Type de la pièce
 */
 
@@ -52,7 +51,7 @@ Type getTypePiece(Piece * piece) ;
 
 /**
 @brief renvoie la couleur de la pièce passé en paramètre
-@param type pointeur sur la Piece dont on veut le Couleur
+@param piece pointeur sur la Piece dont on veut le Couleur
 @return Couleur de la pièce
 */
 
@@ -60,7 +59,7 @@ Couleur getCouleurPiece(Piece * piece) ;
 
 /**
 @brief renvoie les points de vie de la pièce passé en paramètre
-@param type pointeur sur la Piece dont on veut les points de vie
+@param piece pointeur sur la Piece dont on veut les points de vie
 @return points de vie de la pièce
 */
 
@@ -69,7 +68,7 @@ int getPointsVie(Piece * piece) ;
 
 /**
 @brief renvoie les points d'attaque de la pièce passé en paramètre
-@param type pointeur sur la Piece dont on veut les points d'attaque
+@param piece pointeur sur la Piece dont on veut les points d'attaque
 @return points d'attaque de la pièce
 */
 

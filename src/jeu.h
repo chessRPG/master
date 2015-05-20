@@ -4,7 +4,7 @@
 @author GONDRAS Pierre-Louis, GREYL Robin, SCHREYECK Tiffanie
 @file src/jeu.h
 @version 1.0
-@date 2014/04/21
+@date 2015/05/22
 
 */
 

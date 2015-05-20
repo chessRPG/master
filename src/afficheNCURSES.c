@@ -1,5 +1,4 @@
 #include "afficheNCURSES.h"
-#include <string.h>
 
 void affichePiece(WINDOW * win, Jeu * jeu, int i, int j, Piece * piece)
 {
