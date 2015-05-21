@@ -200,6 +200,11 @@ void setJoueurActif(Jeu * jeu, Joueur* joueur)
     jeu->joueurActif = joueur;
 }
 
+void setTypeJeu(Jeu * jeu, TypeJeu type)
+{
+    jeu->typeJeu = type;
+}
+
 /* Création/Destruction */
 
 void initJeu(Jeu * jeu, char * piecesJ1, char * piecesJ2)
@@ -208,7 +213,7 @@ void initJeu(Jeu * jeu, char * piecesJ1, char * piecesJ2)
 
     initJoueur(&jeu->J1);
     initJoueur(&jeu->J2);
-    setDonneesJoueurs(&jeu->J1, &jeu->J2, piecesJ1, piecesJ2);
+    //setDonneesJoueurs(&jeu->J1, &jeu->J2, piecesJ1, piecesJ2);
 
     C1 = getCouleurJoueur(&jeu->J1);
     C2 = getCouleurJoueur(&jeu->J2);

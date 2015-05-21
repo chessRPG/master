@@ -28,6 +28,8 @@
 
 */
 
+typedef enum {SOLO, PARTIE} TypeJeu;
+
 typedef struct
 {
     Plateau plateau ;
@@ -35,6 +37,7 @@ typedef struct
     Joueur J2 ;
     Joueur * joueurActif ;
     char log[1000];
+    TypeJeu typeJeu;
 } Jeu ;
 
 /* accesseurs */
@@ -65,6 +68,8 @@ Joueur * getJoueurInactif(Jeu * jeu);
 */
 
 void setJoueurActif(Jeu * jeu, Joueur* joueur);
+
+void setTypeJeu(Jeu * jeu, TypeJeu type);
 
 /* création / destruction */
 

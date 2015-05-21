@@ -172,13 +172,155 @@ void dossierParent(char * str)
     strcpy(str, temp) ;
 }
 
-void SdlSaisieNomJoueurs(JeuSDL * jeuSDL, char * nom, Couleur * couleur, int joueur)
+void SdlMenuAffichePiece(JeuSDL * jeuSDL, int numPiece)
+{
+    SDL_Surface* surface_ChoixPiece;
+    const int cLargeurEcran = jeuSDL->surface_ecran->w;
+    const int cPosLPiece = (cLargeurEcran-5.5*TAILLE_CASE)/2;
+    const int cPosHPiece = 6*TAILLE_CASE;
+
+    if (numPiece == 0)
+    {
+        surface_ChoixPiece = IMG_Load("data/STANDARD/BLANC/R.png");
+        SDL_apply_surface(surface_ChoixPiece, jeuSDL->surface_ecran, 0*TAILLE_CASE+cPosHPiece, 0*TAILLE_CASE+cPosLPiece);
+        SDL_FreeSurface(surface_ChoixPiece);
+    }
+    if (numPiece == 1)
+    {
+        surface_ChoixPiece = IMG_Load("data/STANDARD/NOIR/R.png");
+        SDL_apply_surface(surface_ChoixPiece, jeuSDL->surface_ecran, 0*TAILLE_CASE+cPosHPiece, 1.5*TAILLE_CASE+cPosLPiece);
+        SDL_FreeSurface(surface_ChoixPiece);
+    }
+    if (numPiece == 2)
+    {
+        surface_ChoixPiece = IMG_Load("data/STANDARD/BLEU/R.png");
+        SDL_apply_surface(surface_ChoixPiece, jeuSDL->surface_ecran, 0*TAILLE_CASE+cPosHPiece, 3*TAILLE_CASE+cPosLPiece);
+        SDL_FreeSurface(surface_ChoixPiece);
+    }
+    if (numPiece == 3)
+    {
+        surface_ChoixPiece = IMG_Load("data/STANDARD/JAUNE/R.png");
+        SDL_apply_surface(surface_ChoixPiece, jeuSDL->surface_ecran, 0*TAILLE_CASE+cPosHPiece, 4.5*TAILLE_CASE+cPosLPiece);
+        SDL_FreeSurface(surface_ChoixPiece);
+    }
+
+    if (numPiece == 4)
+    {
+        surface_ChoixPiece = IMG_Load("data/INVADER/BLANC/R.png");
+        SDL_apply_surface(surface_ChoixPiece, jeuSDL->surface_ecran, 1.2*TAILLE_CASE+cPosHPiece, 0*TAILLE_CASE+cPosLPiece);
+        SDL_FreeSurface(surface_ChoixPiece);
+    }
+    if (numPiece == 5)
+    {
+        surface_ChoixPiece = IMG_Load("data/INVADER/NOIR/R.png");
+        SDL_apply_surface(surface_ChoixPiece, jeuSDL->surface_ecran, 1.2*TAILLE_CASE+cPosHPiece, 1.5*TAILLE_CASE+cPosLPiece);
+        SDL_FreeSurface(surface_ChoixPiece);
+    }
+    if (numPiece == 6)
+    {
+        surface_ChoixPiece = IMG_Load("data/INVADER/BLEU/R.png");
+        SDL_apply_surface(surface_ChoixPiece, jeuSDL->surface_ecran, 1.2*TAILLE_CASE+cPosHPiece, 3*TAILLE_CASE+cPosLPiece);
+        SDL_FreeSurface(surface_ChoixPiece);
+    }
+    if (numPiece == 7)
+    {
+        surface_ChoixPiece = IMG_Load("data/INVADER/JAUNE/R.png");
+        SDL_apply_surface(surface_ChoixPiece, jeuSDL->surface_ecran, 1.2*TAILLE_CASE+cPosHPiece, 4.5*TAILLE_CASE+cPosLPiece);
+        SDL_FreeSurface(surface_ChoixPiece);
+    }
+}
+
+void SdlMenuReaffichePieces(JeuSDL * jeuSDL)
+{
+    const int cLargeurEcran = jeuSDL->surface_ecran->w;
+    const int cPosLPiece = (cLargeurEcran-5.5*TAILLE_CASE)/2;
+    const int cPosHPiece = 6*TAILLE_CASE;
+    Uint32 couleurFond = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 0, 0); /*Noir*/
+    int i;
+
+    dessineRectangle(jeuSDL->surface_ecran, cPosHPiece, cPosLPiece, 5.5*TAILLE_CASE, 2.2*TAILLE_CASE, couleurFond);
+    for (i=0; i<8; i++)
+            SdlMenuAffichePiece(jeuSDL, i);
+}
+
+int SdlMenuCaseSurvolee(JeuSDL * jeuSDL, int x, int y)
+{
+    const int cLargeurEcran = jeuSDL->surface_ecran->w;
+    const int cPosLPiece = (cLargeurEcran-5.5*TAILLE_CASE)/2;
+    const int cPosHPiece = 6*TAILLE_CASE;
+
+    if (x > 0*TAILLE_CASE+cPosHPiece && x < 1*TAILLE_CASE+cPosHPiece)
+    {
+        if (y > 0*TAILLE_CASE+cPosLPiece && y < 1*TAILLE_CASE+cPosLPiece)
+            return 0;
+        else if (y > 1.5*TAILLE_CASE+cPosLPiece && y < 2.5*TAILLE_CASE+cPosLPiece)
+            return 1;
+        else if (y > 3*TAILLE_CASE+cPosLPiece && y < 4*TAILLE_CASE+cPosLPiece)
+            return 2;
+        else if (y > 4.5*TAILLE_CASE+cPosLPiece && y < 5.5*TAILLE_CASE+cPosLPiece)
+            return 3;
+    }
+    else if (x > 1.2*TAILLE_CASE+cPosHPiece && x < 2.2*TAILLE_CASE+cPosHPiece)
+    {
+        if (y > 0*TAILLE_CASE+cPosLPiece && y < 1*TAILLE_CASE+cPosLPiece)
+            return 4;
+        else if (y > 1.5*TAILLE_CASE+cPosLPiece && y < 2.5*TAILLE_CASE+cPosLPiece)
+            return 5;
+        else if (y > 3*TAILLE_CASE+cPosLPiece && y < 4*TAILLE_CASE+cPosLPiece)
+            return 6;
+        else if (y > 4.5*TAILLE_CASE+cPosLPiece && y < 5.5*TAILLE_CASE+cPosLPiece)
+            return 7;
+    }
+    return -1;
+}
+
+void SdlMenuColorePiece(JeuSDL * jeuSDL, int numPiece, Uint32 couleur)
+{
+    const int cLargeurEcran = jeuSDL->surface_ecran->w;
+    const int cPosLPiece = (cLargeurEcran-5.5*TAILLE_CASE)/2;
+    const int cPosHPiece = 6*TAILLE_CASE;
+
+    switch(numPiece)
+    {
+        case 0:
+            dessineRectangle(jeuSDL->surface_ecran, 0*TAILLE_CASE+cPosHPiece, 0*TAILLE_CASE+cPosLPiece, TAILLE_CASE, TAILLE_CASE, couleur);
+            SdlMenuAffichePiece(jeuSDL, 0);
+            break;
+        case 1:
+            dessineRectangle(jeuSDL->surface_ecran, 0*TAILLE_CASE+cPosHPiece, 1.5*TAILLE_CASE+cPosLPiece, TAILLE_CASE, TAILLE_CASE, couleur);
+            SdlMenuAffichePiece(jeuSDL, 1);
+            break;
+        case 2:
+            dessineRectangle(jeuSDL->surface_ecran, 0*TAILLE_CASE+cPosHPiece, 3*TAILLE_CASE+cPosLPiece, TAILLE_CASE, TAILLE_CASE, couleur);
+            SdlMenuAffichePiece(jeuSDL, 2);
+            break;
+        case 3:
+            dessineRectangle(jeuSDL->surface_ecran, 0*TAILLE_CASE+cPosHPiece, 4.5*TAILLE_CASE+cPosLPiece, TAILLE_CASE, TAILLE_CASE, couleur);
+            SdlMenuAffichePiece(jeuSDL, 3);
+            break;
+        case 4:
+            dessineRectangle(jeuSDL->surface_ecran, 1.2*TAILLE_CASE+cPosHPiece, 0*TAILLE_CASE+cPosLPiece, TAILLE_CASE, TAILLE_CASE, couleur);
+            SdlMenuAffichePiece(jeuSDL, 4);
+            break;
+        case 5:
+            dessineRectangle(jeuSDL->surface_ecran, 1.2*TAILLE_CASE+cPosHPiece, 1.5*TAILLE_CASE+cPosLPiece, TAILLE_CASE, TAILLE_CASE, couleur);
+            SdlMenuAffichePiece(jeuSDL, 5);
+            break;
+        case 6:
+            dessineRectangle(jeuSDL->surface_ecran, 1.2*TAILLE_CASE+cPosHPiece, 3*TAILLE_CASE+cPosLPiece, TAILLE_CASE, TAILLE_CASE, couleur);
+            SdlMenuAffichePiece(jeuSDL, 6);
+            break;
+        case 7:
+            dessineRectangle(jeuSDL->surface_ecran, 1.2*TAILLE_CASE+cPosHPiece, 4.5*TAILLE_CASE+cPosLPiece, TAILLE_CASE, TAILLE_CASE, couleur);
+            SdlMenuAffichePiece(jeuSDL, 7);
+            break;
+    }
+}
+
+void SdlSaisieNomJoueur(JeuSDL * jeuSDL, char * nom, Couleur * couleur, int joueur)
 {
     const int cLargeurEcran = jeuSDL->surface_ecran->w;
     const int cHauteurEcran = jeuSDL->surface_ecran->h;
-    const int cPosLPiece = (cLargeurEcran-5.5*TAILLE_CASE)/2;
-    const int cPosHPiece = 6*TAILLE_CASE;
-    SDL_Surface* surface_ChoixPiece;
     SDL_Surface* surface_Texte;
     Uint32 couleurSaisie = SDL_MapRGB(jeuSDL->surface_ecran->format, 48, 48, 48); /*Gris anthracite*/
     Uint32 couleurValide = SDL_MapRGB(jeuSDL->surface_ecran->format, 243, 214, 23); /*Saphran*/
@@ -187,28 +329,52 @@ void SdlSaisieNomJoueurs(JeuSDL * jeuSDL, char * nom, Couleur * couleur, int jou
     SDL_Color couleurTexteValide = {0, 86, 27};   /* vert */
     SDL_Color couleurTexte = {255, 255, 255};   /* blanc */
     SDL_Color couleurTexteNom = {128, 208, 208};  /*Givré*/
+    int clicCouleur = 0;
     SDL_Event event;
     int cpt = 0;
-    int clicCouleur = 0;
-    int clicValide = 0;
     int cursX = 0;
     int cursY = 0;
+    int i, pieceSelect = -1, pieceSurvol = -1;
+
+    dessineRectangle(jeuSDL->surface_ecran, 0, 0, cLargeurEcran, cHauteurEcran, couleurFond);
+
+    /*  affichage du menu  */
+
+    if(joueur == 1) surface_Texte = TTF_RenderText_Blended(jeuSDL->police40, "Nom Joueur 1:", couleurTexte);
+    if(joueur == 2) surface_Texte = TTF_RenderText_Blended(jeuSDL->police40, "Nom Joueur 2:", couleurTexte);
+    SDL_apply_surface(surface_Texte, jeuSDL->surface_ecran, 2.5*TAILLE_CASE, (cLargeurEcran-(surface_Texte->w))/2);
+    SDL_FreeSurface(surface_Texte);
+
+    dessineRectangle(jeuSDL->surface_ecran, 4*TAILLE_CASE-5, (cLargeurEcran-8*TAILLE_CASE)/2-5, 8*TAILLE_CASE+10, 1.03*TAILLE_CASE+10, couleurValide);
+    dessineRectangle(jeuSDL->surface_ecran, 4*TAILLE_CASE, (cLargeurEcran-8*TAILLE_CASE)/2, 8*TAILLE_CASE, 1.03*TAILLE_CASE, couleurSaisie);
+
+    sprintf(nom, "JOUEUR%d", joueur);
+    surface_Texte = TTF_RenderText_Blended(jeuSDL->policeNom, nom, couleurTexteNom);
+    SDL_apply_surface(surface_Texte, jeuSDL->surface_ecran, 4*TAILLE_CASE, (cLargeurEcran-(surface_Texte->w))/2);
+    SDL_FreeSurface(surface_Texte);
+
+    for (i=0; i<8; i++)
+        SdlMenuAffichePiece(jeuSDL, i);
+
+    dessineRectangle(jeuSDL->surface_ecran, 10.15*TAILLE_CASE, (cLargeurEcran-6*TAILLE_CASE)/2, 6*TAILLE_CASE, 1*TAILLE_CASE, couleurValide);
+
+    surface_Texte = TTF_RenderText_Blended(jeuSDL->police40, "Valider", couleurTexteValide);
+    SDL_apply_surface(surface_Texte, jeuSDL->surface_ecran, 10*TAILLE_CASE, (cLargeurEcran-6*TAILLE_CASE)/2);
+    SDL_FreeSurface(surface_Texte);
 
     while(joueur != 0)
     {
-        //dessineRectangle(jeuSDL->surface_ecran, 0, 0, cLargeurEcran, cHauteurEcran, couleurFond);
-        if(joueur == 1) surface_Texte = TTF_RenderText_Blended(jeuSDL->police40, "Nom Joueur 1:", couleurTexte);
-        if(joueur == 2) surface_Texte = TTF_RenderText_Blended(jeuSDL->police40, "Nom Joueur 2:", couleurTexte);
-        SDL_apply_surface(surface_Texte, jeuSDL->surface_ecran, 2.5*TAILLE_CASE, (cLargeurEcran-(surface_Texte->w))/2);
-        SDL_FreeSurface(surface_Texte);
-
-        dessineRectangle(jeuSDL->surface_ecran, 4*TAILLE_CASE-5, (cLargeurEcran-8*TAILLE_CASE)/2-5, 8*TAILLE_CASE+10, 1.03*TAILLE_CASE+10, couleurValide);
-        dessineRectangle(jeuSDL->surface_ecran, 4*TAILLE_CASE, (cLargeurEcran-8*TAILLE_CASE)/2, 8*TAILLE_CASE, 1.03*TAILLE_CASE, couleurSaisie);
-
         while(SDL_PollEvent(&event))
         {
+            if (event.type == SDL_QUIT) exit(0);
+
             if(event.type == SDL_KEYDOWN)
             {
+
+                if (event.key.keysym.sym == SDLK_ESCAPE)    exit(0);
+
+                /*  Saisie du nom   */
+
                 if(((event.key.keysym.sym >= 'a' && event.key.keysym.sym <= 'z')
                     || (event.key.keysym.sym >= '0' && event.key.keysym.sym <= '9'))
                    && cpt < 12)
@@ -224,75 +390,155 @@ void SdlSaisieNomJoueurs(JeuSDL * jeuSDL, char * nom, Couleur * couleur, int jou
                 }
             }
 
+            /*  affichage du nom    */
+
+            if (cpt == 0) sprintf(nom, "JOUEUR%d", joueur);
+
+            dessineRectangle(jeuSDL->surface_ecran, 4*TAILLE_CASE, (cLargeurEcran-8*TAILLE_CASE)/2, 8*TAILLE_CASE, 1.03*TAILLE_CASE, couleurSaisie);
+            surface_Texte = TTF_RenderText_Blended(jeuSDL->policeNom, nom, couleurTexteNom);
+            SDL_apply_surface(surface_Texte, jeuSDL->surface_ecran, 4*TAILLE_CASE, (cLargeurEcran-(surface_Texte->w))/2);
+            SDL_FreeSurface(surface_Texte);
+
+            /*  sélection de la couleur et validation    */
+
             if (event.type == SDL_MOUSEMOTION)
             {
+                SdlMenuReaffichePieces(jeuSDL);
+
+                dessineRectangle(jeuSDL->surface_ecran, 10.15*TAILLE_CASE-5, (cLargeurEcran-6*TAILLE_CASE)/2-5, 6*TAILLE_CASE+10, 1*TAILLE_CASE+10, couleurFond);
+                dessineRectangle(jeuSDL->surface_ecran, 10.15*TAILLE_CASE, (cLargeurEcran-6*TAILLE_CASE)/2, 6*TAILLE_CASE, 1*TAILLE_CASE, couleurValide);
+                surface_Texte = TTF_RenderText_Blended(jeuSDL->police40, "Valider", couleurTexteValide);
+                SDL_apply_surface(surface_Texte, jeuSDL->surface_ecran, 10*TAILLE_CASE, (cLargeurEcran-6*TAILLE_CASE)/2);
+                SDL_FreeSurface(surface_Texte);
+
                 SDL_GetMouseState(&cursY, &cursX) ;
+                pieceSurvol = SdlMenuCaseSurvolee(jeuSDL, cursX, cursY);
 
-                if (cursX > 0*TAILLE_CASE+cPosHPiece && cursX < 1*TAILLE_CASE+cPosHPiece && cursY > 0*TAILLE_CASE+cPosLPiece && cursY < 1*TAILLE_CASE+cPosLPiece)
+                SdlMenuColorePiece(jeuSDL, pieceSurvol, couleurSelect);
+                SdlMenuAffichePiece(jeuSDL, pieceSurvol);
+
+                if (cursX > 10.15*TAILLE_CASE && cursX < 11.15*TAILLE_CASE && cursY > (cLargeurEcran-6*TAILLE_CASE)/2 && cursY < (cLargeurEcran-6*TAILLE_CASE)/2+6*TAILLE_CASE)
                 {
-                    if(clicCouleur == 0) dessineRectangle(jeuSDL->surface_ecran, 0*TAILLE_CASE+cPosHPiece, 0*TAILLE_CASE+cPosLPiece, TAILLE_CASE, TAILLE_CASE, couleurSelect);
-                    if (event.type == SDL_MOUSEBUTTONDOWN)
-                    {
-                        clicCouleur = 1;
-                        dessineRectangle(jeuSDL->surface_ecran, 0*TAILLE_CASE+cPosHPiece, 0*TAILLE_CASE+cPosLPiece, TAILLE_CASE, TAILLE_CASE, couleurValide);
-                    }
+                    dessineRectangle(jeuSDL->surface_ecran, 10.15*TAILLE_CASE-5, (cLargeurEcran-6*TAILLE_CASE)/2-5, 6*TAILLE_CASE+10, 1*TAILLE_CASE+10, couleurSelect);
+                    dessineRectangle(jeuSDL->surface_ecran, 10.15*TAILLE_CASE, (cLargeurEcran-6*TAILLE_CASE)/2, 6*TAILLE_CASE, 1*TAILLE_CASE, couleurValide);
+
+                    surface_Texte = TTF_RenderText_Blended(jeuSDL->police40, "Valider", couleurTexteValide);
+                    SDL_apply_surface(surface_Texte, jeuSDL->surface_ecran, 10*TAILLE_CASE, (cLargeurEcran-6*TAILLE_CASE)/2);
+                    SDL_FreeSurface(surface_Texte);
                 }
-                else if(clicCouleur == 0) dessineRectangle(jeuSDL->surface_ecran, 0*TAILLE_CASE+cPosHPiece, 0*TAILLE_CASE+cPosLPiece, TAILLE_CASE, TAILLE_CASE, couleurFond);
-                    /*if (cursY > 1.5*TAILLE_CASE+cPosLPiece && cursY < 2.5*TAILLE_CASE+cPosLPiece)
-                    if (cursY > 3*TAILLE_CASE+cPosLPiece && cursY < 4*TAILLE_CASE+cPosLPiece)
-                    if (cursY > 4.5*TAILLE_CASE+cPosLPiece && cursY < 5.5*TAILLE_CASE+cPosLPiece)
-
-                else if (cursX > 1.2*TAILLE_CASE+cPosHPiece && cursX < 2.2*TAILLE_CASE+cPosHPiece)*/
             }
+            if (event.type == SDL_MOUSEBUTTONDOWN)
+            {
+                SdlMenuReaffichePieces(jeuSDL);
+                pieceSelect = SdlMenuCaseSurvolee(jeuSDL, cursX, cursY);
+                if (pieceSelect != -1) clicCouleur = 1;
+
+                if (clicCouleur == 1 && cursX > 10.15*TAILLE_CASE && cursX < 11.15*TAILLE_CASE && cursY > (cLargeurEcran-6*TAILLE_CASE)/2 && cursY < (cLargeurEcran-6*TAILLE_CASE)/2+6*TAILLE_CASE)
+                    joueur = 0;
+            }
+
+            SdlMenuColorePiece(jeuSDL, pieceSelect, couleurValide);
         }
-
-        surface_ChoixPiece = IMG_Load("data/STANDARD/BLANC/R.png");
-        SDL_apply_surface(surface_ChoixPiece, jeuSDL->surface_ecran, 0*TAILLE_CASE+cPosHPiece, 0*TAILLE_CASE+cPosLPiece);
-        SDL_FreeSurface(surface_ChoixPiece);
-
-        surface_ChoixPiece = IMG_Load("data/STANDARD/NOIR/R.png");
-        SDL_apply_surface(surface_ChoixPiece, jeuSDL->surface_ecran, 0*TAILLE_CASE+cPosHPiece, 1.5*TAILLE_CASE+cPosLPiece);
-        SDL_FreeSurface(surface_ChoixPiece);
-
-        surface_ChoixPiece = IMG_Load("data/STANDARD/BLEU/R.png");
-        SDL_apply_surface(surface_ChoixPiece, jeuSDL->surface_ecran, 0*TAILLE_CASE+cPosHPiece, 3*TAILLE_CASE+cPosLPiece);
-        SDL_FreeSurface(surface_ChoixPiece);
-
-        surface_ChoixPiece = IMG_Load("data/STANDARD/JAUNE/R.png");
-        SDL_apply_surface(surface_ChoixPiece, jeuSDL->surface_ecran, 0*TAILLE_CASE+cPosHPiece, 4.5*TAILLE_CASE+cPosLPiece);
-        SDL_FreeSurface(surface_ChoixPiece);
-
-
-        surface_ChoixPiece = IMG_Load("data/INVADER/BLANC/R.png");
-        SDL_apply_surface(surface_ChoixPiece, jeuSDL->surface_ecran, 1.2*TAILLE_CASE+cPosHPiece, 0*TAILLE_CASE+cPosLPiece);
-        SDL_FreeSurface(surface_ChoixPiece);
-
-        surface_ChoixPiece = IMG_Load("data/INVADER/NOIR/R.png");
-        SDL_apply_surface(surface_ChoixPiece, jeuSDL->surface_ecran, 1.2*TAILLE_CASE+cPosHPiece, 1.5*TAILLE_CASE+cPosLPiece);
-        SDL_FreeSurface(surface_ChoixPiece);
-
-        surface_ChoixPiece = IMG_Load("data/INVADER/BLEU/R.png");
-        SDL_apply_surface(surface_ChoixPiece, jeuSDL->surface_ecran, 1.2*TAILLE_CASE+cPosHPiece, 3*TAILLE_CASE+cPosLPiece);
-        SDL_FreeSurface(surface_ChoixPiece);
-
-        surface_ChoixPiece = IMG_Load("data/INVADER/JAUNE/R.png");
-        SDL_apply_surface(surface_ChoixPiece, jeuSDL->surface_ecran, 1.2*TAILLE_CASE+cPosHPiece, 4.5*TAILLE_CASE+cPosLPiece);
-        SDL_FreeSurface(surface_ChoixPiece);
-
-        dessineRectangle(jeuSDL->surface_ecran, 10.15*TAILLE_CASE, (cLargeurEcran-6*TAILLE_CASE)/2, 6*TAILLE_CASE, 1*TAILLE_CASE, couleurValide);
-
-        surface_Texte = TTF_RenderText_Blended(jeuSDL->police40, "Valider", couleurTexteValide);
-        SDL_apply_surface(surface_Texte, jeuSDL->surface_ecran, 10*TAILLE_CASE, (cLargeurEcran-6*TAILLE_CASE)/2);
-        SDL_FreeSurface(surface_Texte);
-
-
-        if (cpt == 0) sprintf(nom, "JOUEUR%d", joueur);
-        surface_Texte = TTF_RenderText_Blended(jeuSDL->policeNom, nom, couleurTexteNom);
-        SDL_apply_surface(surface_Texte, jeuSDL->surface_ecran, 4*TAILLE_CASE, (cLargeurEcran-(surface_Texte->w))/2);
-        SDL_FreeSurface(surface_Texte);
 
         SDL_Flip(jeuSDL->surface_ecran);
         usleep(100000);
+    }
+
+    /*
+
+        Ici l'entier pieceSelect contient un nombre compris entre 0 et 7
+        Il correspond à la couleur sélectionnée par le joueur
+
+        0 : STANDARD BLANC
+        1 : STANDARD NOIR
+        2 : STANDARD BLEU
+        3 : STANDARD JAUNE
+
+        4 : INVADER BLANC
+        5 : INVADER NOIR
+        6 : INVADER BLEU
+        7 : INVADER JAUNE
+
+        couleur = ?
+
+    */
+}
+
+void SdlMenu(JeuSDL * jeuSDL)
+{
+    Uint32 couleurSelection = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 86, 27);   /* vert foncé */
+    Uint32 couleurFond = SDL_MapRGB(jeuSDL->surface_ecran->format, 48, 48, 48); /* Gris anthracite */
+    Uint32 couleurSolo = couleurSelection;
+    Uint32 couleurPartie = couleurFond;
+    SDL_Event event;
+    SDL_Surface * texte;
+    SDL_Color couleurTexte = {255, 255, 255};   /* blanc */
+    const int cLargeurEcran = jeuSDL->surface_ecran->w;
+    int choix = 0;  /* 0:SOLO ; 1:2 JOUEURS */
+
+    int boucle = 1;
+
+    dessineRectangle(jeuSDL->surface_ecran, 4*TAILLE_CASE, (cLargeurEcran-8*TAILLE_CASE)/2, 8*TAILLE_CASE, 1.03*TAILLE_CASE, couleurSolo);
+    dessineRectangle(jeuSDL->surface_ecran, 6*TAILLE_CASE, (cLargeurEcran-8*TAILLE_CASE)/2, 8*TAILLE_CASE, 1.03*TAILLE_CASE, couleurPartie);
+
+    texte = TTF_RenderText_Blended(jeuSDL->policeNom, "SOLO", couleurTexte);
+    SDL_apply_surface(texte, jeuSDL->surface_ecran, 4*TAILLE_CASE, (cLargeurEcran-(texte->w))/2);
+    SDL_FreeSurface(texte);
+
+    texte = TTF_RenderText_Blended(jeuSDL->policeNom, "2 JOUEURS", couleurTexte);
+    SDL_apply_surface(texte, jeuSDL->surface_ecran, 6*TAILLE_CASE, (cLargeurEcran-(texte->w))/2);
+    SDL_FreeSurface(texte);
+
+    while(boucle)
+    {
+        SDL_WaitEvent(&event);
+        switch(event.type)
+        {
+            case SDL_QUIT:
+                exit(0);
+                break;
+            case SDL_KEYDOWN :
+                switch(event.key.keysym.sym)
+                {
+                    case SDLK_ESCAPE :
+                        exit(0);
+                        break;
+                    case SDLK_DOWN :
+                        choix = 1;
+                        couleurSolo = couleurFond;
+                        couleurPartie = couleurSelection;
+                        break;
+                    case SDLK_UP :
+                        choix = 0;
+                        couleurSolo = couleurSelection;
+                        couleurPartie = couleurFond;
+                        break;
+                    case SDLK_RETURN:
+                        if (choix)  setTypeJeu(&jeuSDL->jeu, PARTIE);
+                        else        setTypeJeu(&jeuSDL->jeu, SOLO);
+
+
+                        boucle = 0;
+                        break;
+                }
+                dessineRectangle(jeuSDL->surface_ecran, 4*TAILLE_CASE, (cLargeurEcran-8*TAILLE_CASE)/2, 8*TAILLE_CASE, 1.03*TAILLE_CASE, couleurSolo);
+                dessineRectangle(jeuSDL->surface_ecran, 6*TAILLE_CASE, (cLargeurEcran-8*TAILLE_CASE)/2, 8*TAILLE_CASE, 1.03*TAILLE_CASE, couleurPartie);
+
+                texte = TTF_RenderText_Blended(jeuSDL->policeNom, "SOLO", couleurTexte);
+                SDL_apply_surface(texte, jeuSDL->surface_ecran, 4*TAILLE_CASE, (cLargeurEcran-(texte->w))/2);
+                SDL_FreeSurface(texte);
+
+                texte = TTF_RenderText_Blended(jeuSDL->policeNom, "2 JOUEURS", couleurTexte);
+                SDL_apply_surface(texte, jeuSDL->surface_ecran, 6*TAILLE_CASE, (cLargeurEcran-(texte->w))/2);
+                SDL_FreeSurface(texte);
+
+                SDL_Flip(jeuSDL->surface_ecran);
+                break;
+            default:
+                break;
+
+         }
+
     }
 }
 
@@ -314,14 +560,14 @@ void SdlInit(JeuSDL * jeuSDL)
 
     jeu = &(jeuSDL->jeu);
 
-    /*initJeu(jeu, piecesJ1, piecesJ2);
+    initJeu(jeu, piecesJ1, piecesJ2);
 
     strcpy(temp, piecesJ1);
     strcpy(piecesJ1, "data/");
     strcat(piecesJ1, temp);
     strcpy(temp, piecesJ2);
     strcpy(piecesJ2, "data/");
-    strcat(piecesJ2, temp);*/
+    strcat(piecesJ2, temp);
 
     assert(SDL_Init(SDL_INIT_VIDEO)!= -1) ;
 
@@ -349,7 +595,15 @@ void SdlInit(JeuSDL * jeuSDL)
     if(jeuSDL->police40 == NULL) jeuSDL->police40 = TTF_OpenFont(temp, 40);
     assert(jeuSDL->police40 != NULL);
 
-    SdlSaisieNomJoueurs(jeuSDL, nom1, &couleur1, 1);
+    SdlMenu(jeuSDL);
+
+    if (jeuSDL->jeu.typeJeu == SOLO)
+        SdlSaisieNomJoueur(jeuSDL, nom1, &couleur1, 1);
+    else
+    {
+        SdlSaisieNomJoueur(jeuSDL, nom1, &couleur1, 1);
+        SdlSaisieNomJoueur(jeuSDL, nom2, &couleur2, 2);
+    }
 
     /*  Cases   */
     jeuSDL->surface_BLANC = IMG_Load("data/CB.bmp") ;
