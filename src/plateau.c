@@ -19,7 +19,7 @@ Case * getCase(Plateau * plateau, int posX, int posY)
 
 int getNbTours(Plateau * plateau)
 {
-    return plateau->nbTours ;
+    return (int) (plateau->nbTours)/2 ;
 }
 
 /* creation / destruction */

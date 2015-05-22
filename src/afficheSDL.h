@@ -101,6 +101,8 @@ typedef struct
 
 } JeuSDL ;
 
+void SdlSaisieJoueur(JeuSDL * jeuSDL, char * nom, Couleur * couleur, char * pieces, int joueur, Couleur couleurRef);
+
 /**
 @brief Initialise une partie : \n
     - lancement du mode vidéo SDL et création de la fenêtre de jeu \n

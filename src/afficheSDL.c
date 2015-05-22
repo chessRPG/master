@@ -9,6 +9,7 @@
 */
 
 #include "afficheSDL.h"
+#include "ia.h"
 
 /* il faut répéter la déclaration de la fonction ici pour ne pas déclencher de warning à la compilation avec pedantic et ansi */
 
@@ -152,7 +153,6 @@ void afficheLogs(JeuSDL * jeuSDL)
 
     dessineRectangle(jeuSDL->surface_ecran, (ORIG_X+3)*TAILLE_CASE, (ORIG_Y+9)*TAILLE_CASE, (largeur-ORIG_X-12)*TAILLE_CASE, 8*TAILLE_CASE, noire);
 
-
     pch = strtok(jeuSDL->jeu.log,",-");
     while(pch != NULL)
     {
@@ -243,7 +243,7 @@ void SdlMenuReaffichePieces(JeuSDL * jeuSDL)
             SdlMenuAffichePiece(jeuSDL, i);
 }
 
-int SdlMenuCaseSurvolee(JeuSDL * jeuSDL, int x, int y)
+int SdlMenuCaseSurvolee(JeuSDL * jeuSDL, int x, int y, Couleur couleurRef)
 {
     const int cLargeurEcran = jeuSDL->surface_ecran->w;
     const int cPosLPiece = (cLargeurEcran-5.5*TAILLE_CASE)/2;
@@ -251,26 +251,27 @@ int SdlMenuCaseSurvolee(JeuSDL * jeuSDL, int x, int y)
 
     if (x > 0*TAILLE_CASE+cPosHPiece && x < 1*TAILLE_CASE+cPosHPiece)
     {
-        if (y > 0*TAILLE_CASE+cPosLPiece && y < 1*TAILLE_CASE+cPosLPiece)
+        if (y > 0*TAILLE_CASE+cPosLPiece && y < 1*TAILLE_CASE+cPosLPiece && couleurRef != BLANC)
             return 0;
-        else if (y > 1.5*TAILLE_CASE+cPosLPiece && y < 2.5*TAILLE_CASE+cPosLPiece)
+        else if (y > 1.5*TAILLE_CASE+cPosLPiece && y < 2.5*TAILLE_CASE+cPosLPiece && couleurRef != NOIR)
             return 1;
-        else if (y > 3*TAILLE_CASE+cPosLPiece && y < 4*TAILLE_CASE+cPosLPiece)
+        else if (y > 3*TAILLE_CASE+cPosLPiece && y < 4*TAILLE_CASE+cPosLPiece && couleurRef != BLEU)
             return 2;
-        else if (y > 4.5*TAILLE_CASE+cPosLPiece && y < 5.5*TAILLE_CASE+cPosLPiece)
+        else if (y > 4.5*TAILLE_CASE+cPosLPiece && y < 5.5*TAILLE_CASE+cPosLPiece && couleurRef != JAUNE)
             return 3;
     }
     else if (x > 1.2*TAILLE_CASE+cPosHPiece && x < 2.2*TAILLE_CASE+cPosHPiece)
     {
-        if (y > 0*TAILLE_CASE+cPosLPiece && y < 1*TAILLE_CASE+cPosLPiece)
+        if (y > 0*TAILLE_CASE+cPosLPiece && y < 1*TAILLE_CASE+cPosLPiece && couleurRef != BLANC)
             return 4;
-        else if (y > 1.5*TAILLE_CASE+cPosLPiece && y < 2.5*TAILLE_CASE+cPosLPiece)
+        else if (y > 1.5*TAILLE_CASE+cPosLPiece && y < 2.5*TAILLE_CASE+cPosLPiece && couleurRef != NOIR)
             return 5;
-        else if (y > 3*TAILLE_CASE+cPosLPiece && y < 4*TAILLE_CASE+cPosLPiece)
+        else if (y > 3*TAILLE_CASE+cPosLPiece && y < 4*TAILLE_CASE+cPosLPiece && couleurRef != BLEU)
             return 6;
-        else if (y > 4.5*TAILLE_CASE+cPosLPiece && y < 5.5*TAILLE_CASE+cPosLPiece)
+        else if (y > 4.5*TAILLE_CASE+cPosLPiece && y < 5.5*TAILLE_CASE+cPosLPiece && couleurRef != JAUNE)
             return 7;
     }
+
     return -1;
 }
 
@@ -317,14 +318,14 @@ void SdlMenuColorePiece(JeuSDL * jeuSDL, int numPiece, Uint32 couleur)
     }
 }
 
-void SdlSaisieNomJoueur(JeuSDL * jeuSDL, char * nom, Couleur * couleur, int joueur)
+void SdlSaisieJoueur(JeuSDL * jeuSDL, char * nom, Couleur * couleur, char * pieces, int joueur, Couleur couleurRef)
 {
     const int cLargeurEcran = jeuSDL->surface_ecran->w;
     const int cHauteurEcran = jeuSDL->surface_ecran->h;
     SDL_Surface* surface_Texte;
     Uint32 couleurSaisie = SDL_MapRGB(jeuSDL->surface_ecran->format, 48, 48, 48); /*Gris anthracite*/
     Uint32 couleurValide = SDL_MapRGB(jeuSDL->surface_ecran->format, 243, 214, 23); /*Saphran*/
-    Uint32 couleurSelect = SDL_MapRGB(jeuSDL->surface_ecran->format, 255, 0, 0); /*Rouge*/
+    Uint32 couleurSelection = SDL_MapRGB(jeuSDL->surface_ecran->format, 255, 0, 0); /*Rouge*/
     Uint32 couleurFond = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 0, 0); /*Noir*/
     SDL_Color couleurTexteValide = {0, 86, 27};   /* vert */
     SDL_Color couleurTexte = {255, 255, 255};   /* blanc */
@@ -334,6 +335,7 @@ void SdlSaisieNomJoueur(JeuSDL * jeuSDL, char * nom, Couleur * couleur, int joue
     int cpt = 0;
     int cursX = 0;
     int cursY = 0;
+    int couleurSelect = -1;
     int i, pieceSelect = -1, pieceSurvol = -1;
 
     dessineRectangle(jeuSDL->surface_ecran, 0, 0, cLargeurEcran, cHauteurEcran, couleurFond);
@@ -412,14 +414,14 @@ void SdlSaisieNomJoueur(JeuSDL * jeuSDL, char * nom, Couleur * couleur, int joue
                 SDL_FreeSurface(surface_Texte);
 
                 SDL_GetMouseState(&cursY, &cursX) ;
-                pieceSurvol = SdlMenuCaseSurvolee(jeuSDL, cursX, cursY);
+                pieceSurvol = SdlMenuCaseSurvolee(jeuSDL, cursX, cursY, couleurRef);
 
-                SdlMenuColorePiece(jeuSDL, pieceSurvol, couleurSelect);
+                SdlMenuColorePiece(jeuSDL, pieceSurvol, couleurSelection);
                 SdlMenuAffichePiece(jeuSDL, pieceSurvol);
 
                 if (cursX > 10.15*TAILLE_CASE && cursX < 11.15*TAILLE_CASE && cursY > (cLargeurEcran-6*TAILLE_CASE)/2 && cursY < (cLargeurEcran-6*TAILLE_CASE)/2+6*TAILLE_CASE)
                 {
-                    dessineRectangle(jeuSDL->surface_ecran, 10.15*TAILLE_CASE-5, (cLargeurEcran-6*TAILLE_CASE)/2-5, 6*TAILLE_CASE+10, 1*TAILLE_CASE+10, couleurSelect);
+                    dessineRectangle(jeuSDL->surface_ecran, 10.15*TAILLE_CASE-5, (cLargeurEcran-6*TAILLE_CASE)/2-5, 6*TAILLE_CASE+10, 1*TAILLE_CASE+10, couleurSelection);
                     dessineRectangle(jeuSDL->surface_ecran, 10.15*TAILLE_CASE, (cLargeurEcran-6*TAILLE_CASE)/2, 6*TAILLE_CASE, 1*TAILLE_CASE, couleurValide);
 
                     surface_Texte = TTF_RenderText_Blended(jeuSDL->police40, "Valider", couleurTexteValide);
@@ -430,11 +432,15 @@ void SdlSaisieNomJoueur(JeuSDL * jeuSDL, char * nom, Couleur * couleur, int joue
             if (event.type == SDL_MOUSEBUTTONDOWN)
             {
                 SdlMenuReaffichePieces(jeuSDL);
-                pieceSelect = SdlMenuCaseSurvolee(jeuSDL, cursX, cursY);
-                if (pieceSelect != -1) clicCouleur = 1;
-
+                pieceSelect = SdlMenuCaseSurvolee(jeuSDL, cursX, cursY, couleurRef);
+                if (pieceSelect != -1)
+                {
+                    couleurSelect = pieceSelect;
+                    clicCouleur = 1;
+                }
                 if (clicCouleur == 1 && cursX > 10.15*TAILLE_CASE && cursX < 11.15*TAILLE_CASE && cursY > (cLargeurEcran-6*TAILLE_CASE)/2 && cursY < (cLargeurEcran-6*TAILLE_CASE)/2+6*TAILLE_CASE)
                     joueur = 0;
+                else if (pieceSelect == -1) clicCouleur = 0;
             }
 
             SdlMenuColorePiece(jeuSDL, pieceSelect, couleurValide);
@@ -444,24 +450,30 @@ void SdlSaisieNomJoueur(JeuSDL * jeuSDL, char * nom, Couleur * couleur, int joue
         usleep(100000);
     }
 
-    /*
 
-        Ici l'entier pieceSelect contient un nombre compris entre 0 et 7
-        Il correspond à la couleur sélectionnée par le joueur
+    if(couleurSelect >= 0 && couleurSelect <= 3) sprintf(pieces, "data/STANDARD/");
+    else if(couleurSelect >= 4 && couleurSelect <= 7) sprintf(pieces, "data/INVADER/");
 
-        0 : STANDARD BLANC
-        1 : STANDARD NOIR
-        2 : STANDARD BLEU
-        3 : STANDARD JAUNE
-
-        4 : INVADER BLANC
-        5 : INVADER NOIR
-        6 : INVADER BLEU
-        7 : INVADER JAUNE
-
-        couleur = ?
-
-    */
+    if(couleurSelect == 0 || couleurSelect == 4)
+    {
+        strcat(pieces, "BLANC/");
+        *couleur = BLANC;
+    }
+    if(couleurSelect == 1 || couleurSelect == 5)
+    {
+        strcat(pieces, "NOIR/");
+        *couleur = NOIR;
+    }
+    if(couleurSelect == 2 || couleurSelect == 6)
+    {
+        strcat(pieces, "BLEU/");
+        *couleur = BLEU;
+    }
+    if(couleurSelect == 3 || couleurSelect == 7)
+    {
+        strcat(pieces, "JAUNE/");
+        *couleur = JAUNE;
+    }
 }
 
 void SdlMenu(JeuSDL * jeuSDL)
@@ -491,6 +503,8 @@ void SdlMenu(JeuSDL * jeuSDL)
 
     while(boucle)
     {
+        SDL_Flip(jeuSDL->surface_ecran);
+
         SDL_WaitEvent(&event);
         switch(event.type)
         {
@@ -514,11 +528,11 @@ void SdlMenu(JeuSDL * jeuSDL)
                         couleurPartie = couleurFond;
                         break;
                     case SDLK_RETURN:
-                        if (choix)  setTypeJeu(&jeuSDL->jeu, PARTIE);
+                        if (choix)  setTypeJeu(&jeuSDL->jeu, MULTI);
                         else        setTypeJeu(&jeuSDL->jeu, SOLO);
-
-
                         boucle = 0;
+                        break;
+                    default :
                         break;
                 }
                 dessineRectangle(jeuSDL->surface_ecran, 4*TAILLE_CASE, (cLargeurEcran-8*TAILLE_CASE)/2, 8*TAILLE_CASE, 1.03*TAILLE_CASE, couleurSolo);
@@ -532,7 +546,6 @@ void SdlMenu(JeuSDL * jeuSDL)
                 SDL_apply_surface(texte, jeuSDL->surface_ecran, 6*TAILLE_CASE, (cLargeurEcran-(texte->w))/2);
                 SDL_FreeSurface(texte);
 
-                SDL_Flip(jeuSDL->surface_ecran);
                 break;
             default:
                 break;
@@ -559,15 +572,6 @@ void SdlInit(JeuSDL * jeuSDL)
     int dimY = 12 * TAILLE_CASE ;
 
     jeu = &(jeuSDL->jeu);
-
-    initJeu(jeu, piecesJ1, piecesJ2);
-
-    strcpy(temp, piecesJ1);
-    strcpy(piecesJ1, "data/");
-    strcat(piecesJ1, temp);
-    strcpy(temp, piecesJ2);
-    strcpy(piecesJ2, "data/");
-    strcat(piecesJ2, temp);
 
     assert(SDL_Init(SDL_INIT_VIDEO)!= -1) ;
 
@@ -598,12 +602,27 @@ void SdlInit(JeuSDL * jeuSDL)
     SdlMenu(jeuSDL);
 
     if (jeuSDL->jeu.typeJeu == SOLO)
-        SdlSaisieNomJoueur(jeuSDL, nom1, &couleur1, 1);
+    {
+        SdlSaisieJoueur(jeuSDL, nom1, &couleur1, piecesJ1, 1, NUM_COULEUR);
+        sprintf(nom2, "BOT");
+        if(couleur1 != NOIR)
+        {
+            couleur2 = NOIR;
+            sprintf(piecesJ2, "data/STANDARD/NOIR/");
+        }
+        else
+        {
+            couleur2 = BLANC;
+            sprintf(piecesJ2, "data/STANDARD/BLANC/");
+        }
+    }
     else
     {
-        SdlSaisieNomJoueur(jeuSDL, nom1, &couleur1, 1);
-        SdlSaisieNomJoueur(jeuSDL, nom2, &couleur2, 2);
+        SdlSaisieJoueur(jeuSDL, nom1, &couleur1, piecesJ1, 1, NUM_COULEUR);
+        SdlSaisieJoueur(jeuSDL, nom2, &couleur2, piecesJ2, 2, couleur1);
     }
+
+    initJeu(jeu, nom1, nom2, couleur1, couleur2);
 
     /*  Cases   */
     jeuSDL->surface_BLANC = IMG_Load("data/CB.bmp") ;
@@ -695,8 +714,6 @@ void SdlInit(JeuSDL * jeuSDL)
     dossierParent(temp);
     if(jeuSDL->surface_P2 == NULL) jeuSDL->surface_P2 = IMG_Load(temp);
     assert(jeuSDL->surface_P2 != NULL);
-
-    afficheLogs(jeuSDL) ;
 }
 
 void SdlLibere(JeuSDL* jeuSDL)
@@ -871,6 +888,11 @@ void SdlBoucle(JeuSDL * jeuSDL)
 	bool selectionne = 0 ;
 	Piece* piece ;
 	Couleur couleurGagne = -1;
+	Uint32 couleurFond = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 0, 0);  /* noir */
+
+	dessineRectangle(jeuSDL->surface_ecran, 0, 0, jeuSDL->surface_ecran->w, jeuSDL->surface_ecran->h, couleurFond);
+
+	afficheLogs(jeuSDL);
 
     SdlAffichage(jeuSDL);
     afficheCadre(jeuSDL);
@@ -880,70 +902,82 @@ void SdlBoucle(JeuSDL * jeuSDL)
 	{
 	    couleurGagne = -1;
 
-		while ( SDL_PollEvent( &event ) )
-		{
+        if(getJoueurActif(&jeuSDL->jeu) == &jeuSDL->jeu.J2 && jeuSDL->jeu.typeJeu == SOLO)
+        {
+            ia(&jeuSDL->jeu, &couleurGagne);
 
-			if ( event.type == SDL_QUIT )
-				continue_boucle = 0;
+            setJoueurActif(&jeuSDL->jeu, getJoueurInactif(&jeuSDL->jeu));
 
-            if (event.type == SDL_MOUSEMOTION)
-            {
-                if (caseValide(x, y)) setCouleurCase(getCase(&jeuSDL->jeu.plateau, x, y), couleurTemp);
-
-
-                SDL_GetMouseState(&y, &x) ;
-                x = (x/TAILLE_CASE) - ORIG_X;
-                y = (y/TAILLE_CASE) - ORIG_Y;
-                if (caseValide(x, y))
-                {
-                    couleurTemp = getCouleurCase(getCase(&jeuSDL->jeu.plateau, x, y)) ;
-                    setCouleurCase(getCase(&jeuSDL->jeu.plateau, x, y), CROUGE);
-                    piece = getPieceCase(getCase(&jeuSDL->jeu.plateau, x, y));
-                    afficheInfosPiece(jeuSDL, piece);
-                }
-            }
-
-            if (event.type == SDL_MOUSEBUTTONDOWN && caseValide(x, y))
-            {
-                if (couleurTemp == CBLEU && selectionne != 0 && (posX != x || posY != y))
-                {
-                    deplacerPiece(&jeuSDL->jeu, getPieceCase(getCase(&jeuSDL->jeu.plateau, posX, posY)), x, y, &couleurGagne) ;
-                    afficheLogs(jeuSDL) ;
-                    reinitCouleursEchiquier(&jeuSDL->jeu.plateau) ;
-                    couleurTemp = (x+y)%2 ;
-
-                    if(couleurGagne == -1)
-                    {
-                        if (jeuSDL->jeu.joueurActif == &jeuSDL->jeu.J1) setJoueurActif(&jeuSDL->jeu, &jeuSDL->jeu.J2);
-                        else setJoueurActif(&jeuSDL->jeu, &jeuSDL->jeu.J1);
-                    }
-                    selectionne = 0 ;
-                }
-                else
-                {
-                    selectPiece(&jeuSDL->jeu, x, y) ;
-                    couleurTemp = getCouleurCase(getCase(&jeuSDL->jeu.plateau, x, y)) ;
-                    piece = getPieceCase(getCase(&jeuSDL->jeu.plateau, x, y)) ;
-                    selectionne = (piece!= NULL) && (getCouleurPiece(piece) == getCouleurJoueur(getJoueurActif(&jeuSDL->jeu))) ;
-                    posX = x ;
-                    posY = y ;
-                }
-            }
-            if ( event.type == SDL_KEYDOWN )
-			{
-				switch ( event.key.keysym.sym )
-				{
-				case SDLK_ESCAPE:
-					continue_boucle = 0;
-					break;
-				default:
-				    break;
-				}
-			}
-
-			SdlAffichage(jeuSDL);
+            SdlAffichage(jeuSDL);
             SDL_Flip( jeuSDL->surface_ecran );
-		}
+        }
+        else
+        {
+            while ( SDL_PollEvent( &event ) )
+            {
+
+                if ( event.type == SDL_QUIT )
+                    continue_boucle = 0;
+
+                if (event.type == SDL_MOUSEMOTION)
+                {
+                    if (caseValide(x, y)) setCouleurCase(getCase(&jeuSDL->jeu.plateau, x, y), couleurTemp);
+
+
+                    SDL_GetMouseState(&y, &x) ;
+                    x = (x/TAILLE_CASE) - ORIG_X;
+                    y = (y/TAILLE_CASE) - ORIG_Y;
+                    if (caseValide(x, y))
+                    {
+                        couleurTemp = getCouleurCase(getCase(&jeuSDL->jeu.plateau, x, y)) ;
+                        setCouleurCase(getCase(&jeuSDL->jeu.plateau, x, y), CROUGE);
+                        piece = getPieceCase(getCase(&jeuSDL->jeu.plateau, x, y));
+                        afficheInfosPiece(jeuSDL, piece);
+                    }
+                }
+
+                if (event.type == SDL_MOUSEBUTTONDOWN && caseValide(x, y))
+                {
+                    if (couleurTemp == CBLEU && selectionne != 0 && (posX != x || posY != y))
+                    {
+                        deplacerPiece(&jeuSDL->jeu, getPieceCase(getCase(&jeuSDL->jeu.plateau, posX, posY)), x, y, &couleurGagne) ;
+                        afficheLogs(jeuSDL) ;
+                        reinitCouleursEchiquier(&jeuSDL->jeu.plateau) ;
+                        couleurTemp = (x+y)%2 ;
+
+                        if(couleurGagne == -1)
+                        {
+                            if (jeuSDL->jeu.joueurActif == &jeuSDL->jeu.J1) setJoueurActif(&jeuSDL->jeu, &jeuSDL->jeu.J2);
+                            else setJoueurActif(&jeuSDL->jeu, &jeuSDL->jeu.J1);
+                        }
+                        selectionne = 0 ;
+                    }
+                    else
+                    {
+                        selectPiece(&jeuSDL->jeu, x, y) ;
+                        couleurTemp = getCouleurCase(getCase(&jeuSDL->jeu.plateau, x, y)) ;
+                        piece = getPieceCase(getCase(&jeuSDL->jeu.plateau, x, y)) ;
+                        selectionne = (piece!= NULL) && (getCouleurPiece(piece) == getCouleurJoueur(getJoueurActif(&jeuSDL->jeu))) ;
+                        posX = x ;
+                        posY = y ;
+                    }
+                }
+                if ( event.type == SDL_KEYDOWN )
+                {
+                    switch ( event.key.keysym.sym )
+                    {
+                    case SDLK_ESCAPE:
+                        continue_boucle = 0;
+                        break;
+                    default:
+                        break;
+                    }
+                }
+
+                SdlAffichage(jeuSDL);
+                SDL_Flip( jeuSDL->surface_ecran );
+            }
+        }
 
 
 

@@ -130,9 +130,9 @@ void secureNom(char* nomSecure, char* nom)
     nomSecure[cpt] = '\0';
 }
 
-void setDonneesJoueurs(Joueur * joueur1, Joueur * joueur2, char * piecesJ1, char * piecesJ2)
+void setDonneesJoueurs(Joueur * joueur1, Joueur * joueur2, char * nom1, char * nom2, Couleur C1, Couleur C2)
 {
-    char nom[32];
+    /*char nom[32];
     char nomSecure[13];
 
     system("clear");
@@ -155,7 +155,13 @@ void setDonneesJoueurs(Joueur * joueur1, Joueur * joueur2, char * piecesJ1, char
     setNomJoueur(joueur2, nomSecure);
     printf("\nChoisis ton camp !\n");
     saisiePieces(joueur1, joueur2, piecesJ2);
-    system("clear");
+    system("clear");*/
+
+    setNomJoueur(joueur1, nom1);
+    setNomJoueur(joueur2, nom2);
+
+    setCouleurJoueur(joueur1, C1);
+    setCouleurJoueur(joueur2, C2);
 }
 
 void setPieceJoueur(Joueur * joueur, Piece * piece)

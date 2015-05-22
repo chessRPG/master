@@ -77,7 +77,7 @@ void setCouleurJoueur(Joueur * joueur, Couleur couleur) ;
 @return Aucun
 */
 
-void setDonneesJoueurs(Joueur * joueur1, Joueur * joueur2, char * piecesJ1, char * piecesJ2) ;
+void setDonneesJoueurs(Joueur * joueur1, Joueur * joueur2, char * nom1, char * nom2, Couleur C1, Couleur C2) ;
 
 void setPieceJoueur(Joueur * joueur, Piece * piece);
 

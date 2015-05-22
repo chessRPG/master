@@ -28,7 +28,7 @@
 
 */
 
-typedef enum {SOLO, PARTIE} TypeJeu;
+typedef enum {SOLO, MULTI} TypeJeu;
 
 typedef struct
 {
@@ -81,7 +81,7 @@ void setTypeJeu(Jeu * jeu, TypeJeu type);
 @return Aucun
 */
 
-void initJeu(Jeu * jeu, char * piecesJ1, char * piecesJ2);
+void initJeu(Jeu * jeu, char * nom1, char * nom2, Couleur C1, Couleur C2);
 
 /**
 @brief remet le joueur actif à NULL et détruit le plateau

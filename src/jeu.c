@@ -220,18 +220,14 @@ void setTypeJeu(Jeu * jeu, TypeJeu type)
 
 /* Création/Destruction */
 
-void initJeu(Jeu * jeu, char * piecesJ1, char * piecesJ2)
+void initJeu(Jeu * jeu, char * nom1, char * nom2, Couleur C1, Couleur C2)
 {
-    Couleur C1, C2;
     int i, j;
     Piece * piece;
 
     initJoueur(&jeu->J1);
     initJoueur(&jeu->J2);
-    //setDonneesJoueurs(&jeu->J1, &jeu->J2, piecesJ1, piecesJ2);
-
-    C1 = getCouleurJoueur(&jeu->J1);
-    C2 = getCouleurJoueur(&jeu->J2);
+    setDonneesJoueurs(&jeu->J1, &jeu->J2, nom1, nom2, C1, C2);
 
     setJoueurActif(jeu, &jeu->J1);
     initPlateau(&jeu->plateau, C1, C2);
@@ -510,6 +506,8 @@ void deplacerPiece(Jeu * jeu, Piece * piece, int posFinX, int posFinY, Couleur *
     setPieceCase(getCase(plateau, posFinX, posFinY), piece);
     piece->posX = posFinX;
     piece->posY = posFinY;
+
+    jeu->plateau.nbTours++;
 }
 
 Piece* combatPieces(Jeu * jeu, Piece * pieceAtt, Piece * pieceDef, Couleur * couleurGagne)
