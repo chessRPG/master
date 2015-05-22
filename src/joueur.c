@@ -113,6 +113,11 @@ void setCouleurJoueur(Joueur * joueur, Couleur couleur)
     joueur->couleur = couleur ;
 }
 
+void setNbPiecesJoueur(Joueur * joueur, int nbPieces)
+{
+    joueur->nbPieces = nbPieces;
+}
+
 void secureNom(char* nomSecure, char* nom)
 {
     int cpt = 0;
@@ -153,6 +158,12 @@ void setDonneesJoueurs(Joueur * joueur1, Joueur * joueur2, char * piecesJ1, char
     system("clear");
 }
 
+void setPieceJoueur(Joueur * joueur, Piece * piece)
+{
+    joueur->ensPieces[joueur->nbPieces] = *piece;
+    joueur->nbPieces++;
+}
+
 /* creation / destruction */
 
 void initJoueur(Joueur * joueur)
@@ -160,4 +171,5 @@ void initJoueur(Joueur * joueur)
     joueur->nomJoueur[0] = '\0';
 
     setCouleurJoueur(joueur, NUM_COULEUR);
+    setNbPiecesJoueur(joueur, 0);
 }

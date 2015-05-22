@@ -37,6 +37,8 @@ typedef struct
     Couleur couleur ;
     int pointsVie ;
     int pointsAttaque ;
+    int posX;
+    int posY;
 } Piece ;
 
 /* accesseurs */
@@ -111,6 +113,8 @@ void setPointsVie(Piece * piece, int pointsVie) ;
 */
 
 void setPointsAttaque(Piece * piece, int pointsAttaque) ;
+
+void setPositionPiece(Piece * piece, int x, int y);
 
 /* création / destruction */
 

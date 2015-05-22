@@ -149,6 +149,19 @@ void rechercherPiece(Plateau * plateau, Piece * piece, int * x, int * y)
     }
 }
 
+int estDansEnsPieces(Piece * piece, Joueur * joueur)
+{
+    int indice = 0;
+
+    for(indice=0; indice<joueur->nbPieces; indice++)
+    {
+        if (&joueur->ensPieces[indice] == piece)
+            return indice;
+    }
+
+   return -1;
+}
+
 /* autre : modifications sur les chaines de caractères */
 
  void reverse(char s[])
@@ -210,6 +223,8 @@ void setTypeJeu(Jeu * jeu, TypeJeu type)
 void initJeu(Jeu * jeu, char * piecesJ1, char * piecesJ2)
 {
     Couleur C1, C2;
+    int i, j;
+    Piece * piece;
 
     initJoueur(&jeu->J1);
     initJoueur(&jeu->J2);
@@ -221,6 +236,22 @@ void initJeu(Jeu * jeu, char * piecesJ1, char * piecesJ2)
     setJoueurActif(jeu, &jeu->J1);
     initPlateau(&jeu->plateau, C1, C2);
     reinitCouleursEchiquier(&jeu->plateau) ;
+
+    for (i=0; i<2; i++)
+        for (j=0; j<8; j++)
+        {
+            piece = getPieceCase(getCase(&jeu->plateau, i, j));
+            setPositionPiece(piece, i, j);
+            setPieceJoueur(&jeu->J2, piece);
+        }
+
+    for (i=6; i<8; i++)
+        for (j=0; j<8; j++)
+        {
+            piece = getPieceCase(getCase(&jeu->plateau, i, j));
+            setPositionPiece(piece, i, j);
+            setPieceJoueur(&jeu->J1, piece);
+        }
 
     sprintf(jeu->log, "Debut de la partie !") ;
 }
@@ -463,21 +494,22 @@ void selectPiece(Jeu * jeu, int posX, int posY)
     }
 }
 
-void deplacerPiece(Jeu * jeu, Piece * piece, int posX, int posY, Couleur * couleurGagne)
+void deplacerPiece(Jeu * jeu, Piece * piece, int posFinX, int posFinY, Couleur * couleurGagne)
 {
     Plateau * plateau = &(jeu->plateau) ;
-    int i = 0, j = 0;
+    int posInitX = piece->posX;
+    int posInitY = piece->posY;
 
-    rechercherPiece(plateau, piece, &i, &j);
+    logDeplacement(jeu->log, piece, posInitX, posInitY, posFinX, posFinY) ;
 
-    logDeplacement(jeu->log, piece, i, j, posX, posY) ;
+    setPieceCase(getCase(plateau, posInitX, posInitY), NULL);
 
-    setPieceCase(getCase(plateau, i, j), NULL);
+    if(getPieceCase(getCase(plateau, posFinX, posFinY)) != NULL)
+        piece = combatPieces(jeu, piece, getPieceCase(getCase(plateau, posFinX, posFinY)), couleurGagne);
 
-    if(getPieceCase(getCase(plateau, posX, posY)) != NULL)
-        piece = combatPieces(jeu, piece, getPieceCase(getCase(plateau, posX, posY)), couleurGagne);
-
-    setPieceCase(getCase(plateau, posX, posY), piece);
+    setPieceCase(getCase(plateau, posFinX, posFinY), piece);
+    piece->posX = posFinX;
+    piece->posY = posFinY;
 }
 
 Piece* combatPieces(Jeu * jeu, Piece * pieceAtt, Piece * pieceDef, Couleur * couleurGagne)
@@ -508,15 +540,25 @@ Piece* combatPieces(Jeu * jeu, Piece * pieceAtt, Piece * pieceDef, Couleur * cou
     if(getPointsVie(pieceAtt) > 0)
     {
         logCombat(jeu->log, pieceAtt, pieceDef, jeu) ;
+
         if(pieceDef->type == ROI) *couleurGagne = getCouleurPiece(pieceAtt) ;
         detruirePiece(pieceDef) ;
+
+        if (estDansEnsPieces(pieceDef, &jeu->J1))   jeu->J1.nbPieces--;
+        else if (estDansEnsPieces(pieceDef, &jeu->J2))   jeu->J2.nbPieces--;
+
         return pieceAtt ;
     }
     else
     {
         logCombat(jeu->log, pieceDef, pieceAtt, jeu) ;
+
         if(pieceAtt->type == ROI) *couleurGagne = getCouleurPiece(pieceDef) ;
         detruirePiece(pieceAtt) ;
+
+        if (estDansEnsPieces(pieceAtt, &jeu->J1))   jeu->J1.nbPieces--;
+        else if (estDansEnsPieces(pieceAtt, &jeu->J2))   jeu->J2.nbPieces--;
+
         return pieceDef ;
     }
 }

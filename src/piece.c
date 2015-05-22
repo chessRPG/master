@@ -129,6 +129,12 @@ void setPointsAttaque(Piece * piece, int pointsAttaque)
     piece->pointsAttaque = pointsAttaque ;
 }
 
+void setPositionPiece(Piece * piece, int x, int y)
+{
+    piece->posX = x;
+    piece->posY = y;
+}
+
 /* creation / destruction */
 
 

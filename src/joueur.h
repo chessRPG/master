@@ -12,6 +12,7 @@
 #define _JOUEUR_H
 
 #include "couleur.h"
+#include "piece.h"
 
 /**
 @struct Joueur
@@ -25,6 +26,8 @@ typedef struct
 {
     char nomJoueur[13] ;
     Couleur couleur ;
+    int nbPieces;
+    Piece ensPieces[16];
 }  Joueur;
 
 /* accesseurs */
@@ -75,6 +78,8 @@ void setCouleurJoueur(Joueur * joueur, Couleur couleur) ;
 */
 
 void setDonneesJoueurs(Joueur * joueur1, Joueur * joueur2, char * piecesJ1, char * piecesJ2) ;
+
+void setPieceJoueur(Joueur * joueur, Piece * piece);
 
 /* creation / destruction */
 
