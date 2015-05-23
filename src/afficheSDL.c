@@ -489,6 +489,7 @@ void SdlMenu(JeuSDL * jeuSDL)
     SDL_Color couleurTexte = {255, 255, 255};   /* blanc */
     const int cLargeurEcran = jeuSDL->surface_ecran->w;
     int choix = 0;  /* 0:SOLO ; 1:2 JOUEURS */
+    int cursX = 0, cursY = 0;
 
     int boucle = 1;
 
@@ -521,13 +522,9 @@ void SdlMenu(JeuSDL * jeuSDL)
                         break;
                     case SDLK_DOWN :
                         choix = 1;
-                        couleurSolo = couleurFond;
-                        couleurPartie = couleurSelection;
                         break;
                     case SDLK_UP :
                         choix = 0;
-                        couleurSolo = couleurSelection;
-                        couleurPartie = couleurFond;
                         break;
                     case SDLK_RETURN:
                         if (choix)  setTypeJeu(&jeuSDL->jeu, MULTI);
@@ -537,22 +534,48 @@ void SdlMenu(JeuSDL * jeuSDL)
                     default :
                         break;
                 }
-                dessineRectangle(jeuSDL->surface_ecran, 4*TAILLE_CASE, (cLargeurEcran-8*TAILLE_CASE)/2, 8*TAILLE_CASE, 1.03*TAILLE_CASE, couleurSolo);
-                dessineRectangle(jeuSDL->surface_ecran, 6*TAILLE_CASE, (cLargeurEcran-8*TAILLE_CASE)/2, 8*TAILLE_CASE, 1.03*TAILLE_CASE, couleurPartie);
-
-                texte = TTF_RenderText_Blended(jeuSDL->policeNom, "SOLO", couleurTexte);
-                SDL_apply_surface(texte, jeuSDL->surface_ecran, 4*TAILLE_CASE, (cLargeurEcran-(texte->w))/2);
-                SDL_FreeSurface(texte);
-
-                texte = TTF_RenderText_Blended(jeuSDL->policeNom, "2 JOUEURS", couleurTexte);
-                SDL_apply_surface(texte, jeuSDL->surface_ecran, 6*TAILLE_CASE, (cLargeurEcran-(texte->w))/2);
-                SDL_FreeSurface(texte);
-
                 break;
+
+            case SDL_MOUSEMOTION:
+                SDL_GetMouseState(&cursY, &cursX) ;
+                if(cursX > 4*TAILLE_CASE && cursX < 5.03*TAILLE_CASE && cursY > (cLargeurEcran-8*TAILLE_CASE)/2 && cursY < (cLargeurEcran-8*TAILLE_CASE)/2+8*TAILLE_CASE)
+                    choix = 0;
+                if(cursX > 6*TAILLE_CASE && cursX < 7.03*TAILLE_CASE && cursY > (cLargeurEcran-8*TAILLE_CASE)/2 && cursY < (cLargeurEcran-8*TAILLE_CASE)/2+8*TAILLE_CASE)
+                    choix = 1;
+                break;
+
+            case SDL_MOUSEBUTTONDOWN:
+                if (choix)  setTypeJeu(&jeuSDL->jeu, MULTI);
+                else        setTypeJeu(&jeuSDL->jeu, SOLO);
+                boucle = 0;
+                break;
+
             default:
                 break;
 
          }
+
+         if (choix == 0)
+         {
+            couleurSolo = couleurSelection;
+            couleurPartie = couleurFond;
+         }
+         else
+         {
+            couleurSolo = couleurFond;
+            couleurPartie = couleurSelection;
+         }
+
+        dessineRectangle(jeuSDL->surface_ecran, 4*TAILLE_CASE, (cLargeurEcran-8*TAILLE_CASE)/2, 8*TAILLE_CASE, 1.03*TAILLE_CASE, couleurSolo);
+        dessineRectangle(jeuSDL->surface_ecran, 6*TAILLE_CASE, (cLargeurEcran-8*TAILLE_CASE)/2, 8*TAILLE_CASE, 1.03*TAILLE_CASE, couleurPartie);
+
+        texte = TTF_RenderText_Blended(jeuSDL->policeNom, "SOLO", couleurTexte);
+        SDL_apply_surface(texte, jeuSDL->surface_ecran, 4*TAILLE_CASE, (cLargeurEcran-(texte->w))/2);
+        SDL_FreeSurface(texte);
+
+        texte = TTF_RenderText_Blended(jeuSDL->policeNom, "2 JOUEURS", couleurTexte);
+        SDL_apply_surface(texte, jeuSDL->surface_ecran, 6*TAILLE_CASE, (cLargeurEcran-(texte->w))/2);
+        SDL_FreeSurface(texte);
 
     }
 }
