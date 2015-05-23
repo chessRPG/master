@@ -249,14 +249,14 @@ void boucleEvent(JeuNCURSES * jeuNcurses)
     int y = 0, x = 0; /*coordonées du curseur : y ligne, x colonne*/
     int posX = 0, posY = 0;
     int c;
-    Couleur couleurGagne = -1;
 
+    setCouleurGagnant(&jeuNcurses->jeu, -1);
 
     NcursesAfficheLogs(jeuNcurses);
 
     while(continue_boucle == 1)
     {
-        couleurGagne = -1;
+        setCouleurGagnant(&jeuNcurses->jeu, -1);
 
         /*continue_boucle = 2;
         couleurGagne = BLANC;*/
@@ -281,11 +281,11 @@ void boucleEvent(JeuNCURSES * jeuNcurses)
 
                 if(getCouleurCase(getCase(&jeuNcurses->jeu.plateau, y, x)) == CBLEU && (posX != x || posY != y))
                 {
-                    deplacerPiece(&jeuNcurses->jeu, getPieceCase(getCase(&jeuNcurses->jeu.plateau, posY, posX)), y, x, &couleurGagne);
+                    deplacerPiece(&jeuNcurses->jeu, getPieceCase(getCase(&jeuNcurses->jeu.plateau, posY, posX)), y, x);
                     reinitCouleursEchiquier(&jeuNcurses->jeu.plateau);
                     NcursesAfficheLogs(jeuNcurses);
 
-                    if (couleurGagne == -1) //les deux rois sont vivants, on continue !
+                    if (jeuNcurses->jeu.couleurGagnant == -1) //les deux rois sont vivants, on continue !
                     {
                         if(getJoueurActif(&jeuNcurses->jeu) == &(jeuNcurses->jeu.J1))
                             setJoueurActif(&jeuNcurses->jeu, &(jeuNcurses->jeu.J2));
@@ -314,11 +314,11 @@ void boucleEvent(JeuNCURSES * jeuNcurses)
         wmove(jeuNcurses->echiquier, y+1, x+1);
         wrefresh(jeuNcurses->echiquier);
 
-        if(couleurGagne != -1)
+        if(jeuNcurses->jeu.couleurGagnant != -1)
         {
             curs_set(0);
 
-            if(getCouleurJoueur(&jeuNcurses->jeu.J1) == couleurGagne)
+            if(getCouleurJoueur(&jeuNcurses->jeu.J1) == jeuNcurses->jeu.couleurGagnant)
                 NcursesVictoire(jeuNcurses, &jeuNcurses->jeu.J1) ;
             else
                 NcursesVictoire(jeuNcurses, &jeuNcurses->jeu.J2) ;
@@ -346,7 +346,7 @@ void boucleEvent(JeuNCURSES * jeuNcurses)
             NcursesAfficheLogs(jeuNcurses);
 
             continue_boucle = 1;
-            couleurGagne = -1;
+            setCouleurGagnant(&jeuNcurses->jeu, -1);
         }
 
         usleep(10000);
