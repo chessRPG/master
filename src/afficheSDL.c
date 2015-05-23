@@ -118,6 +118,7 @@ void dessineRectangle(SDL_Surface * ecran, int y, int x, int largeur, int hauteu
 
 void afficheInfosPiece(JeuSDL * jeuSDL, Piece * piece)
 {
+    int largeur = jeuSDL->surface_ecran->w;
     int longueur;
 
     char texte[50];
@@ -125,7 +126,7 @@ void afficheInfosPiece(JeuSDL * jeuSDL, Piece * piece)
     Uint32 noire = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 0, 0);
     SDL_Color couleur = {255, 255, 255};    /*blanc*/
 
-    dessineRectangle(jeuSDL->surface_ecran, 0*TAILLE_CASE, 12*TAILLE_CASE, 8*TAILLE_CASE, 1*TAILLE_CASE, noire);
+    dessineRectangle(jeuSDL->surface_ecran, 0*TAILLE_CASE, 11*TAILLE_CASE, largeur-12*TAILLE_CASE, 1*TAILLE_CASE, noire);
 
     if (piece != NULL)
     {
@@ -135,7 +136,7 @@ void afficheInfosPiece(JeuSDL * jeuSDL, Piece * piece)
 
         longueur = jeuSDL->surface_texteInfos->w ;
 
-        SDL_apply_surface(jeuSDL->surface_texteInfos, jeuSDL->surface_ecran, 0*TAILLE_CASE, 12*TAILLE_CASE+(8*TAILLE_CASE-longueur)/2);
+        SDL_apply_surface(jeuSDL->surface_texteInfos, jeuSDL->surface_ecran, 0*TAILLE_CASE, (largeur+11*TAILLE_CASE-longueur)/2);
 
         SDL_FreeSurface(jeuSDL->surface_texteInfos);
 
@@ -150,15 +151,16 @@ void afficheLogs(JeuSDL * jeuSDL)
     int longueur ;
     char * pch ;
     int largeur = jeuSDL->surface_ecran->w;
+    int hauteur = jeuSDL->surface_ecran->h;
 
-    dessineRectangle(jeuSDL->surface_ecran, (ORIG_X+3)*TAILLE_CASE, (ORIG_Y+9)*TAILLE_CASE, (largeur-ORIG_X-12)*TAILLE_CASE, 8*TAILLE_CASE, noire);
+    dessineRectangle(jeuSDL->surface_ecran, (ORIG_X+2)*TAILLE_CASE, (ORIG_Y+9)*TAILLE_CASE, largeur-(ORIG_Y+9)*TAILLE_CASE, hauteur-(ORIG_X+3)*TAILLE_CASE, noire);
 
     pch = strtok(jeuSDL->jeu.log,",-");
     while(pch != NULL)
     {
         jeuSDL->logs[i] = TTF_RenderText_Blended(jeuSDL->police10, pch, couleur);
         longueur = jeuSDL->logs[i]->w ;
-        SDL_apply_surface(jeuSDL->logs[i], jeuSDL->surface_ecran, (ORIG_X+3+(9-i))*TAILLE_CASE, (ORIG_Y+10)*TAILLE_CASE+((8)*TAILLE_CASE-longueur)/2);
+        SDL_apply_surface(jeuSDL->logs[i], jeuSDL->surface_ecran, (ORIG_X+2+(9-i))*TAILLE_CASE, (2*largeur-longueur-(ORIG_Y+9)*TAILLE_CASE)/2);
         SDL_FreeSurface(jeuSDL->logs[i]) ;
         i-- ;
         pch = strtok (NULL, ",-");
@@ -568,7 +570,7 @@ void SdlInit(JeuSDL * jeuSDL)
     char nom2[13];
     Couleur couleur1;
     Couleur couleur2;
-    int dimX = 21 * TAILLE_CASE ;
+    int dimX = 22 * TAILLE_CASE ;
     int dimY = 12 * TAILLE_CASE ;
 
     jeu = &(jeuSDL->jeu);
@@ -604,7 +606,7 @@ void SdlInit(JeuSDL * jeuSDL)
     if (jeuSDL->jeu.typeJeu == SOLO)
     {
         SdlSaisieJoueur(jeuSDL, nom1, &couleur1, piecesJ1, 1, NUM_COULEUR);
-        sprintf(nom2, "BOT");
+        sprintf(nom2, "BOT BOT BOT");
         if(couleur1 != NOIR)
         {
             couleur2 = NOIR;
@@ -904,8 +906,12 @@ void SdlBoucle(JeuSDL * jeuSDL)
 
         if(getJoueurActif(&jeuSDL->jeu) == &jeuSDL->jeu.J2 && jeuSDL->jeu.typeJeu == SOLO)
         {
+            //usleep(100000);
+
             ia(&jeuSDL->jeu, &couleurGagne);
 
+            afficheLogs(jeuSDL);
+            reinitCouleursEchiquier(&jeuSDL->jeu.plateau) ;
             setJoueurActif(&jeuSDL->jeu, getJoueurInactif(&jeuSDL->jeu));
 
             SdlAffichage(jeuSDL);

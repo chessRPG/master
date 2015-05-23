@@ -149,19 +149,6 @@ void rechercherPiece(Plateau * plateau, Piece * piece, int * x, int * y)
     }
 }
 
-int estDansEnsPieces(Piece * piece, Joueur * joueur)
-{
-    int indice = 0;
-
-    for(indice=0; indice<joueur->nbPieces; indice++)
-    {
-        if (&joueur->ensPieces[indice] == piece)
-            return indice;
-    }
-
-   return -1;
-}
-
 /* autre : modifications sur les chaines de caractères */
 
  void reverse(char s[])
@@ -233,7 +220,7 @@ void initJeu(Jeu * jeu, char * nom1, char * nom2, Couleur C1, Couleur C2)
     initPlateau(&jeu->plateau, C1, C2);
     reinitCouleursEchiquier(&jeu->plateau) ;
 
-    for (i=0; i<2; i++)
+    for (i=1; i>=0; i--)
         for (j=0; j<8; j++)
         {
             piece = getPieceCase(getCase(&jeu->plateau, i, j));
@@ -367,7 +354,7 @@ void initLogCombat(char * log, Piece * pieceAtt, Piece * pieceDef, Jeu * jeu)
 {
     log[0] = '\0' ;
     logNomPiece(log, pieceAtt, jeu) ;
-    strcat(log, " attaque ") ;
+    strcat(log, " attaque ,") ;
     logNomPiece(log, pieceDef, jeu) ;
     strcat(log, ".,") ;
 }
@@ -540,10 +527,19 @@ Piece* combatPieces(Jeu * jeu, Piece * pieceAtt, Piece * pieceDef, Couleur * cou
         logCombat(jeu->log, pieceAtt, pieceDef, jeu) ;
 
         if(pieceDef->type == ROI) *couleurGagne = getCouleurPiece(pieceAtt) ;
-        detruirePiece(pieceDef) ;
 
-        if (estDansEnsPieces(pieceDef, &jeu->J1))   jeu->J1.nbPieces--;
-        else if (estDansEnsPieces(pieceDef, &jeu->J2))   jeu->J2.nbPieces--;
+        if (estDansEnsPieces(pieceDef, &jeu->J1) != -1)
+        {
+            jeu->J1.ensPieces[estDansEnsPieces(pieceDef, &jeu->J1)] = NULL;
+            jeu->J1.nbPieces--;
+        }
+        else if (estDansEnsPieces(pieceDef, &jeu->J2) != -1)
+        {
+            jeu->J2.ensPieces[estDansEnsPieces(pieceDef, &jeu->J2)] = NULL;
+            jeu->J2.nbPieces--;
+        }
+
+        detruirePiece(pieceDef) ;
 
         return pieceAtt ;
     }
@@ -552,10 +548,19 @@ Piece* combatPieces(Jeu * jeu, Piece * pieceAtt, Piece * pieceDef, Couleur * cou
         logCombat(jeu->log, pieceDef, pieceAtt, jeu) ;
 
         if(pieceAtt->type == ROI) *couleurGagne = getCouleurPiece(pieceDef) ;
-        detruirePiece(pieceAtt) ;
 
-        if (estDansEnsPieces(pieceAtt, &jeu->J1))   jeu->J1.nbPieces--;
-        else if (estDansEnsPieces(pieceAtt, &jeu->J2))   jeu->J2.nbPieces--;
+        if (estDansEnsPieces(pieceAtt, &jeu->J1) != -1)
+        {
+            jeu->J1.ensPieces[estDansEnsPieces(pieceAtt, &jeu->J1)] = NULL;
+            jeu->J1.nbPieces--;
+        }
+        else if (estDansEnsPieces(pieceAtt, &jeu->J2) != -1)
+        {
+            jeu->J2.ensPieces[estDansEnsPieces(pieceAtt, &jeu->J2)] = NULL;
+            jeu->J2.nbPieces--;
+        }
+
+        detruirePiece(pieceAtt) ;
 
         return pieceDef ;
     }

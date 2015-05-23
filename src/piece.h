@@ -31,15 +31,23 @@ typedef enum {PION, TOUR, CAVALIER, FOU, DAME, ROI} Type ;
 @see Type
 */
 
-typedef struct
+typedef struct Piece Piece;
+
+struct Piece
 {
     Type type ;
     Couleur couleur ;
+
     int pointsVie ;
     int pointsAttaque ;
+
     int posX;
     int posY;
-} Piece ;
+
+    int nbPiecesControlees;
+    struct Piece * piecesControlees[8];
+
+};
 
 /* accesseurs */
 
@@ -115,6 +123,8 @@ void setPointsVie(Piece * piece, int pointsVie) ;
 void setPointsAttaque(Piece * piece, int pointsAttaque) ;
 
 void setPositionPiece(Piece * piece, int x, int y);
+
+void setPieceControlee(Piece * piece, Piece * controlee);
 
 /* création / destruction */
 

@@ -107,6 +107,11 @@ int getPointsAttaque(Piece * piece)
     return piece->pointsAttaque ;
 }
 
+int getNbPiecesControlees(Piece * piece)
+{
+    return piece->nbPiecesControlees;
+}
+
 /* mutateurs */
 
 void setTypePiece(Piece * piece, Type type)
@@ -135,9 +140,20 @@ void setPositionPiece(Piece * piece, int x, int y)
     piece->posY = y;
 }
 
+void setNbPiecesControlees(Piece * piece, int n)
+{
+    piece->nbPiecesControlees = n;
+}
+
+void setPieceControlee(Piece * piece, Piece * controlee)
+{
+    int n = getNbPiecesControlees(piece);
+
+    piece->piecesControlees[n] = controlee;
+    setNbPiecesControlees(piece, n+1);
+}
+
 /* creation / destruction */
-
-
 
 Piece * creerPiece(Type type, Couleur couleur)
 {
@@ -149,15 +165,14 @@ Piece * creerPiece(Type type, Couleur couleur)
 }
 
 
-
 void initPiece(Piece * piece, Type type, Couleur couleur)
 {
     setTypePiece(piece, type) ;
     setCouleurPiece(piece, couleur) ;
     setPointsVie(piece, getPointsVieMax(type)) ;
     setPointsAttaque(piece, getPointsAttaqueMax(type)) ;
+    setNbPiecesControlees(piece, 0);
 }
-
 
 
 void detruirePiece(Piece * piece)

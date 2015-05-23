@@ -95,6 +95,11 @@ Couleur getCouleurJoueur(Joueur * joueur)
     return joueur->couleur ;
 }
 
+int getNbPiecesJoueur(Joueur * joueur)
+{
+    return joueur->nbPieces;
+}
+
 /* mutateurs */
 
 void setNomJoueur(Joueur * joueur, char * nomJoueur)
@@ -166,8 +171,10 @@ void setDonneesJoueurs(Joueur * joueur1, Joueur * joueur2, char * nom1, char * n
 
 void setPieceJoueur(Joueur * joueur, Piece * piece)
 {
-    joueur->ensPieces[joueur->nbPieces] = *piece;
-    joueur->nbPieces++;
+    int n = getNbPiecesJoueur(joueur);
+
+    joueur->ensPieces[n] = piece;
+    setNbPiecesJoueur(joueur, n+1);
 }
 
 /* creation / destruction */
@@ -178,4 +185,19 @@ void initJoueur(Joueur * joueur)
 
     setCouleurJoueur(joueur, NUM_COULEUR);
     setNbPiecesJoueur(joueur, 0);
+}
+
+/*  externe */
+
+int estDansEnsPieces(Piece * piece, Joueur * joueur)
+{
+    int indice = 0;
+
+    for(indice=0; indice<16; indice++)
+    {
+        if (joueur->ensPieces[indice] == piece)
+            return indice;
+    }
+
+   return -1;
 }

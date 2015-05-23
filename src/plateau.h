@@ -13,6 +13,7 @@
 
 #include "case.h"
 
+
 /**
 @struct Plateau
 @brief structure permettant de gérer le plateau de jeu ainsi que le nombre de tours écoulés

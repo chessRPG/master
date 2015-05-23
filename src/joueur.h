@@ -26,8 +26,9 @@ typedef struct
 {
     char nomJoueur[13] ;
     Couleur couleur ;
+
     int nbPieces;
-    Piece ensPieces[16];
+    Piece * ensPieces[16];
 }  Joueur;
 
 /* accesseurs */
@@ -47,6 +48,8 @@ char * getNomJoueur(Joueur * joueur) ;
 */
 
 Couleur getCouleurJoueur(Joueur * joueur) ;
+
+int getNbPiecesJoueur(Joueur * joueur);
 
 /* mutateurs */
 
@@ -102,5 +105,7 @@ void initJoueur(Joueur * joueur) ;
 */
 
 void secureNom(char* nomSecure, char* nom) ;
+
+int estDansEnsPieces(Piece * piece, Joueur * joueur);
 
 #endif
