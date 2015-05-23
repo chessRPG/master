@@ -17,6 +17,7 @@ typedef struct
     WINDOW * jActif;
     WINDOW * stats ;
     WINDOW * logs;
+    WINDOW * victoire;
 
 }JeuNCURSES;
 
@@ -25,9 +26,9 @@ void NcursesInit(JeuNCURSES * jeuNcurses) ;
 
 void NcursesVictoire(JeuNCURSES * jeuNcurses, Joueur * joueur) ;
 
-int NcursesChoixRecommencer() ;
+int NcursesChoixRecommencer(JeuNCURSES * jeuNcurses) ;
 
-void affichagePlateau(WINDOW * win, Jeu * jeu) ;
+void affichagePlateau(JeuNCURSES * jeuNcurses) ;
 
 void boucleEvent(JeuNCURSES * jeuNcurses);
 

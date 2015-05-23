@@ -1,6 +1,9 @@
 #include "afficheNCURSES.h"
 #include <string.h>
 
+const short TAILLE_FOND_X = 70;
+const short TAILLE_FOND_Y = 20;
+
 void secureNom(char* nomSecure, char* nom)
 {
     int cpt = 0;
@@ -21,21 +24,52 @@ int maximum(int a, int b)
 
 void NcursesAfficheInfosPiece(JeuNCURSES * jeuNcurses, Piece * piece)
 {
+    werase(jeuNcurses->stats);
+
     if (piece != NULL)
     {
-        werase(jeuNcurses->stats);
-        mvwprintw(jeuNcurses->stats, 1, 1, "Type : %s Couleur : %s", getType(getTypePiece(piece)), getCouleur(getCouleurPiece(piece)));
-        mvwprintw(jeuNcurses->stats, 2, 1, "PT Vie : %d  PT Attaque : %d", getPointsVie(piece), getPointsAttaque(piece));
-        box(jeuNcurses->stats,ACS_VLINE,ACS_HLINE) ; /* bordures du fond */
-        wrefresh(jeuNcurses->stats);
+        mvwprintw(jeuNcurses->stats, 1, 1, "Type : %s", getType(getTypePiece(piece)));
+        mvwprintw(jeuNcurses->stats, 1, 17, "Couleur : %s", getCouleur(getCouleurPiece(piece)));
+        mvwprintw(jeuNcurses->stats, 2, 1, "PT Vie : %d ", getPointsVie(piece));
+        mvwprintw(jeuNcurses->stats, 2, 16, "PT Attaque : %d",getPointsAttaque(piece));
     }
+    else
+    {
+        mvwprintw(jeuNcurses->stats, 1, 1, "Type : NULL");
+        mvwprintw(jeuNcurses->stats, 1, 17, "Couleur : NULL");
+        mvwprintw(jeuNcurses->stats, 2, 1, "PT Vie : 0");
+        mvwprintw(jeuNcurses->stats, 2, 16, "PT Attaque : 0");
+    }
+    box(jeuNcurses->stats,ACS_VLINE,ACS_HLINE) ; /* bordures du fond */
+    wrefresh(jeuNcurses->stats);
 }
-void NcursesAfficheJoueurActif(JeuNCURSES * jeuNcurses, Joueur * joueurActif)
+
+void NcursesAfficheJoueurActif(JeuNCURSES * jeuNcurses)
 {
+    Joueur * joueurActif = getJoueurActif(&jeuNcurses->jeu);
+    char nomJoueurActif[13];
+    sprintf(nomJoueurActif, "%s", getNomJoueur(joueurActif));
+
     werase(jeuNcurses->jActif);
-    mvwprintw(jeuNcurses->jActif, 1, 1, "Tour de %s", getNomJoueur(joueurActif));
+    mvwprintw(jeuNcurses->jActif, 1, 1+((getmaxx(jeuNcurses->jActif)-2)-(strlen(nomJoueurActif)+5))/2, "%s joue", nomJoueurActif);
     box(jeuNcurses->jActif,ACS_VLINE,ACS_HLINE);
     wrefresh(jeuNcurses->jActif);
+}
+
+void NcursesAfficheLogs(JeuNCURSES * jeuNcurses)
+{
+    int i = 2 ;
+    char * pch ;
+
+    pch = strtok(jeuNcurses->jeu.log,",-");
+    while(pch != NULL)
+    {
+        mvwprintw(jeuNcurses->logs, i, (49-strlen(pch))/2, "%s", pch);
+        i+= 2 ;
+        pch = strtok (NULL, ",-");
+    }
+
+    wrefresh(jeuNcurses->logs);
 }
 
 void NcursesInit(JeuNCURSES * jeuNcurses)
@@ -70,23 +104,25 @@ void NcursesInit(JeuNCURSES * jeuNcurses)
 
     getmaxyx(stdscr, ecranY, ecranX);
 
-    jeuNcurses->fond = newwin(20, 60, (ecranY-20)/2, (ecranX-60)/2) ;
+    jeuNcurses->fond = newwin(TAILLE_FOND_Y, TAILLE_FOND_X, (ecranY-TAILLE_FOND_Y)/2, (ecranX-TAILLE_FOND_X)/2) ;
 	box(jeuNcurses->fond,ACS_VLINE,ACS_HLINE) ; /* bordures du fond */
-	mvwprintw(jeuNcurses->fond, 4, 2+(12-tailleNomJ2)/2, "%s", getNomJoueur(&jeuNcurses->jeu.J2));
-	mvwprintw(jeuNcurses->fond, 15, 2+(12-tailleNomJ1)/2, "%s", getNomJoueur(&jeuNcurses->jeu.J1));
+	mvwprintw(jeuNcurses->fond, 4, 3+(12-tailleNomJ2)/2, "%s", getNomJoueur(&jeuNcurses->jeu.J2));
+	mvwprintw(jeuNcurses->fond, 15, 3+(12-tailleNomJ1)/2, "%s", getNomJoueur(&jeuNcurses->jeu.J1));
     wrefresh(jeuNcurses->fond);
 
-    jeuNcurses->jActif = newwin(3, maximum(tailleNomJ1, tailleNomJ2)+10, 16+(ecranY-20)/2, 1+(58-maximum(tailleNomJ1, tailleNomJ2)-8)/2+(ecranX-60)/2)  ;
-	NcursesAfficheJoueurActif(jeuNcurses, getJoueurActif(&jeuNcurses->jeu));
+    jeuNcurses->jActif = newwin(3, maximum(tailleNomJ1, tailleNomJ2)+7, 16+(ecranY-TAILLE_FOND_Y)/2, 1+((TAILLE_FOND_X-2)-maximum(tailleNomJ1, tailleNomJ2)-8)/2+(ecranX-TAILLE_FOND_X)/2)  ;
+	NcursesAfficheJoueurActif(jeuNcurses);
 
-	jeuNcurses->stats = newwin(4, 33, 1+(ecranY-20)/2, 19+(ecranX-60)/2);
+	jeuNcurses->stats = newwin(4, 33, 1+(ecranY-TAILLE_FOND_Y)/2, 17+(49-33)/2+(ecranX-TAILLE_FOND_X)/2);
 
-	jeuNcurses->logs = newwin(11, 39, 5+(ecranY-20)/2, 16+(ecranX-60)/2);
+	jeuNcurses->logs = newwin(11, 49, 5+(ecranY-TAILLE_FOND_Y)/2, 17+(ecranX-TAILLE_FOND_X)/2);
 	box(jeuNcurses->logs,ACS_VLINE,ACS_HLINE);
-	mvwprintw(jeuNcurses->logs, 1, 1, "----------- ChessRPG logs -----------");
+	mvwprintw(jeuNcurses->logs, 1, 1, "---------------- ChessRPG logs ----------------");
 	wrefresh(jeuNcurses->logs);
 
-    jeuNcurses->echiquier = newwin(10, 10, 5+(ecranY-20)/2, 3+(ecranX-60)/2) ;
+	jeuNcurses->victoire = newwin(13, 40, (ecranY-13)/2, (ecranX-40)/2);
+
+    jeuNcurses->echiquier = newwin(10, 10, 5+(ecranY-TAILLE_FOND_Y)/2, 4+(ecranX-TAILLE_FOND_X)/2) ;
 	keypad(jeuNcurses->echiquier, true);		/* pour que les flèches soient traitées (il faut le faire après création de la fenêtre) */
 	nodelay(jeuNcurses->echiquier,true); /* Pour que l'appel à wgetch soit non-bloquant */
 	box(jeuNcurses->echiquier,ACS_VLINE,ACS_HLINE) ; /* bordures de l'échiquier */
@@ -94,11 +130,41 @@ void NcursesInit(JeuNCURSES * jeuNcurses)
 
 void NcursesVictoire(JeuNCURSES * jeuNcurses, Joueur * joueur)
 {
+    int ecranX, ecranY;
+    char nomVainqueur[13];
+    sprintf(nomVainqueur, "%s", getNomJoueur(joueur));
 
+    getmaxyx(stdscr, ecranY, ecranX);
+
+    box(jeuNcurses->victoire,ACS_VLINE,ACS_HLINE) ;
+    mvwprintw(jeuNcurses->victoire, 2, (40-10)/2, "VICTOIRE !");
+    mvwprintw(jeuNcurses->victoire, 6, (40-(12+strlen(nomVainqueur)))/2, "VAINQUEUR : %s", nomVainqueur);
+    mvwprintw(jeuNcurses->victoire, 10, 1, "echap : quiter    espace : recommencer");
+
+    wrefresh(jeuNcurses->victoire);
 }
 
-int NcursesChoixRecommencer()
+int NcursesChoixRecommencer(JeuNCURSES * jeuNcurses)
 {
+    int c;
+
+    while(1)
+    {
+        c = wgetch(jeuNcurses->echiquier);
+
+        switch(c)
+        {
+            case 27: /* ECHAP */
+                return 0;
+                break;
+            case ' ':
+                return 2;
+                break;
+
+            default:
+                break;
+        }
+    }
     return 0;
 }
 
@@ -109,6 +175,7 @@ void NcursesLibere(JeuNCURSES * jeuNcurses)
     assert(delwin(jeuNcurses->jActif)!=ERR);
     assert(delwin(jeuNcurses->logs)!=ERR);
     assert(delwin(jeuNcurses->stats)!=ERR);
+    assert(delwin(jeuNcurses->victoire)!=ERR);
     endwin();
 
     detruireJeu(&jeuNcurses->jeu);
@@ -147,7 +214,7 @@ void affichePiece(WINDOW * win, Jeu * jeu, int i, int j, Piece * piece)
     }
 }
 
-void affichagePlateau(WINDOW * win, Jeu * jeu)
+void affichagePlateau(JeuNCURSES * jeuNcurses)
 {
     int i, j ;
     Case * cell ;
@@ -157,20 +224,20 @@ void affichagePlateau(WINDOW * win, Jeu * jeu)
     {
         for(j = 0 ; j < 8 ; j++)
         {
-            cell = getCase(&(jeu->plateau), i, j) ;
+            cell = getCase(&(jeuNcurses->jeu.plateau), i, j) ;
             piece = getPieceCase(cell) ;
 
             if(piece == NULL)
             {
-                mvwprintw(win, i+1, j+1, ".") ;
+                mvwprintw(jeuNcurses->echiquier, i+1, j+1, ".") ;
             }
             else
             {
-                affichePiece(win, jeu, i+1, j+1, piece) ;
+                affichePiece(jeuNcurses->echiquier, &jeuNcurses->jeu, i+1, j+1, piece) ;
             }
             if(cell->couleurCase == CBLEU)
             {
-                mvwprintw(win, i+1, j+1, "$") ;
+                mvwprintw(jeuNcurses->echiquier, i+1, j+1, "$") ;
             }
         }
     }
@@ -178,21 +245,22 @@ void affichagePlateau(WINDOW * win, Jeu * jeu)
 
 void boucleEvent(JeuNCURSES * jeuNcurses)
 {
-    int continue_boucle ;
+    int continue_boucle = 1 ;
     int y = 0, x = 0; /*coordonées du curseur : y ligne, x colonne*/
     int posX = 0, posY = 0;
     int c;
     Couleur couleurGagne = -1;
 
-    continue_boucle = 1 ;
 
-
-    affichagePlateau(jeuNcurses->echiquier, &jeuNcurses->jeu) ;
-    wmove(jeuNcurses->echiquier, y, x);
-
+    NcursesAfficheLogs(jeuNcurses);
 
     while(continue_boucle == 1)
     {
+        couleurGagne = -1;
+
+        /*continue_boucle = 2;
+        couleurGagne = BLANC;*/
+
         c = wgetch(jeuNcurses->echiquier);
 
         switch(c)
@@ -215,6 +283,7 @@ void boucleEvent(JeuNCURSES * jeuNcurses)
                 {
                     deplacerPiece(&jeuNcurses->jeu, getPieceCase(getCase(&jeuNcurses->jeu.plateau, posY, posX)), y, x, &couleurGagne);
                     reinitCouleursEchiquier(&jeuNcurses->jeu.plateau);
+                    NcursesAfficheLogs(jeuNcurses);
 
                     if (couleurGagne == -1) //les deux rois sont vivants, on continue !
                     {
@@ -223,7 +292,7 @@ void boucleEvent(JeuNCURSES * jeuNcurses)
                         else
                             setJoueurActif(&jeuNcurses->jeu, &(jeuNcurses->jeu.J1));
 
-                        NcursesAfficheJoueurActif(jeuNcurses, getJoueurActif(&jeuNcurses->jeu));
+                        NcursesAfficheJoueurActif(jeuNcurses);
                     }
                 }
                 else
@@ -239,20 +308,24 @@ void boucleEvent(JeuNCURSES * jeuNcurses)
             default:
                 break;
         }
-        affichagePlateau(jeuNcurses->echiquier, &jeuNcurses->jeu);
-        wmove(jeuNcurses->echiquier, y+1, x+1);
-        NcursesAfficheInfosPiece(jeuNcurses, getPieceCase(getCase(&jeuNcurses->jeu.plateau, y, x)));
 
+        NcursesAfficheInfosPiece(jeuNcurses, getPieceCase(getCase(&jeuNcurses->jeu.plateau, y, x)));
+        affichagePlateau(jeuNcurses);
+        wmove(jeuNcurses->echiquier, y+1, x+1);
         wrefresh(jeuNcurses->echiquier);
 
         if(couleurGagne != -1)
         {
+            curs_set(0);
+
             if(getCouleurJoueur(&jeuNcurses->jeu.J1) == couleurGagne)
                 NcursesVictoire(jeuNcurses, &jeuNcurses->jeu.J1) ;
             else
                 NcursesVictoire(jeuNcurses, &jeuNcurses->jeu.J2) ;
 
-            continue_boucle = NcursesChoixRecommencer() ;
+            continue_boucle = NcursesChoixRecommencer(jeuNcurses) ;
+
+            curs_set(1);
         }
 
         if(continue_boucle == 2)
@@ -266,7 +339,14 @@ void boucleEvent(JeuNCURSES * jeuNcurses)
 
             reinitCouleursEchiquier(&jeuNcurses->jeu.plateau) ;
 
+            werase(jeuNcurses->victoire);
+
+            NcursesAfficheJoueurActif(jeuNcurses);
+
+            NcursesAfficheLogs(jeuNcurses);
+
             continue_boucle = 1;
+            couleurGagne = -1;
         }
 
         usleep(10000);
