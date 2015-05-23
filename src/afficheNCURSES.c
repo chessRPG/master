@@ -58,14 +58,14 @@ void NcursesAfficheJoueurActif(JeuNCURSES * jeuNcurses)
 
 void NcursesAfficheLogs(JeuNCURSES * jeuNcurses)
 {
-    int i = 2 ;
+    int i = 3 ;
     char * pch ;
 
     pch = strtok(jeuNcurses->jeu.log,",-");
     while(pch != NULL)
     {
         mvwprintw(jeuNcurses->logs, i, (49-strlen(pch))/2, "%s", pch);
-        i+= 2 ;
+        i+= 1 ;
         pch = strtok (NULL, ",-");
     }
 
