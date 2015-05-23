@@ -195,7 +195,7 @@ Joueur * getJoueurInactif(Jeu * jeu)
 
 /* Mutateurs */
 
-void setJoueurActif(Jeu * jeu, Joueur* joueur)
+void setJoueurActif(Jeu * jeu, Joueur * joueur)
 {
     jeu->joueurActif = joueur;
 }
@@ -205,12 +205,18 @@ void setTypeJeu(Jeu * jeu, TypeJeu type)
     jeu->typeJeu = type;
 }
 
+void setCouleurGagnant(Jeu * jeu, Couleur couleur)
+{
+    jeu->couleurGagnant = couleur;
+}
+
 /* Création/Destruction */
 
 void initJeu(Jeu * jeu, char * nom1, char * nom2, Couleur C1, Couleur C2)
 {
     int i, j;
     Piece * piece;
+    Couleur couleurGagnant = -1;
 
     initJoueur(&jeu->J1);
     initJoueur(&jeu->J2);
@@ -237,6 +243,8 @@ void initJeu(Jeu * jeu, char * nom1, char * nom2, Couleur C1, Couleur C2)
         }
 
     sprintf(jeu->log, "Debut de la partie !") ;
+
+    setCouleurGagnant(jeu, couleurGagnant);
 }
 
 void detruireJeu(Jeu * jeu)
@@ -296,6 +304,8 @@ void logDeplacement(char * log, Piece * piece, int i, int j, int posX, int posY)
     strcat(log, buffer) ;
     itoa(8-posX, buffer) ;
     strcat(log, buffer) ;
+
+    strcat(log, "., ,");
 }
 
 /**
@@ -352,7 +362,7 @@ void logNomPiece(char * log, Piece * piece, Jeu * jeu)
 
 void initLogCombat(char * log, Piece * pieceAtt, Piece * pieceDef, Jeu * jeu)
 {
-    log[0] = '\0' ;
+    //log[0] = '\0' ;
     logNomPiece(log, pieceAtt, jeu) ;
     strcat(log, " attaque ,") ;
     logNomPiece(log, pieceDef, jeu) ;
@@ -477,7 +487,7 @@ void selectPiece(Jeu * jeu, int posX, int posY)
     }
 }
 
-void deplacerPiece(Jeu * jeu, Piece * piece, int posFinX, int posFinY, Couleur * couleurGagne)
+void deplacerPiece(Jeu * jeu, Piece * piece, int posFinX, int posFinY)
 {
     Plateau * plateau = &(jeu->plateau) ;
     int posInitX = piece->posX;
@@ -488,7 +498,7 @@ void deplacerPiece(Jeu * jeu, Piece * piece, int posFinX, int posFinY, Couleur *
     setPieceCase(getCase(plateau, posInitX, posInitY), NULL);
 
     if(getPieceCase(getCase(plateau, posFinX, posFinY)) != NULL)
-        piece = combatPieces(jeu, piece, getPieceCase(getCase(plateau, posFinX, posFinY)), couleurGagne);
+        piece = combatPieces(jeu, piece, getPieceCase(getCase(plateau, posFinX, posFinY)));
 
     setPieceCase(getCase(plateau, posFinX, posFinY), piece);
     piece->posX = posFinX;
@@ -497,7 +507,7 @@ void deplacerPiece(Jeu * jeu, Piece * piece, int posFinX, int posFinY, Couleur *
     jeu->plateau.nbTours++;
 }
 
-Piece* combatPieces(Jeu * jeu, Piece * pieceAtt, Piece * pieceDef, Couleur * couleurGagne)
+Piece* combatPieces(Jeu * jeu, Piece * pieceAtt, Piece * pieceDef)
 {
     int BONUS = 1;
     int vie;
@@ -526,7 +536,7 @@ Piece* combatPieces(Jeu * jeu, Piece * pieceAtt, Piece * pieceDef, Couleur * cou
     {
         logCombat(jeu->log, pieceAtt, pieceDef, jeu) ;
 
-        if(pieceDef->type == ROI) *couleurGagne = getCouleurPiece(pieceAtt) ;
+        if(pieceDef->type == ROI) jeu->couleurGagnant = getCouleurPiece(pieceAtt) ;
 
         if (estDansEnsPieces(pieceDef, &jeu->J1) != -1)
         {
@@ -547,7 +557,7 @@ Piece* combatPieces(Jeu * jeu, Piece * pieceAtt, Piece * pieceDef, Couleur * cou
     {
         logCombat(jeu->log, pieceDef, pieceAtt, jeu) ;
 
-        if(pieceAtt->type == ROI) *couleurGagne = getCouleurPiece(pieceDef) ;
+        if(pieceAtt->type == ROI) jeu->couleurGagnant = getCouleurPiece(pieceDef) ;
 
         if (estDansEnsPieces(pieceAtt, &jeu->J1) != -1)
         {

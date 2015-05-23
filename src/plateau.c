@@ -17,6 +17,18 @@ Case * getCase(Plateau * plateau, int posX, int posY)
     return &(plateau->echiquier[posX][posY]) ;
 }
 
+void getCoordCase(Plateau * plateau, Case * cell, int * x, int *y)
+{
+    int cpt = 0;
+    while(caseValide(*x, *y) && getCase(plateau, *x, *y) != cell)
+    {
+        cpt++;
+
+        *y = cpt%8;
+        *x = cpt/8;
+    }
+}
+
 int getNbTours(Plateau * plateau)
 {
     return (int) (plateau->nbTours)/2 ;

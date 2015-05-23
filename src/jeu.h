@@ -38,6 +38,7 @@ typedef struct
     Joueur * joueurActif ;
     char log[1000];
     TypeJeu typeJeu;
+    Couleur couleurGagnant;
 } Jeu ;
 
 /* accesseurs */
@@ -70,6 +71,8 @@ Joueur * getJoueurInactif(Jeu * jeu);
 void setJoueurActif(Jeu * jeu, Joueur* joueur);
 
 void setTypeJeu(Jeu * jeu, TypeJeu type);
+
+void setCouleurGagnant(Jeu * jeu, Couleur couleur);
 
 /* création / destruction */
 
@@ -115,7 +118,7 @@ void selectPiece(Jeu * jeu, int posX, int posY);
 @return Aucun
 */
 
-void deplacerPiece(Jeu * jeu, Piece * piece, int posX, int posY, Couleur * couleurGagne);
+void deplacerPiece(Jeu * jeu, Piece * piece, int posX, int posY);
 
 /**
 @brief fait combattre les deux pièces passées en paramètre et détruit la pièce perdante
@@ -126,7 +129,7 @@ void deplacerPiece(Jeu * jeu, Piece * piece, int posX, int posY, Couleur * coule
 @return adresse de la Piece qui gagne le combat
 */
 
-Piece * combatPieces(Jeu * jeu, Piece * pieceAtt, Piece * pieceDef, Couleur * couleurGagne);
+Piece * combatPieces(Jeu * jeu, Piece * pieceAtt, Piece * pieceDef);
 
 /* autre */
 

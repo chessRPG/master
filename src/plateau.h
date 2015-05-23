@@ -40,6 +40,8 @@ typedef struct
 
 Case * getCase(Plateau * plateau, int posX, int posY) ;
 
+void getCoordCase(Plateau * plateau, Case * cell, int * x, int *y);
+
 /**
 @brief renvoie le nombre de tours écoulés depuis le début de la partie
 @param plateau adresse du Plateau de jeu

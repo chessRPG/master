@@ -70,7 +70,6 @@ void boucleEvent(Jeu * jeu)
     int y = 0, x = 0; /*coordonées du curseur : y ligne, x colonne*/
     int posX, posY;
     int c;
-    Couleur couleurGagne;
 
     initscr() ;
     clear() ;
@@ -108,7 +107,7 @@ void boucleEvent(Jeu * jeu)
             case KEY_BACKSPACE:
                 if(getCouleurCase(getCase(&jeu->plateau, y, x)) == CBLEU && (posX != x || posY != y))
                 {
-                    deplacerPiece(jeu, getPieceCase(getCase(&jeu->plateau, posY, posX)), y, x, &couleurGagne);
+                    deplacerPiece(jeu, getPieceCase(getCase(&jeu->plateau, posY, posX)), y, x);
                     reinitCouleursEchiquier(&jeu->plateau);
                     if(getJoueurActif(jeu) == &(jeu->J1))
                         setJoueurActif(jeu, &(jeu->J2));

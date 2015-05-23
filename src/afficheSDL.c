@@ -889,7 +889,6 @@ void SdlBoucle(JeuSDL * jeuSDL)
 	CouleurCase couleurTemp ;
 	bool selectionne = 0 ;
 	Piece* piece ;
-	Couleur couleurGagne = -1;
 	Uint32 couleurFond = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 0, 0);  /* noir */
 
 	dessineRectangle(jeuSDL->surface_ecran, 0, 0, jeuSDL->surface_ecran->w, jeuSDL->surface_ecran->h, couleurFond);
@@ -902,13 +901,13 @@ void SdlBoucle(JeuSDL * jeuSDL)
 
 	while ( continue_boucle == 1 )
 	{
-	    couleurGagne = -1;
+        setCouleurGagnant(&jeuSDL->jeu, -1);
 
         if(getJoueurActif(&jeuSDL->jeu) == &jeuSDL->jeu.J2 && jeuSDL->jeu.typeJeu == SOLO)
         {
             //usleep(100000);
 
-            ia(&jeuSDL->jeu, &couleurGagne);
+            ia(&jeuSDL->jeu);
 
             afficheLogs(jeuSDL);
             reinitCouleursEchiquier(&jeuSDL->jeu.plateau) ;
@@ -946,12 +945,12 @@ void SdlBoucle(JeuSDL * jeuSDL)
                 {
                     if (couleurTemp == CBLEU && selectionne != 0 && (posX != x || posY != y))
                     {
-                        deplacerPiece(&jeuSDL->jeu, getPieceCase(getCase(&jeuSDL->jeu.plateau, posX, posY)), x, y, &couleurGagne) ;
+                        deplacerPiece(&jeuSDL->jeu, getPieceCase(getCase(&jeuSDL->jeu.plateau, posX, posY)), x, y) ;
                         afficheLogs(jeuSDL) ;
                         reinitCouleursEchiquier(&jeuSDL->jeu.plateau) ;
                         couleurTemp = (x+y)%2 ;
 
-                        if(couleurGagne == -1)
+                        if(jeuSDL->jeu.couleurGagnant == -1)
                         {
                             if (jeuSDL->jeu.joueurActif == &jeuSDL->jeu.J1) setJoueurActif(&jeuSDL->jeu, &jeuSDL->jeu.J2);
                             else setJoueurActif(&jeuSDL->jeu, &jeuSDL->jeu.J1);
@@ -987,9 +986,9 @@ void SdlBoucle(JeuSDL * jeuSDL)
 
 
 
-        if(couleurGagne != -1)
+        if(jeuSDL->jeu.couleurGagnant != -1)
         {
-            if(getCouleurJoueur(&jeuSDL->jeu.J1) == couleurGagne)
+            if(getCouleurJoueur(&jeuSDL->jeu.J1) == jeuSDL->jeu.couleurGagnant)
                 SdlVictoire(jeuSDL, &jeuSDL->jeu.J1) ;
             else
                 SdlVictoire(jeuSDL, &jeuSDL->jeu.J2) ;
