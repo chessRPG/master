@@ -8,6 +8,7 @@
 
 #include "jeu.h"
 
+void NcursesInit(Jeu * jeu);
 void affichage(WINDOW * win, Jeu * jeu) ;
 void boucleEvent(Jeu * jeu);
 

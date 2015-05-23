@@ -1,7 +1,7 @@
 #include "jeu.h"
 
-/*#define JEU_NCURSES*/
-#define JEU_SDL
+#define JEU_NCURSES
+//#define JEU_SDL
 
 #ifdef JEU_NCURSES
 #include "afficheNCURSES.h"
@@ -14,12 +14,10 @@
 int main()
 {
     #ifdef JEU_NCURSES
+        //test();
         Jeu jeu ;
-        char piecesJ1[32];
-        char piecesJ2[32];
-        char log[1024];
 
-        initJeu(&jeu, piecesJ1, piecesJ2);
+        NcursesInit(&jeu);
 
         boucleEvent(&jeu);
 

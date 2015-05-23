@@ -1,4 +1,37 @@
 #include "afficheNCURSES.h"
+#include <string.h>
+
+void secureNom(char* nomSecure, char* nom)
+{
+    int cpt = 0;
+
+    while(cpt < 12 && nom[cpt] != '\0')
+    {
+        nomSecure[cpt] = nom[cpt];
+        cpt++;
+    }
+    nomSecure[cpt] = '\0';
+}
+
+void NcursesInit(Jeu * jeu)
+{
+    char nom1[13];
+    char nom2[13];
+    char nom[32];
+
+    system("clear");
+    printf("Saisir le nom du Joueur 1: ");
+    scanf("%s", nom);
+    secureNom(nom1, nom);
+
+    printf("Saisir le nom du Joueur 2 : ");
+    scanf("%s", nom);
+    secureNom(nom2, nom);
+
+    system("clear");
+
+    initJeu(jeu, nom1, nom2, BLANC, NOIR); /*Pas de couleurs donc BLANC et NOIR par défaut*/
+}
 
 void affichePiece(WINDOW * win, Jeu * jeu, int i, int j, Piece * piece)
 {
@@ -60,6 +93,8 @@ void affichage(WINDOW * win, Jeu * jeu)
             }
         }
     }
+    mvwprintw(win, 0, 9, "%s", getNomJoueur(&jeu->J2));
+    mvwprintw(win, 7, 9, "%s", getNomJoueur(&jeu->J1));
     mvwprintw(win, 8, 0, "%s", getNomJoueur(getJoueurActif(jeu)));
 }
 
@@ -68,15 +103,15 @@ void boucleEvent(Jeu * jeu)
     WINDOW * win ;
     int continue_boucle ;
     int y = 0, x = 0; /*coordonées du curseur : y ligne, x colonne*/
-    int posX, posY;
+    int posX = 0, posY = 0;
     int c;
     Couleur couleurGagne;
 
-    initscr() ;
-    clear() ;
-    noecho() ;
-    cbreak() ;
-    win = newwin(9, 8, 0, 0) ;
+    initscr() ; //initialisation Ncurses
+    clear() ;   //efface écran
+    noecho() ;  //n'affiche pas les touches saisies
+    cbreak() ;  //permet de ne pas appuyer sur entrer pour une saisie
+    win = newwin(9, 40, 0, 0) ;
 	keypad(win, true);		/* pour que les flèches soient traitées (il faut le faire après création de la fenêtre) */
 	nodelay(win,true); /* Pour que l'appel à wgetch soit non-bloquant */
 
@@ -137,6 +172,9 @@ void boucleEvent(Jeu * jeu)
         affichage(win, jeu);
         wmove(win, y, x);
 
+        wrefresh(win);
+
+        usleep(10000);
     }
     assert(delwin(win)!=ERR);
     endwin();

@@ -24,7 +24,6 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add option="-DJEU_SDL" />
 		</Compiler>
 		<Linker>
 			<Add option="-lncurses" />
@@ -48,6 +47,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/couleur.h" />
+		<Unit filename="src/ia.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/ia.h" />
 		<Unit filename="src/jeu.c">
 			<Option compilerVar="CC" />
 		</Unit>
