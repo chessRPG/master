@@ -104,7 +104,7 @@ void initJoueur(Joueur * joueur) ;
 @return Aucun
 */
 
-void secureNom(char* nomSecure, char* nom) ;
+/*void secureNom(char* nomSecure, char* nom) ;*/
 
 int estDansEnsPieces(Piece * piece, Joueur * joueur);
 

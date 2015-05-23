@@ -37,6 +37,8 @@ typedef enum {BLANC, NOIR, BLEU, JAUNE, NUM_COULEUR} Couleur ;
 @return Pointeur une liste des couleurs disponibles
 */
 
+char * getCouleur(Couleur couleur);
+
 Couleur * getListeCouleurs() ;
 
 #endif

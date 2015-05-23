@@ -123,45 +123,8 @@ void setNbPiecesJoueur(Joueur * joueur, int nbPieces)
     joueur->nbPieces = nbPieces;
 }
 
-void secureNom(char* nomSecure, char* nom)
-{
-    int cpt = 0;
-
-    while(cpt < 12 && nom[cpt] != '\0')
-    {
-        nomSecure[cpt] = nom[cpt];
-        cpt++;
-    }
-    nomSecure[cpt] = '\0';
-}
-
 void setDonneesJoueurs(Joueur * joueur1, Joueur * joueur2, char * nom1, char * nom2, Couleur C1, Couleur C2)
 {
-    /*char nom[32];
-    char nomSecure[13];
-
-    system("clear");
-    printf("JOUEUR 1 :\n");
-    printf("Nom : ");
-    scanf("%s", nom);
-    secureNom(nomSecure, nom);
-
-    setNomJoueur(joueur1, nomSecure);
-    printf("\nChoisis ton camp !\n");
-    saisiePieces(joueur1, joueur1, piecesJ1);
-
-
-    system("clear");
-    printf("JOUEUR 2 :\n");
-    printf("Nom : ");
-    scanf("%s", nom);
-    secureNom(nomSecure, nom);
-
-    setNomJoueur(joueur2, nomSecure);
-    printf("\nChoisis ton camp !\n");
-    saisiePieces(joueur1, joueur2, piecesJ2);
-    system("clear");*/
-
     setNomJoueur(joueur1, nom1);
     setNomJoueur(joueur2, nom2);
 

@@ -10,7 +10,12 @@
 
 #include "couleur.h"
 
-const char *TabCouleur[] = {"BLANC", "NOIR", "BLEU", "JAUNE", "NULL"};
+
+char * getCouleur(Couleur couleur)
+{
+    char *TabCouleurs[] = {"BLANC", "NOIR", "BLEU", "JAUNE", "NULL"};
+    return TabCouleurs[(int)couleur];
+}
 
 Couleur * getListeCouleurs()
 {

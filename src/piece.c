@@ -12,6 +12,12 @@
 
 /* interne */
 
+char * getType(Type type)
+{
+    char *TabTypePieces[] = {"PION", "TOUR", "CAVALIER", "FOU", "DAME", "ROI"};
+    return TabTypePieces[(int)type];
+}
+
 /**
 @brief renvoie le nombre de points de vie initial d'une pièce d'un Type donné
 @param type Type de la pièce dont on veut connaitre les points de vie initiaux

@@ -8,7 +8,30 @@
 
 #include "jeu.h"
 
-void affichage(WINDOW * win, Jeu * jeu) ;
-void boucleEvent(Jeu * jeu);
+typedef struct
+{
+    Jeu jeu;
+
+    WINDOW * echiquier ;
+    WINDOW * fond;
+    WINDOW * jActif;
+    WINDOW * stats ;
+    WINDOW * logs;
+
+}JeuNCURSES;
+
+
+void NcursesInit(JeuNCURSES * jeuNcurses) ;
+
+void NcursesVictoire(JeuNCURSES * jeuNcurses, Joueur * joueur) ;
+
+int NcursesChoixRecommencer() ;
+
+void affichagePlateau(WINDOW * win, Jeu * jeu) ;
+
+void boucleEvent(JeuNCURSES * jeuNcurses);
+
+void NcursesLibere(JeuNCURSES * jeuNcurses);
+
 
 #endif
