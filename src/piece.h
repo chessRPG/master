@@ -51,6 +51,8 @@ struct Piece
 
 /* accesseurs */
 
+char * getType(Type type);
+
 /**
 @brief renvoie le type de la pièce passé en paramètre
 @param piece pointeur sur la Piece dont on veut le type
