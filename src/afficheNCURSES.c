@@ -249,7 +249,18 @@ void boucleEvent(JeuNCURSES * jeuNcurses)
     int y = 0, x = 0; /*coordonées du curseur : y ligne, x colonne*/
     int posX = 0, posY = 0;
     int c;
+<<<<<<< HEAD
+
+    initscr() ;
+    clear() ;
+    noecho() ;
+    cbreak() ;
+    win = newwin(9, 8, 0, 0) ;
+	keypad(win, true);		/* pour que les flèches soient traitées (il faut le faire après création de la fenêtre) */
+	nodelay(win,true); /* Pour que l'appel à wgetch soit non-bloquant */
+=======
     Couleur couleurGagne = -1;
+>>>>>>> 820fdaf9bc53b7280746692802ecbd9b7f0563fb
 
 
     NcursesAfficheLogs(jeuNcurses);
@@ -281,6 +292,14 @@ void boucleEvent(JeuNCURSES * jeuNcurses)
 
                 if(getCouleurCase(getCase(&jeuNcurses->jeu.plateau, y, x)) == CBLEU && (posX != x || posY != y))
                 {
+<<<<<<< HEAD
+                    deplacerPiece(jeu, getPieceCase(getCase(&jeu->plateau, posY, posX)), y, x);
+                    reinitCouleursEchiquier(&jeu->plateau);
+                    if(getJoueurActif(jeu) == &(jeu->J1))
+                        setJoueurActif(jeu, &(jeu->J2));
+                    else
+                        setJoueurActif(jeu, &(jeu->J1));
+=======
                     deplacerPiece(&jeuNcurses->jeu, getPieceCase(getCase(&jeuNcurses->jeu.plateau, posY, posX)), y, x, &couleurGagne);
                     reinitCouleursEchiquier(&jeuNcurses->jeu.plateau);
                     NcursesAfficheLogs(jeuNcurses);
@@ -294,6 +313,7 @@ void boucleEvent(JeuNCURSES * jeuNcurses)
 
                         NcursesAfficheJoueurActif(jeuNcurses);
                     }
+>>>>>>> 820fdaf9bc53b7280746692802ecbd9b7f0563fb
                 }
                 else
                 {
