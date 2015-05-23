@@ -14,14 +14,13 @@
 int main()
 {
     #ifdef JEU_NCURSES
-        //test();
-        Jeu jeu ;
+        JeuNCURSES jeuNcurses ;
 
-        NcursesInit(&jeu);
+        NcursesInit(&jeuNcurses);
 
-        boucleEvent(&jeu);
+        boucleEvent(&jeuNcurses);
 
-        detruireJeu(&jeu);
+        NcursesLibere(&jeuNcurses);
     #endif
 
 
