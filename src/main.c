@@ -2,8 +2,8 @@
 
 //#define FOR_WINDOWS
 
-#define JEU_NCURSES
-//#define JEU_SDL
+//#define JEU_NCURSES
+#define JEU_SDL
 
 #ifdef JEU_NCURSES
 #include "afficheNCURSES.h"

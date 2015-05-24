@@ -694,19 +694,3 @@ IApiece * rechercheIApieceAttaquante(IAjeu * iaJeu, Piece * pieceVulnerable, Jeu
 
     return NULL;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
