@@ -78,7 +78,7 @@ void initIAjeu(IAjeu * iaJeu, Jeu * jeu)
         if (i<16)   piece = jeu->J1.ensPieces[i];
         else        piece = jeu->J2.ensPieces[i-16];
 
-        initIApiece(&iaJeu->iaPiece[i], jeu, piece);
+        initIApiece(&iaJeu->iaPieces[i], jeu, piece);
     }
 }
 
@@ -412,7 +412,7 @@ bool pieceVulnerableIAjeu(IAjeu * iaJeu, Jeu * jeu, Piece * piece, int x, int y)
     {
         for (i=16; i<32; i++)
         {
-            IApieceAdverse = &iaJeu->iaPiece[i];
+            IApieceAdverse = &iaJeu->iaPieces[i];
             if (IApieceAdverse->piece != NULL)
             {
                 nbPiecesControlees = IApieceAdverse->nbPiecesControlees;
@@ -428,7 +428,7 @@ bool pieceVulnerableIAjeu(IAjeu * iaJeu, Jeu * jeu, Piece * piece, int x, int y)
     {
         for (i=0; i<16; i++)
         {
-            IApieceAdverse = &iaJeu->iaPiece[i];
+            IApieceAdverse = &iaJeu->iaPieces[i];
             if (IApieceAdverse->piece != NULL)
             {
                 nbPiecesControlees = IApieceAdverse->nbPiecesControlees;
@@ -451,7 +451,7 @@ bool pieceProtegeeIAjeu(IAjeu * iaJeu, Jeu * jeu, Piece * piece, int x, int y)
     {
         for (i=0; i<16; i++)
         {
-            IApieceAmie = &iaJeu->iaPiece[i];
+            IApieceAmie = &iaJeu->iaPieces[i];
             if (IApieceAmie->piece != NULL)
             {
                 nbPiecesControlees = IApieceAmie->nbPiecesControlees;
@@ -465,7 +465,7 @@ bool pieceProtegeeIAjeu(IAjeu * iaJeu, Jeu * jeu, Piece * piece, int x, int y)
     {
         for (i=16; i<32; i++)
         {
-            IApieceAmie = &iaJeu->iaPiece[i];
+            IApieceAmie = &iaJeu->iaPieces[i];
             if (IApieceAmie->piece != NULL)
             {
                 nbPiecesControlees = IApieceAmie->nbPiecesControlees;
@@ -536,11 +536,11 @@ IApiece * rechercheIApiece(IAjeu * iaJeu, Jeu * jeu, Piece * piece)
     {
         indice = estDansEnsPieces(piece, &jeu->J1);
         if (indice != -1)
-            return &iaJeu->iaPiece[indice];
+            return &iaJeu->iaPieces[indice];
 
         indice = estDansEnsPieces(piece, &jeu->J2);
         if (indice != -1)
-            return &iaJeu->iaPiece[16+indice];
+            return &iaJeu->iaPieces[16+indice];
     }
     return NULL;
 }
@@ -557,7 +557,7 @@ IApiece * IApieceRandom(IAjeu * iaJeu, Jeu * jeu, Joueur * joueur)
             if (&jeu->J1 == joueur) numPiece = rand()%16;
             else numPiece = rand()%16+16;
 
-            iaPiece = &iaJeu->iaPiece[numPiece];
+            iaPiece = &iaJeu->iaPieces[numPiece];
 
         } while (iaPiece->piece == NULL);
 

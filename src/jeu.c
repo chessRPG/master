@@ -387,7 +387,7 @@ void logCombat(char * log, Piece * vainqueur, Piece * perdant, Jeu * jeu)
     logNomPiece(log, vainqueur, jeu) ;
     strcat(log, " gagne,contre ") ;
     logNomPiece(log, perdant, jeu) ;
-    strcat(log, ". Il lui reste ") ;
+    strcat(log, ".,Il lui reste ") ;
     itoa(getPointsVie(vainqueur), buffer) ;
     strcat(log, buffer) ;
     strcat(log, "PV.,") ;

@@ -24,7 +24,7 @@ typedef struct
 typedef struct
 {
     int nbPiecesJeu;
-    IApiece iaPiece[32];
+    IApiece iaPieces[32];
 
 } IAjeu ;
 
