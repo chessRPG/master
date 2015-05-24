@@ -1,4 +1,5 @@
 #include "afficheNCURSES.h"
+#include <stdio.h>
 #include <string.h>
 
 const short TAILLE_FOND_X = 70;
@@ -123,8 +124,8 @@ void NcursesInit(JeuNCURSES * jeuNcurses)
 	jeuNcurses->victoire = newwin(13, 40, (ecranY-13)/2, (ecranX-40)/2);
 
     jeuNcurses->echiquier = newwin(10, 10, 5+(ecranY-TAILLE_FOND_Y)/2, 4+(ecranX-TAILLE_FOND_X)/2) ;
-	keypad(jeuNcurses->echiquier, true);		/* pour que les flèches soient traitées (il faut le faire après création de la fenêtre) */
-	nodelay(jeuNcurses->echiquier,true); /* Pour que l'appel à wgetch soit non-bloquant */
+	keypad(jeuNcurses->echiquier, 1);		/* pour que les flèches soient traitées (il faut le faire après création de la fenêtre) */
+	nodelay(jeuNcurses->echiquier, 1); /* Pour que l'appel à wgetch soit non-bloquant */
 	box(jeuNcurses->echiquier,ACS_VLINE,ACS_HLINE) ; /* bordures de l'échiquier */
 }
 

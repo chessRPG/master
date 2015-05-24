@@ -1,9 +1,7 @@
 #include "jeu.h"
 
-//#define FOR_WINDOWS
-
-//#define JEU_NCURSES
-#define JEU_SDL
+#define JEU_NCURSES
+//#define JEU_SDL
 
 #ifdef JEU_NCURSES
 #include "afficheNCURSES.h"
@@ -13,7 +11,7 @@
 #include "afficheSDL.h"
 #endif
 
-int main()
+int main(int argc, char *argv[])
 {
     #ifdef JEU_NCURSES
         JeuNCURSES jeuNcurses ;
