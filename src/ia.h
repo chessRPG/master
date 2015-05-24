@@ -5,7 +5,6 @@
 #include <time.h>
 
 #include "jeu.h"
-#include "afficheSDL.h"
 
 typedef struct
 {
