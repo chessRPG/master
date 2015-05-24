@@ -16,7 +16,7 @@
 					<Add option="-DFOR_WINDOWS" />
 				</Compiler>
 				<Linker>
-					<Add option="-lpdcurses" />
+					<Add option="-lncurses" />
 					<Add option="-lSDL" />
 					<Add option="-lSDL_ttf" />
 					<Add option="-lSDL_image" />

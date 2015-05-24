@@ -1027,12 +1027,13 @@ void SdlBoucle(JeuSDL * jeuSDL)
         {
             Couleur C1 = getCouleurJoueur(&jeuSDL->jeu.J1);
             Couleur C2 = getCouleurJoueur(&jeuSDL->jeu.J2);
+            char nom1[13], nom2[13];
 
-            viderPlateau(&jeuSDL->jeu.plateau);
-            initPlateau(&jeuSDL->jeu.plateau, C1, C2);
-            setJoueurActif(&jeuSDL->jeu, &jeuSDL->jeu.J1);
+            strcpy(nom1, getNomJoueur(&jeuSDL->jeu.J1));
+            strcpy(nom2, getNomJoueur(&jeuSDL->jeu.J2));
 
-            reinitCouleursEchiquier(&jeuSDL->jeu.plateau) ;
+            detruireJeu(&jeuSDL->jeu);
+            initJeu(&jeuSDL->jeu, nom1, nom2, C1, C2);
 
             continue_boucle = 1;
         }

@@ -62,6 +62,9 @@ void NcursesAfficheLogs(JeuNCURSES * jeuNcurses)
     int i = 3 ;
     char * pch ;
 
+    werase(jeuNcurses->logs);
+    box(jeuNcurses->logs, ACS_VLINE, ACS_HLINE);
+
     pch = strtok(jeuNcurses->jeu.log,",-");
     while(pch != NULL)
     {
@@ -131,11 +134,8 @@ void NcursesInit(JeuNCURSES * jeuNcurses)
 
 void NcursesVictoire(JeuNCURSES * jeuNcurses, Joueur * joueur)
 {
-    int ecranX, ecranY;
     char nomVainqueur[13];
     sprintf(nomVainqueur, "%s", getNomJoueur(joueur));
-
-    getmaxyx(stdscr, ecranY, ecranX);
 
     box(jeuNcurses->victoire,ACS_VLINE,ACS_HLINE) ;
     mvwprintw(jeuNcurses->victoire, 2, (40-10)/2, "VICTOIRE !");
@@ -165,6 +165,7 @@ int NcursesChoixRecommencer(JeuNCURSES * jeuNcurses)
             default:
                 break;
         }
+        usleep(10000);
     }
     return 0;
 }
@@ -259,9 +260,6 @@ void boucleEvent(JeuNCURSES * jeuNcurses)
     {
         setCouleurGagnant(&jeuNcurses->jeu, -1);
 
-        /*continue_boucle = 2;
-        couleurGagne = BLANC;*/
-
         c = wgetch(jeuNcurses->echiquier);
 
         switch(c)
@@ -333,14 +331,16 @@ void boucleEvent(JeuNCURSES * jeuNcurses)
         {
             Couleur C1 = getCouleurJoueur(&jeuNcurses->jeu.J1);
             Couleur C2 = getCouleurJoueur(&jeuNcurses->jeu.J2);
+            char nom1[13], nom2[13];
 
-            viderPlateau(&jeuNcurses->jeu.plateau);
-            initPlateau(&jeuNcurses->jeu.plateau, C1, C2);
-            setJoueurActif(&jeuNcurses->jeu, &jeuNcurses->jeu.J1);
+            strcpy(nom1, getNomJoueur(&jeuNcurses->jeu.J1));
+            strcpy(nom2, getNomJoueur(&jeuNcurses->jeu.J2));
 
-            reinitCouleursEchiquier(&jeuNcurses->jeu.plateau) ;
+            detruireJeu(&jeuNcurses->jeu);
+            initJeu(&jeuNcurses->jeu, nom1, nom2, C1, C2);
 
             werase(jeuNcurses->victoire);
+            wrefresh(jeuNcurses->victoire);
 
             NcursesAfficheJoueurActif(jeuNcurses);
 
