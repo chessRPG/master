@@ -163,7 +163,7 @@ void rechercherPiece(Plateau * plateau, Piece * piece, int * x, int * y)
      }
  }
 
- void itoa(int n, char s[])
+ void iTOa(int n, char s[])
  {
      int i = 0, sign;
 
@@ -295,16 +295,16 @@ void logDeplacement(char * log, Piece * piece, int i, int j, int posX, int posY)
             break;
     }
 
-    itoa(j, buffer) ;
+    iTOa(j, buffer) ;
     buffer[0] = buffer[0] + 'A' - '0';
     strcat(log, buffer) ;
-    itoa(8-i, buffer) ;
+    iTOa(8-i, buffer) ;
     strcat(log, buffer) ;
     strcat(log, " se deplace en ") ;
-    itoa(posY, buffer) ;
+    iTOa(posY, buffer) ;
     buffer[0] = buffer[0] + 'A' - '0';
     strcat(log, buffer) ;
-    itoa(8-posX, buffer) ;
+    iTOa(8-posX, buffer) ;
     strcat(log, buffer) ;
 
     strcat(log, "., ,");
@@ -388,7 +388,7 @@ void logCombat(char * log, Piece * vainqueur, Piece * perdant, Jeu * jeu)
     strcat(log, " gagne,contre ") ;
     logNomPiece(log, perdant, jeu) ;
     strcat(log, ".,Il lui reste ") ;
-    itoa(getPointsVie(vainqueur), buffer) ;
+    iTOa(getPointsVie(vainqueur), buffer) ;
     strcat(log, buffer) ;
     strcat(log, "PV.,") ;
 }

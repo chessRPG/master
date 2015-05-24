@@ -1,5 +1,7 @@
 #include "jeu.h"
 
+//#define FOR_WINDOWS
+
 #define JEU_NCURSES
 //#define JEU_SDL
 

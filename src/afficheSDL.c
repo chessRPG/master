@@ -13,7 +13,9 @@
 
 /* il faut répéter la déclaration de la fonction ici pour ne pas déclencher de warning à la compilation avec pedantic et ansi */
 
+#ifndef FOR_WINDOWS
 extern int usleep(__useconds_t __useconds);
+#endif // FOR_WINDOWS
 
 /* taille d'une case en pixels */
 
@@ -802,7 +804,7 @@ void afficheCadre(JeuSDL * jeuSDL)
         SDL_apply_surface(jeuSDL->lettres[i], jeuSDL->surface_ecran, (ORIG_X+8)*TAILLE_CASE, (ORIG_Y+0.4+i)*TAILLE_CASE);
         SDL_FreeSurface(jeuSDL->lettres[i]);
 
-        itoa(i+1, s);
+        iTOa(i+1, s);
         jeuSDL->lettres[8+i] = TTF_RenderText_Blended(jeuSDL->police10, s, couleurLettre);
         SDL_apply_surface(jeuSDL->lettres[8+i], jeuSDL->surface_ecran, (ORIG_X+7.35-i)*TAILLE_CASE, (ORIG_Y-0.3)*TAILLE_CASE);
         SDL_FreeSurface(jeuSDL->lettres[8+i]);

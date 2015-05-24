@@ -140,7 +140,7 @@ Piece * combatPieces(Jeu * jeu, Piece * pieceAtt, Piece * pieceDef);
 @return Aucun
 */
 
-void itoa(int n, char s[]) ;
+void iTOa(int n, char s[]) ;
 
 /**
 @brief renverse la chaine de caractère passée en paramètre

@@ -13,9 +13,10 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add option="-DFOR_WINDOWS" />
 				</Compiler>
 				<Linker>
-					<Add option="-lncurses" />
+					<Add option="-lpdcurses" />
 					<Add option="-lSDL" />
 					<Add option="-lSDL_ttf" />
 					<Add option="-lSDL_image" />
