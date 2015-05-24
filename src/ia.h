@@ -23,8 +23,8 @@ typedef struct
 
 typedef struct
 {
-    int nbPiecesJeu;
-    IApiece iaPieces[32];
+    IApiece iaPiecesJ1[16];
+    IApiece iaPiecesJ2[16];
 
 } IAjeu ;
 
@@ -32,10 +32,11 @@ typedef struct
 void ia (Jeu * jeu);
 
 /*  Initialisation  */
-void initIApiece(IApiece * iaPiece, Jeu * jeu, Piece * piece);
 void initIAjeu(IAjeu * iaJeu, Jeu * jeu);
+void initIApiece(IApiece * iaPiece, Jeu * jeu, Piece * piece);
+void resetIApiece(IApiece * iaPiece, Jeu * jeu);
 
-/*  Accesseurs  */
+/*  Mutateurs  */
 void setNbCasesControleesIApiece(IApiece * iaPiece, int n);
 void setNbPiecesControleesIApiece(IApiece * iaPiece, int n);
 void setNbDeplacementsPossiblespiece(IApiece * iaPiece, int n);
@@ -58,6 +59,8 @@ Piece * joueurVulnerableIAjeu(IAjeu * iaJeu, Jeu * jeu, Joueur * joueur);
 
 IApiece * IApieceRandom(IAjeu * iaJeu, Jeu * jeu, Joueur * joueur);
 void deplacementRandom(IApiece * iaPiece, Jeu * jeu);
+
+IApiece * rechercheIApieceAttaquante(IAjeu * iaJeu, Piece * pieceVulnerable, Jeu * jeu, Joueur * joueur);
 
 /*  Fonctions internes */
 void piecesControleesIApiece(IApiece * iaPiece);
