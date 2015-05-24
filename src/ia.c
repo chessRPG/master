@@ -5,7 +5,7 @@ void ia (Jeu * jeu)
     IAjeu iaJeu;
 
     int nbDepPos;
-    IApiece * iaPiece;
+    IApiece * iaPiece = NULL;
     Piece * piece = NULL;
 
     initIAjeu(&iaJeu, jeu);
