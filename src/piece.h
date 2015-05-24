@@ -43,10 +43,6 @@ struct Piece
 
     int posX;
     int posY;
-
-    int nbPiecesControlees;
-    struct Piece * piecesControlees[8];
-
 };
 
 /* accesseurs */
@@ -125,8 +121,6 @@ void setPointsVie(Piece * piece, int pointsVie) ;
 void setPointsAttaque(Piece * piece, int pointsAttaque) ;
 
 void setPositionPiece(Piece * piece, int x, int y);
-
-void setPieceControlee(Piece * piece, Piece * controlee);
 
 /* création / destruction */
 

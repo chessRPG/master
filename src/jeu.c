@@ -165,11 +165,11 @@ void rechercherPiece(Plateau * plateau, Piece * piece, int * x, int * y)
 
  void itoa(int n, char s[])
  {
-     int i, sign;
+     int i = 0, sign;
 
      if ((sign = n) < 0)  /* record sign */
          n = -n;          /* make n positive */
-     i = 0;
+
      do {       /* generate digits in reverse order */
          s[i++] = n % 10 + '0';   /* get next digit */
      } while ((n /= 10) > 0);     /* delete it */
@@ -269,28 +269,30 @@ void detruireJeu(Jeu * jeu)
 
 void logDeplacement(char * log, Piece * piece, int i, int j, int posX, int posY)
 {
-
+    log[0] = '\0' ;
     char buffer[8] ;
     switch(getTypePiece(piece))
     {
-    case PION:
-        sprintf(log, "Le pion en ") ;
-        break ;
-    case TOUR:
-        sprintf(log, "La tour en ") ;
-        break ;
-    case CAVALIER:
-        sprintf(log, "Le cavalier en ") ;
-        break ;
-    case FOU:
-        sprintf(log, "Le fou en ") ;
-        break ;
-    case DAME:
-        sprintf(log, "La dame en ") ;
-        break ;
-    case ROI:
-        sprintf(log, "Le roi en ") ;
-        break ;
+        case PION:
+            sprintf(log, "Le pion en ") ;
+            break ;
+        case TOUR:
+            sprintf(log, "La tour en ") ;
+            break ;
+        case CAVALIER:
+            sprintf(log, "Le cavalier en ") ;
+            break ;
+        case FOU:
+            sprintf(log, "Le fou en ") ;
+            break ;
+        case DAME:
+            sprintf(log, "La dame en ") ;
+            break ;
+        case ROI:
+            sprintf(log, "Le roi en ") ;
+            break ;
+        default:
+            break;
     }
 
     itoa(j, buffer) ;
@@ -320,24 +322,26 @@ void logNomPiece(char * log, Piece * piece, Jeu * jeu)
 {
     switch(getTypePiece(piece))
     {
-    case PION:
-        strcat(log, "le pion de ") ;
-        break ;
-    case TOUR:
-        strcat(log, "la tour de ") ;
-        break ;
-    case CAVALIER:
-        strcat(log, "le cavalier de ") ;
-        break ;
-    case FOU:
-        strcat(log, "le fou de ") ;
-        break ;
-    case DAME:
-        strcat(log, "la dame de ") ;
-        break ;
-    case ROI:
-        strcat(log, "le roi de ") ;
-        break ;
+        case PION:
+            strcat(log, "le pion de ") ;
+            break ;
+        case TOUR:
+            strcat(log, "la tour de ") ;
+            break ;
+        case CAVALIER:
+            strcat(log, "le cavalier de ") ;
+            break ;
+        case FOU:
+            strcat(log, "le fou de ") ;
+            break ;
+        case DAME:
+            strcat(log, "la dame de ") ;
+            break ;
+        case ROI:
+            strcat(log, "le roi de ") ;
+            break ;
+        default:
+            break;
     }
 
     if(getCouleurPiece(piece) == getCouleurJoueur(&(jeu->J1)))
@@ -362,7 +366,6 @@ void logNomPiece(char * log, Piece * piece, Jeu * jeu)
 
 void initLogCombat(char * log, Piece * pieceAtt, Piece * pieceDef, Jeu * jeu)
 {
-    //log[0] = '\0' ;
     logNomPiece(log, pieceAtt, jeu) ;
     strcat(log, " attaque ,") ;
     logNomPiece(log, pieceDef, jeu) ;

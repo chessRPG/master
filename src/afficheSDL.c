@@ -60,7 +60,7 @@ int ChoixRecommencer()
 
 void SDL_apply_surface( SDL_Surface* surface, SDL_Surface* ecran, int y, int x )
 {
-	/* Make a temporary rectangle to hold the offsets */
+	/* Make a cheminorary rectangle to hold the offsets */
 	SDL_Rect position;
 
 	/* Give the offsets to the rectangle */
@@ -169,9 +169,9 @@ void afficheLogs(JeuSDL * jeuSDL)
 
 void dossierParent(char * str)
 {
-    char temp[32];
-    sprintf(temp, "../%s", str);
-    strcpy(str, temp) ;
+    char chemin[32];
+    sprintf(chemin, "../%s", str);
+    strcpy(str, chemin) ;
 }
 
 void SdlMenuAffichePiece(JeuSDL * jeuSDL, int numPiece)
@@ -316,6 +316,8 @@ void SdlMenuColorePiece(JeuSDL * jeuSDL, int numPiece, Uint32 couleur)
         case 7:
             dessineRectangle(jeuSDL->surface_ecran, 1.2*TAILLE_CASE+cPosHPiece, 4.5*TAILLE_CASE+cPosLPiece, TAILLE_CASE, TAILLE_CASE, couleur);
             SdlMenuAffichePiece(jeuSDL, 7);
+            break;
+        default:
             break;
     }
 }
@@ -480,15 +482,15 @@ void SdlSaisieJoueur(JeuSDL * jeuSDL, char * nom, Couleur * couleur, char * piec
 
 void SdlMenu(JeuSDL * jeuSDL)
 {
-    Uint32 couleurSelection = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 86, 27);   /* vert foncé */
+    Uint32 couleurSelection = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 86, 27);  /* vert foncé */;
     Uint32 couleurFond = SDL_MapRGB(jeuSDL->surface_ecran->format, 48, 48, 48); /* Gris anthracite */
-    Uint32 couleurSolo = couleurSelection;
+    Uint32 couleurSolo = couleurFond;
     Uint32 couleurPartie = couleurFond;
     SDL_Event event;
     SDL_Surface * texte;
     SDL_Color couleurTexte = {255, 255, 255};   /* blanc */
     const int cLargeurEcran = jeuSDL->surface_ecran->w;
-    int choix = 0;  /* 0:SOLO ; 1:2 JOUEURS */
+    int choix = -1;  /* 0:SOLO ; 1:2 JOUEURS */
     int cursX = 0, cursY = 0;
 
     int boucle = 1;
@@ -527,8 +529,8 @@ void SdlMenu(JeuSDL * jeuSDL)
                         choix = 0;
                         break;
                     case SDLK_RETURN:
-                        if (choix)  setTypeJeu(&jeuSDL->jeu, MULTI);
-                        else        setTypeJeu(&jeuSDL->jeu, SOLO);
+                        if (choix == 1)  setTypeJeu(&jeuSDL->jeu, MULTI);
+                        else if (choix == 0)    setTypeJeu(&jeuSDL->jeu, SOLO);
                         boucle = 0;
                         break;
                     default :
@@ -545,8 +547,8 @@ void SdlMenu(JeuSDL * jeuSDL)
                 break;
 
             case SDL_MOUSEBUTTONDOWN:
-                if (choix)  setTypeJeu(&jeuSDL->jeu, MULTI);
-                else        setTypeJeu(&jeuSDL->jeu, SOLO);
+                if (choix == 1)  setTypeJeu(&jeuSDL->jeu, MULTI);
+                else if (choix == 0)    setTypeJeu(&jeuSDL->jeu, SOLO);
                 boucle = 0;
                 break;
 
@@ -560,7 +562,7 @@ void SdlMenu(JeuSDL * jeuSDL)
             couleurSolo = couleurSelection;
             couleurPartie = couleurFond;
          }
-         else
+         else if (choix == 1)
          {
             couleurSolo = couleurFond;
             couleurPartie = couleurSelection;
@@ -586,9 +588,9 @@ void SdlInit(JeuSDL * jeuSDL)
 {
     Jeu * jeu;
 
-    char piecesJ1[32];
-    char piecesJ2[32];
-    char temp[32];
+    char cheminPiecesJ1[32];
+    char cheminPiecesJ2[32];
+    char chemin[32];
     char nom1[13];
     char nom2[13];
     Couleur couleur1;
@@ -606,45 +608,45 @@ void SdlInit(JeuSDL * jeuSDL)
 
     TTF_Init();
 
-    sprintf(temp, "data/rmegg.ttf");
-    jeuSDL->policeNom = TTF_OpenFont(temp, 40);
-    dossierParent(temp);
-    if(jeuSDL->policeNom == NULL) jeuSDL->policeNom = TTF_OpenFont(temp, 40);
+    sprintf(chemin, "data/rmegg.ttf");
+    jeuSDL->policeNom = TTF_OpenFont(chemin, 40);
+    dossierParent(chemin);
+    if(jeuSDL->policeNom == NULL) jeuSDL->policeNom = TTF_OpenFont(chemin, 40);
     assert(jeuSDL->policeNom != NULL);
 
-    sprintf(temp, "data/joystix.ttf");
-    jeuSDL->police10 = TTF_OpenFont(temp, 10);
-    dossierParent(temp);
-    if(jeuSDL->police10 == NULL) jeuSDL->police10 = TTF_OpenFont(temp, 10);
+    sprintf(chemin, "data/joystix.ttf");
+    jeuSDL->police10 = TTF_OpenFont(chemin, 10);
+    dossierParent(chemin);
+    if(jeuSDL->police10 == NULL) jeuSDL->police10 = TTF_OpenFont(chemin, 10);
     assert(jeuSDL->police10 != NULL);
 
-    sprintf(temp, "data/joystix.ttf");
-    jeuSDL->police40 = TTF_OpenFont(temp, 40);
-    dossierParent(temp);
-    if(jeuSDL->police40 == NULL) jeuSDL->police40 = TTF_OpenFont(temp, 40);
+    sprintf(chemin, "data/joystix.ttf");
+    jeuSDL->police40 = TTF_OpenFont(chemin, 40);
+    dossierParent(chemin);
+    if(jeuSDL->police40 == NULL) jeuSDL->police40 = TTF_OpenFont(chemin, 40);
     assert(jeuSDL->police40 != NULL);
 
     SdlMenu(jeuSDL);
 
     if (jeuSDL->jeu.typeJeu == SOLO)
     {
-        SdlSaisieJoueur(jeuSDL, nom1, &couleur1, piecesJ1, 1, NUM_COULEUR);
+        SdlSaisieJoueur(jeuSDL, nom1, &couleur1, cheminPiecesJ1, 1, NUM_COULEUR);
         sprintf(nom2, "BOT BOT BOT");
         if(couleur1 != NOIR)
         {
             couleur2 = NOIR;
-            sprintf(piecesJ2, "data/STANDARD/NOIR/");
+            sprintf(cheminPiecesJ2, "data/STANDARD/NOIR/");
         }
         else
         {
             couleur2 = BLANC;
-            sprintf(piecesJ2, "data/STANDARD/BLANC/");
+            sprintf(cheminPiecesJ2, "data/STANDARD/BLANC/");
         }
     }
     else
     {
-        SdlSaisieJoueur(jeuSDL, nom1, &couleur1, piecesJ1, 1, NUM_COULEUR);
-        SdlSaisieJoueur(jeuSDL, nom2, &couleur2, piecesJ2, 2, couleur1);
+        SdlSaisieJoueur(jeuSDL, nom1, &couleur1, cheminPiecesJ1, 1, NUM_COULEUR);
+        SdlSaisieJoueur(jeuSDL, nom2, &couleur2, cheminPiecesJ2, 2, couleur1);
     }
 
     initJeu(jeu, nom1, nom2, couleur1, couleur2);
@@ -667,77 +669,77 @@ void SdlInit(JeuSDL * jeuSDL)
     assert(jeuSDL->surface_ROUGE != NULL) ;
 
     /*  Pièces Joueur 1 */
-    sprintf(temp, "%sT.png", piecesJ1);
-    jeuSDL->surface_T1 = IMG_Load(temp);
-    dossierParent(temp);
-    if(jeuSDL->surface_T1 == NULL) jeuSDL->surface_T1 = IMG_Load(temp);
+    sprintf(chemin, "%sT.png", cheminPiecesJ1);
+    jeuSDL->surface_T1 = IMG_Load(chemin);
+    dossierParent(chemin);
+    if(jeuSDL->surface_T1 == NULL) jeuSDL->surface_T1 = IMG_Load(chemin);
     assert(jeuSDL->surface_T1 != NULL);
 
-    sprintf(temp, "%sC.png", piecesJ1);
-    jeuSDL->surface_C1 = IMG_Load(temp);
-    dossierParent(temp);
-    if(jeuSDL->surface_C1 == NULL) jeuSDL->surface_C1 = IMG_Load(temp);
+    sprintf(chemin, "%sC.png", cheminPiecesJ1);
+    jeuSDL->surface_C1 = IMG_Load(chemin);
+    dossierParent(chemin);
+    if(jeuSDL->surface_C1 == NULL) jeuSDL->surface_C1 = IMG_Load(chemin);
     assert(jeuSDL->surface_C1 != NULL);
 
-    sprintf(temp, "%sF.png", piecesJ1);
-    jeuSDL->surface_F1 = IMG_Load(temp);
-    dossierParent(temp);
-    if(jeuSDL->surface_F1 == NULL) jeuSDL->surface_F1 = IMG_Load(temp);
+    sprintf(chemin, "%sF.png", cheminPiecesJ1);
+    jeuSDL->surface_F1 = IMG_Load(chemin);
+    dossierParent(chemin);
+    if(jeuSDL->surface_F1 == NULL) jeuSDL->surface_F1 = IMG_Load(chemin);
     assert(jeuSDL->surface_F1 != NULL);
 
-    sprintf(temp, "%sR.png", piecesJ1);
-    jeuSDL->surface_R1 = IMG_Load(temp);
-    dossierParent(temp);
-    if(jeuSDL->surface_R1 == NULL) jeuSDL->surface_R1 = IMG_Load(temp);
+    sprintf(chemin, "%sR.png", cheminPiecesJ1);
+    jeuSDL->surface_R1 = IMG_Load(chemin);
+    dossierParent(chemin);
+    if(jeuSDL->surface_R1 == NULL) jeuSDL->surface_R1 = IMG_Load(chemin);
     assert(jeuSDL->surface_R1 != NULL);
 
-    sprintf(temp, "%sD.png", piecesJ1);
-    jeuSDL->surface_D1 = IMG_Load(temp);
-    dossierParent(temp);
-    if(jeuSDL->surface_D1 == NULL) jeuSDL->surface_D1 = IMG_Load(temp);
+    sprintf(chemin, "%sD.png", cheminPiecesJ1);
+    jeuSDL->surface_D1 = IMG_Load(chemin);
+    dossierParent(chemin);
+    if(jeuSDL->surface_D1 == NULL) jeuSDL->surface_D1 = IMG_Load(chemin);
     assert(jeuSDL->surface_D1 != NULL);
 
-    sprintf(temp, "%sP.png", piecesJ1);
-    jeuSDL->surface_P1 = IMG_Load(temp);
-    dossierParent(temp);
-    if(jeuSDL->surface_P1 == NULL) jeuSDL->surface_P1 = IMG_Load(temp);
+    sprintf(chemin, "%sP.png", cheminPiecesJ1);
+    jeuSDL->surface_P1 = IMG_Load(chemin);
+    dossierParent(chemin);
+    if(jeuSDL->surface_P1 == NULL) jeuSDL->surface_P1 = IMG_Load(chemin);
     assert(jeuSDL->surface_P1 != NULL);
 
     /*  Pièces Joueur 2   */
-    sprintf(temp, "%sT.png", piecesJ2);
-    jeuSDL->surface_T2 = IMG_Load(temp);
-    dossierParent(temp);
-    if(jeuSDL->surface_T2 == NULL) jeuSDL->surface_T2 = IMG_Load(temp);
+    sprintf(chemin, "%sT.png", cheminPiecesJ2);
+    jeuSDL->surface_T2 = IMG_Load(chemin);
+    dossierParent(chemin);
+    if(jeuSDL->surface_T2 == NULL) jeuSDL->surface_T2 = IMG_Load(chemin);
     assert(jeuSDL->surface_T2 != NULL);
 
-    sprintf(temp, "%sC.png", piecesJ2);
-    jeuSDL->surface_C2 = IMG_Load(temp);
-    dossierParent(temp);
-    if(jeuSDL->surface_C2 == NULL) jeuSDL->surface_C2 = IMG_Load(temp);
+    sprintf(chemin, "%sC.png", cheminPiecesJ2);
+    jeuSDL->surface_C2 = IMG_Load(chemin);
+    dossierParent(chemin);
+    if(jeuSDL->surface_C2 == NULL) jeuSDL->surface_C2 = IMG_Load(chemin);
     assert(jeuSDL->surface_C2 != NULL);
 
-    sprintf(temp, "%sF.png", piecesJ2);
-    jeuSDL->surface_F2 = IMG_Load(temp);
-    dossierParent(temp);
-    if(jeuSDL->surface_F2 == NULL) jeuSDL->surface_F2 = IMG_Load(temp);
+    sprintf(chemin, "%sF.png", cheminPiecesJ2);
+    jeuSDL->surface_F2 = IMG_Load(chemin);
+    dossierParent(chemin);
+    if(jeuSDL->surface_F2 == NULL) jeuSDL->surface_F2 = IMG_Load(chemin);
     assert(jeuSDL->surface_F2 != NULL);
 
-    sprintf(temp, "%sR.png", piecesJ2);
-    jeuSDL->surface_R2 = IMG_Load(temp);
-    dossierParent(temp);
-    if(jeuSDL->surface_R2 == NULL) jeuSDL->surface_R2 = IMG_Load(temp);
+    sprintf(chemin, "%sR.png", cheminPiecesJ2);
+    jeuSDL->surface_R2 = IMG_Load(chemin);
+    dossierParent(chemin);
+    if(jeuSDL->surface_R2 == NULL) jeuSDL->surface_R2 = IMG_Load(chemin);
     assert(jeuSDL->surface_R2 != NULL);
 
-    sprintf(temp, "%sD.png", piecesJ2);
-    jeuSDL->surface_D2 = IMG_Load(temp);
-    dossierParent(temp);
-    if(jeuSDL->surface_D2 == NULL) jeuSDL->surface_D2 = IMG_Load(temp);
+    sprintf(chemin, "%sD.png", cheminPiecesJ2);
+    jeuSDL->surface_D2 = IMG_Load(chemin);
+    dossierParent(chemin);
+    if(jeuSDL->surface_D2 == NULL) jeuSDL->surface_D2 = IMG_Load(chemin);
     assert(jeuSDL->surface_D2 != NULL);
 
-    sprintf(temp, "%sP.png", piecesJ2);
-    jeuSDL->surface_P2 = IMG_Load(temp);
-    dossierParent(temp);
-    if(jeuSDL->surface_P2 == NULL) jeuSDL->surface_P2 = IMG_Load(temp);
+    sprintf(chemin, "%sP.png", cheminPiecesJ2);
+    jeuSDL->surface_P2 = IMG_Load(chemin);
+    dossierParent(chemin);
+    if(jeuSDL->surface_P2 == NULL) jeuSDL->surface_P2 = IMG_Load(chemin);
     assert(jeuSDL->surface_P2 != NULL);
 }
 
@@ -909,7 +911,7 @@ void SdlBoucle(JeuSDL * jeuSDL)
 	int continue_boucle = 1;
 	int x = 1000, y = 1000 ;
 	int posX, posY ;
-	CouleurCase couleurTemp ;
+	CouleurCase couleurchemin ;
 	bool selectionne = 0 ;
 	Piece* piece ;
 	Uint32 couleurFond = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 0, 0);  /* noir */
@@ -949,7 +951,7 @@ void SdlBoucle(JeuSDL * jeuSDL)
 
                 if (event.type == SDL_MOUSEMOTION)
                 {
-                    if (caseValide(x, y)) setCouleurCase(getCase(&jeuSDL->jeu.plateau, x, y), couleurTemp);
+                    if (caseValide(x, y)) setCouleurCase(getCase(&jeuSDL->jeu.plateau, x, y), couleurchemin);
 
 
                     SDL_GetMouseState(&y, &x) ;
@@ -957,7 +959,7 @@ void SdlBoucle(JeuSDL * jeuSDL)
                     y = (y/TAILLE_CASE) - ORIG_Y;
                     if (caseValide(x, y))
                     {
-                        couleurTemp = getCouleurCase(getCase(&jeuSDL->jeu.plateau, x, y)) ;
+                        couleurchemin = getCouleurCase(getCase(&jeuSDL->jeu.plateau, x, y)) ;
                         setCouleurCase(getCase(&jeuSDL->jeu.plateau, x, y), CROUGE);
                         piece = getPieceCase(getCase(&jeuSDL->jeu.plateau, x, y));
                         afficheInfosPiece(jeuSDL, piece);
@@ -966,12 +968,12 @@ void SdlBoucle(JeuSDL * jeuSDL)
 
                 if (event.type == SDL_MOUSEBUTTONDOWN && caseValide(x, y))
                 {
-                    if (couleurTemp == CBLEU && selectionne != 0 && (posX != x || posY != y))
+                    if (couleurchemin == CBLEU && selectionne != 0 && (posX != x || posY != y))
                     {
                         deplacerPiece(&jeuSDL->jeu, getPieceCase(getCase(&jeuSDL->jeu.plateau, posX, posY)), x, y) ;
                         afficheLogs(jeuSDL) ;
                         reinitCouleursEchiquier(&jeuSDL->jeu.plateau) ;
-                        couleurTemp = (x+y)%2 ;
+                        couleurchemin = (x+y)%2 ;
 
                         if(jeuSDL->jeu.couleurGagnant == -1)
                         {
@@ -983,7 +985,7 @@ void SdlBoucle(JeuSDL * jeuSDL)
                     else
                     {
                         selectPiece(&jeuSDL->jeu, x, y) ;
-                        couleurTemp = getCouleurCase(getCase(&jeuSDL->jeu.plateau, x, y)) ;
+                        couleurchemin = getCouleurCase(getCase(&jeuSDL->jeu.plateau, x, y)) ;
                         piece = getPieceCase(getCase(&jeuSDL->jeu.plateau, x, y)) ;
                         selectionne = (piece!= NULL) && (getCouleurPiece(piece) == getCouleurJoueur(getJoueurActif(&jeuSDL->jeu))) ;
                         posX = x ;
