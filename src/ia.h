@@ -32,7 +32,7 @@ typedef struct
 void ia (Jeu * jeu);
 
 /*  Initialisation  */
-void initIApiece(IApiece * iaPieces, Jeu * jeu, Piece * piece);
+void initIApiece(IApiece * iaPiece, Jeu * jeu, Piece * piece);
 void initIAjeu(IAjeu * iaJeu, Jeu * jeu);
 
 /*  Accesseurs  */
