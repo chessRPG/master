@@ -964,7 +964,7 @@ void SdlBoucle(JeuSDL * jeuSDL)
 
         if(getJoueurActif(&jeuSDL->jeu) == &jeuSDL->jeu.J2 && getTypeJeu(&jeuSDL->jeu) == SOLO)
         {
-            sleep(3);
+            sleep(1);
 
             ia(&jeuSDL->jeu);
 

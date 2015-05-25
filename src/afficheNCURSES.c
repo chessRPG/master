@@ -335,13 +335,14 @@ void boucleEvent(JeuNCURSES * jeuNcurses)
 
         if(getJoueurActif(&jeuNcurses->jeu) == &jeuNcurses->jeu.J2 && getTypeJeu(&jeuNcurses->jeu) == SOLO)
         {
-            sleep(3);
+            sleep(1);
 
             ia(&jeuNcurses->jeu);
 
             NcursesAfficheLogs(jeuNcurses);
             reinitCouleursEchiquier(&jeuNcurses->jeu.plateau) ;
             setJoueurActif(&jeuNcurses->jeu, getJoueurInactif(&jeuNcurses->jeu));
+            affichagePlateau(jeuNcurses);
 
             wrefresh(jeuNcurses->echiquier);
         }
