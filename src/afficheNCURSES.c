@@ -1,4 +1,5 @@
 #include "afficheNCURSES.h"
+#include "ia.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -76,29 +77,80 @@ void NcursesAfficheLogs(JeuNCURSES * jeuNcurses)
     wrefresh(jeuNcurses->logs);
 }
 
+void NcursesChoixTypeJeu(JeuNCURSES * jeuNcurses)
+{
+    char c;
+
+	mvwprintw(jeuNcurses->fond, 1, 1+14, "solo");
+	setTypeJeu(&jeuNcurses->jeu, SOLO);
+	do
+	{
+	    werase(jeuNcurses->fond);
+	    box(jeuNcurses->fond,ACS_VLINE,ACS_HLINE) ;
+	    mvwprintw(jeuNcurses->fond, (TAILLE_FOND_Y-1)/2, (TAILLE_FOND_X-23)/2, "mode de jeu : ");
+	    c = wgetch(jeuNcurses->fond);
+
+	    if (c == ' ')
+        {
+            if(getTypeJeu(&jeuNcurses->jeu) == MULTI) setTypeJeu(&jeuNcurses->jeu, SOLO);
+            else setTypeJeu(&jeuNcurses->jeu, MULTI);
+        }
+
+	    if(getTypeJeu(&jeuNcurses->jeu) == MULTI) mvwprintw(jeuNcurses->fond, (TAILLE_FOND_Y-1)/2, 14+(TAILLE_FOND_X-23)/2, "2 Joueurs");
+	    else mvwprintw(jeuNcurses->fond, (TAILLE_FOND_Y-1)/2, 14+(TAILLE_FOND_X-23)/2, "1 Joueur");
+
+	    mvwprintw(jeuNcurses->fond, TAILLE_FOND_Y-2, (TAILLE_FOND_X-61)/2, "espace : changer de mode                    echap : continuer");
+
+	    wrefresh(jeuNcurses->fond);
+
+	    usleep(100000);
+	}while(c != 27 /*echap*/);
+}
+
+void NcursesSaisieNomJoueur(JeuNCURSES * jeuNcurses, char * nom, int numeroJoueur)
+{
+    int cpt = 0;
+    char c;
+
+    nom[0] = '\0';
+	do
+    {
+        werase(jeuNcurses->fond);
+	    box(jeuNcurses->fond,ACS_VLINE,ACS_HLINE) ;
+
+	    c = wgetch(jeuNcurses->fond);
+
+        mvwprintw(jeuNcurses->fond, (TAILLE_FOND_Y-1)/2-1, (TAILLE_FOND_X-16)/2, "Nom du Joueur %d:", numeroJoueur);
+        mvwprintw(jeuNcurses->fond, TAILLE_FOND_Y-2, (TAILLE_FOND_X-53)/2, "espace : effacer                    echap : continuer");
+
+        if(((c >= 'a' && c <= 'z') || (c >= '0' && c <= '9')) && cpt < 13)
+        {
+            nom[cpt] = c;
+            cpt++;
+            nom[cpt] = '\0';
+        }
+        if(c == ' ' /*espace*/ && cpt > 0)
+        {
+            cpt--;
+            nom[cpt] = '\0';
+        }
+
+        if(nom[0] != '\0') mvwprintw(jeuNcurses->fond, (TAILLE_FOND_Y-1)/2, (TAILLE_FOND_X-strlen(nom))/2, nom);
+
+        wrefresh(jeuNcurses->fond);
+
+	    usleep(100000);
+    }while(c != 27 /*echap*/ /*&& cpt == 0*/);
+}
+
 void NcursesInit(JeuNCURSES * jeuNcurses)
 {
     char nom1[13];
     char nom2[13];
-    char nom[32];
     int ecranX, ecranY;
     int tailleNomJ1, tailleNomJ2;
 
     system("clear");
-    printf("Saisir le nom du Joueur 1: ");
-    scanf("%s", nom);
-    secureNom(nom1, nom);
-
-    printf("Saisir le nom du Joueur 2 : ");
-    scanf("%s", nom);
-    secureNom(nom2, nom);
-
-    system("clear");
-
-    initJeu(&jeuNcurses->jeu, nom1, nom2, BLANC, NOIR); /*Pas de couleurs donc BLANC et NOIR par défaut*/
-
-    tailleNomJ1 = strlen(getNomJoueur(&jeuNcurses->jeu.J1));
-    tailleNomJ2 = strlen(getNomJoueur(&jeuNcurses->jeu.J2));
 
 
     initscr() ; //initialisation Ncurses
@@ -109,8 +161,29 @@ void NcursesInit(JeuNCURSES * jeuNcurses)
     getmaxyx(stdscr, ecranY, ecranX);
 
     jeuNcurses->fond = newwin(TAILLE_FOND_Y, TAILLE_FOND_X, (ecranY-TAILLE_FOND_Y)/2, (ecranX-TAILLE_FOND_X)/2) ;
+    keypad(jeuNcurses->fond, 1);
+    nodelay(jeuNcurses->fond, 1);
 	box(jeuNcurses->fond,ACS_VLINE,ACS_HLINE) ; /* bordures du fond */
-	mvwprintw(jeuNcurses->fond, 4, 3+(12-tailleNomJ2)/2, "%s", getNomJoueur(&jeuNcurses->jeu.J2));
+
+	curs_set(0);
+
+	NcursesChoixTypeJeu(jeuNcurses);
+
+	NcursesSaisieNomJoueur(jeuNcurses, nom1, 1);
+
+	if(getTypeJeu(&jeuNcurses->jeu) == MULTI) NcursesSaisieNomJoueur(jeuNcurses, nom2, 2);
+	else sprintf(nom2, "BOT BOT BOT");
+
+	curs_set(1);
+
+	initJeu(&jeuNcurses->jeu, nom1, nom2, BLANC, NOIR); /*Pas de couleurs donc BLANC et NOIR par défaut*/
+
+	tailleNomJ1 = strlen(getNomJoueur(&jeuNcurses->jeu.J1));
+    tailleNomJ2 = strlen(getNomJoueur(&jeuNcurses->jeu.J2));
+
+    werase(jeuNcurses->fond);
+    box(jeuNcurses->fond,ACS_VLINE,ACS_HLINE) ;
+    mvwprintw(jeuNcurses->fond, 4, 3+(12-tailleNomJ2)/2, "%s", getNomJoueur(&jeuNcurses->jeu.J2));
 	mvwprintw(jeuNcurses->fond, 15, 3+(12-tailleNomJ1)/2, "%s", getNomJoueur(&jeuNcurses->jeu.J1));
     wrefresh(jeuNcurses->fond);
 
@@ -260,58 +333,73 @@ void boucleEvent(JeuNCURSES * jeuNcurses)
     {
         setCouleurGagnant(&jeuNcurses->jeu, -1);
 
-        c = wgetch(jeuNcurses->echiquier);
-
-        switch(c)
+        if(getJoueurActif(&jeuNcurses->jeu) == &jeuNcurses->jeu.J2 && getTypeJeu(&jeuNcurses->jeu) == SOLO)
         {
-            case KEY_LEFT:
-                if(x>0) x--;
-                break;
-            case KEY_RIGHT:
-                if (x<7) x++;
-                break;
-            case KEY_UP:
-                if(y>0) y--;
-                break;
-            case KEY_DOWN:
-                if (y<7) y++;
-                break;
-            case ' ':
+            sleep(3);
 
-                if(getCouleurCase(getCase(&jeuNcurses->jeu.plateau, y, x)) == CBLEU && (posX != x || posY != y))
-                {
-                    deplacerPiece(&jeuNcurses->jeu, getPieceCase(getCase(&jeuNcurses->jeu.plateau, posY, posX)), y, x);
-                    reinitCouleursEchiquier(&jeuNcurses->jeu.plateau);
-                    NcursesAfficheLogs(jeuNcurses);
+            ia(&jeuNcurses->jeu);
 
-                    if (jeuNcurses->jeu.couleurGagnant == -1) //les deux rois sont vivants, on continue !
-                    {
-                        if(getJoueurActif(&jeuNcurses->jeu) == &(jeuNcurses->jeu.J1))
-                            setJoueurActif(&jeuNcurses->jeu, &(jeuNcurses->jeu.J2));
-                        else
-                            setJoueurActif(&jeuNcurses->jeu, &(jeuNcurses->jeu.J1));
+            NcursesAfficheLogs(jeuNcurses);
+            reinitCouleursEchiquier(&jeuNcurses->jeu.plateau) ;
+            setJoueurActif(&jeuNcurses->jeu, getJoueurInactif(&jeuNcurses->jeu));
 
-                        NcursesAfficheJoueurActif(jeuNcurses);
-                    }
-                }
-                else
-                {
-                    selectPiece(&jeuNcurses->jeu, y, x);
-                    posX = x;
-                    posY = y;
-                }
-                break;
-            case 27: /* ECHAP */
-                continue_boucle = 0;
-                break;
-            default:
-                break;
+            wrefresh(jeuNcurses->echiquier);
         }
+        else
+        {
+            c = wgetch(jeuNcurses->echiquier);
 
-        NcursesAfficheInfosPiece(jeuNcurses, getPieceCase(getCase(&jeuNcurses->jeu.plateau, y, x)));
-        affichagePlateau(jeuNcurses);
-        wmove(jeuNcurses->echiquier, y+1, x+1);
-        wrefresh(jeuNcurses->echiquier);
+            switch(c)
+            {
+                case KEY_LEFT:
+                    if(x>0) x--;
+                    break;
+                case KEY_RIGHT:
+                    if (x<7) x++;
+                    break;
+                case KEY_UP:
+                    if(y>0) y--;
+                    break;
+                case KEY_DOWN:
+                    if (y<7) y++;
+                    break;
+                case ' ':
+
+                    if(getCouleurCase(getCase(&jeuNcurses->jeu.plateau, y, x)) == CBLEU && (posX != x || posY != y))
+                    {
+                        deplacerPiece(&jeuNcurses->jeu, getPieceCase(getCase(&jeuNcurses->jeu.plateau, posY, posX)), y, x);
+                        reinitCouleursEchiquier(&jeuNcurses->jeu.plateau);
+                        NcursesAfficheLogs(jeuNcurses);
+
+                        if (jeuNcurses->jeu.couleurGagnant == -1) //les deux rois sont vivants, on continue !
+                        {
+                            if(getJoueurActif(&jeuNcurses->jeu) == &(jeuNcurses->jeu.J1))
+                                setJoueurActif(&jeuNcurses->jeu, &(jeuNcurses->jeu.J2));
+                            else
+                                setJoueurActif(&jeuNcurses->jeu, &(jeuNcurses->jeu.J1));
+
+                            NcursesAfficheJoueurActif(jeuNcurses);
+                        }
+                    }
+                    else
+                    {
+                        selectPiece(&jeuNcurses->jeu, y, x);
+                        posX = x;
+                        posY = y;
+                    }
+                    break;
+                case 27: /* ECHAP */
+                    continue_boucle = 0;
+                    break;
+                default:
+                    break;
+            }
+
+            NcursesAfficheInfosPiece(jeuNcurses, getPieceCase(getCase(&jeuNcurses->jeu.plateau, y, x)));
+            affichagePlateau(jeuNcurses);
+            wmove(jeuNcurses->echiquier, y+1, x+1);
+            wrefresh(jeuNcurses->echiquier);
+        }
 
         if(jeuNcurses->jeu.couleurGagnant != -1)
         {

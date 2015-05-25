@@ -193,6 +193,11 @@ Joueur * getJoueurInactif(Jeu * jeu)
     else return &(jeu->J1) ;
 }
 
+TypeJeu getTypeJeu(Jeu * jeu)
+{
+    return jeu->typeJeu;
+}
+
 /* Mutateurs */
 
 void setJoueurActif(Jeu * jeu, Joueur * joueur)

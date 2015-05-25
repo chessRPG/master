@@ -59,6 +59,8 @@ Joueur * getJoueurActif(Jeu * jeu);
 
 Joueur * getJoueurInactif(Jeu * jeu);
 
+TypeJeu getTypeJeu(Jeu * jeu);
+
 /* mutateurs */
 
 /**

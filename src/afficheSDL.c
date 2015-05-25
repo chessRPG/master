@@ -125,29 +125,60 @@ void afficheInfosPiece(JeuSDL * jeuSDL, Piece * piece)
 
     char texte[50];
 
-    Uint32 noire = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 0, 0);
+    Uint32 couleurFond = SDL_MapRGB(jeuSDL->surface_ecran->format, 58, 2, 13); /*cassis*/
     SDL_Color couleur = {255, 255, 255};    /*blanc*/
 
-    dessineRectangle(jeuSDL->surface_ecran, 0*TAILLE_CASE, 11*TAILLE_CASE, largeur-12*TAILLE_CASE, 1*TAILLE_CASE, noire);
+    dessineRectangle(jeuSDL->surface_ecran, 1*TAILLE_CASE, 12*TAILLE_CASE, 9*TAILLE_CASE, 1*TAILLE_CASE, couleurFond);
 
     if (piece != NULL)
     {
-        sprintf(texte, "pt vie : %d  pt Attaque : %d ", getPointsVie(piece), getPointsAttaque(piece));
-
+        sprintf(texte, "Type : %s", getType(getTypePiece(piece)));
         jeuSDL->surface_texteInfos = TTF_RenderText_Blended(jeuSDL->police10, texte, couleur);
-
-        longueur = jeuSDL->surface_texteInfos->w ;
-
-        SDL_apply_surface(jeuSDL->surface_texteInfos, jeuSDL->surface_ecran, 0*TAILLE_CASE, (largeur+11*TAILLE_CASE-longueur)/2);
-
+        SDL_apply_surface(jeuSDL->surface_texteInfos, jeuSDL->surface_ecran, 1*TAILLE_CASE, 13*TAILLE_CASE);
         SDL_FreeSurface(jeuSDL->surface_texteInfos);
 
+        sprintf(texte, "Couleur : %s", getCouleur(getCouleurPiece(piece)));
+        jeuSDL->surface_texteInfos = TTF_RenderText_Blended(jeuSDL->police10, texte, couleur);
+        SDL_apply_surface(jeuSDL->surface_texteInfos, jeuSDL->surface_ecran, 1*TAILLE_CASE, 17*TAILLE_CASE);
+        SDL_FreeSurface(jeuSDL->surface_texteInfos);
+
+        sprintf(texte, "PT Vie : %d", getPointsVie(piece));
+        jeuSDL->surface_texteInfos = TTF_RenderText_Blended(jeuSDL->police10, texte, couleur);
+        SDL_apply_surface(jeuSDL->surface_texteInfos, jeuSDL->surface_ecran, 1.5*TAILLE_CASE, 13*TAILLE_CASE);
+        SDL_FreeSurface(jeuSDL->surface_texteInfos);
+
+        sprintf(texte, "PT Attaque : %d", getPointsAttaque(piece));
+        jeuSDL->surface_texteInfos = TTF_RenderText_Blended(jeuSDL->police10, texte, couleur);
+        SDL_apply_surface(jeuSDL->surface_texteInfos, jeuSDL->surface_ecran, 1.5*TAILLE_CASE, 17*TAILLE_CASE);
+        SDL_FreeSurface(jeuSDL->surface_texteInfos);
+    }
+    else
+    {
+        sprintf(texte, "Type : NULL");
+        jeuSDL->surface_texteInfos = TTF_RenderText_Blended(jeuSDL->police10, texte, couleur);
+        SDL_apply_surface(jeuSDL->surface_texteInfos, jeuSDL->surface_ecran, 1*TAILLE_CASE, 13*TAILLE_CASE);
+        SDL_FreeSurface(jeuSDL->surface_texteInfos);
+
+        sprintf(texte, "Couleur : NULL");
+        jeuSDL->surface_texteInfos = TTF_RenderText_Blended(jeuSDL->police10, texte, couleur);
+        SDL_apply_surface(jeuSDL->surface_texteInfos, jeuSDL->surface_ecran, 1*TAILLE_CASE, 17*TAILLE_CASE);
+        SDL_FreeSurface(jeuSDL->surface_texteInfos);
+
+        sprintf(texte, "PT Vie : 0");
+        jeuSDL->surface_texteInfos = TTF_RenderText_Blended(jeuSDL->police10, texte, couleur);
+        SDL_apply_surface(jeuSDL->surface_texteInfos, jeuSDL->surface_ecran, 1.5*TAILLE_CASE, 13*TAILLE_CASE);
+        SDL_FreeSurface(jeuSDL->surface_texteInfos);
+
+        sprintf(texte, "PT Attaque : 0");
+        jeuSDL->surface_texteInfos = TTF_RenderText_Blended(jeuSDL->police10, texte, couleur);
+        SDL_apply_surface(jeuSDL->surface_texteInfos, jeuSDL->surface_ecran, 1.5*TAILLE_CASE, 17*TAILLE_CASE);
+        SDL_FreeSurface(jeuSDL->surface_texteInfos);
     }
 }
 
 void afficheLogs(JeuSDL * jeuSDL)
 {
-    Uint32 noire = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 0, 0);
+    Uint32 couleurFond = SDL_MapRGB(jeuSDL->surface_ecran->format, 11, 22, 22); /*Dorian*/
     SDL_Color couleur = {255, 255, 255};    /*blanc*/
     int i = 9 ;
     int longueur ;
@@ -155,7 +186,7 @@ void afficheLogs(JeuSDL * jeuSDL)
     int largeur = jeuSDL->surface_ecran->w;
     int hauteur = jeuSDL->surface_ecran->h;
 
-    dessineRectangle(jeuSDL->surface_ecran, (ORIG_X+2)*TAILLE_CASE, (ORIG_Y+9)*TAILLE_CASE, largeur-(ORIG_Y+9)*TAILLE_CASE, hauteur-(ORIG_X+3)*TAILLE_CASE, noire);
+    dessineRectangle(jeuSDL->surface_ecran, 3*TAILLE_CASE, 12*TAILLE_CASE, 9*TAILLE_CASE, 8*TAILLE_CASE, couleurFond);
 
     pch = strtok(jeuSDL->jeu.log,",-");
     while(pch != NULL)
@@ -924,15 +955,16 @@ void SdlBoucle(JeuSDL * jeuSDL)
 
     SdlAffichage(jeuSDL);
     afficheCadre(jeuSDL);
+    afficheInfosPiece(jeuSDL, NULL);
 	assert( SDL_Flip( jeuSDL->surface_ecran )!=-1 );
 
 	while ( continue_boucle == 1 )
 	{
         setCouleurGagnant(&jeuSDL->jeu, -1);
 
-        if(getJoueurActif(&jeuSDL->jeu) == &jeuSDL->jeu.J2 && jeuSDL->jeu.typeJeu == SOLO)
+        if(getJoueurActif(&jeuSDL->jeu) == &jeuSDL->jeu.J2 && getTypeJeu(&jeuSDL->jeu) == SOLO)
         {
-            //usleep(100000);
+            sleep(3);
 
             ia(&jeuSDL->jeu);
 
@@ -1034,6 +1066,8 @@ void SdlBoucle(JeuSDL * jeuSDL)
 
             detruireJeu(&jeuSDL->jeu);
             initJeu(&jeuSDL->jeu, nom1, nom2, C1, C2);
+
+            afficheLogs(jeuSDL);
 
             continue_boucle = 1;
         }

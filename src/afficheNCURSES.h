@@ -22,6 +22,7 @@ typedef struct
 
 }JeuNCURSES;
 
+void NcursesSaisieNomJoueur(JeuNCURSES * jeuNcurses, char * nom, int J);
 
 void NcursesInit(JeuNCURSES * jeuNcurses) ;
 
