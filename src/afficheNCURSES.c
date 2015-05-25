@@ -1,6 +1,7 @@
 #include "afficheNCURSES.h"
 #include "ia.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 const short TAILLE_FOND_X = 70;
@@ -335,7 +336,11 @@ void boucleEvent(JeuNCURSES * jeuNcurses)
 
         if(getJoueurActif(&jeuNcurses->jeu) == &jeuNcurses->jeu.J2 && getTypeJeu(&jeuNcurses->jeu) == SOLO)
         {
+            #ifdef FOR_WINDOWS
+            Sleep(1000);
+            #else
             sleep(1);
+            #endif // FOR_WINDOWS
 
             ia(&jeuNcurses->jeu);
 

@@ -10,8 +10,11 @@
 
 #ifndef _NCURSES_H
 #define _NCURSES_H
-
+#ifdef FOR_WINDOWS
+#include <curses.h>
+#else
 #include <ncurses.h>
+#endif // FOR_WINDOWS
 
 #include <assert.h>
 #include <time.h>
