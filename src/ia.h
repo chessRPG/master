@@ -34,7 +34,7 @@ void ia (Jeu * jeu);
 /*  Initialisation  */
 void initIAjeu(IAjeu * iaJeu, Jeu * jeu);
 void initIApiece(IApiece * iaPiece, Jeu * jeu, Piece * piece);
-void resetIApiece(IApiece * iaPiece, Jeu * jeu);
+void resetIApiece(IApiece * iaPiece);
 
 /*  Mutateurs  */
 void setNbCasesControleesIApiece(IApiece * iaPiece, int n);
@@ -49,16 +49,13 @@ void setDeplacementPossibleIApiece(IApiece * iaPiece, Case * cell);
 void casesPiecesControleesIApiece(IApiece * iaPiece, Jeu * jeu, int x, int y);
 void deplacementsPossiblesIApiece(IApiece * iaPiece, Jeu * jeu, int x, int y);
 
-void coloreCasesControleesIApiece(IApiece * iaPiece);
-void colorePiecesControlees(IApiece * iaPiece, Jeu * jeu);
-void coloreDeplacementsPossiblesIApiece(IApiece * iaPiece);
-
 bool pieceVulnerableIAjeu(IAjeu * iaJeu, Jeu * jeu, Piece * piece, int x, int y);
 bool pieceProtegeeIAjeu(IAjeu * iaJeu, Jeu * jeu, Piece * piece, int x, int y);
 Piece * joueurVulnerableIAjeu(IAjeu * iaJeu, Jeu * jeu, Joueur * joueur);
 
 IApiece * IApieceRandom(IAjeu * iaJeu, Jeu * jeu, Joueur * joueur);
-void deplacementRandom(IApiece * iaPiece, Jeu * jeu);
+Case * deplacementRandom(IApiece * iaPiece, Jeu * jeu);
+Case * deplacementPrudent(IAjeu * iaJeu, IApiece * iaPiece, Jeu * jeu);
 
 IApiece * rechercheIApieceAttaquante(IAjeu * iaJeu, Piece * pieceVulnerable, Jeu * jeu, Joueur * joueur);
 
@@ -66,6 +63,6 @@ IApiece * rechercheIApieceAttaquante(IAjeu * iaJeu, Piece * pieceVulnerable, Jeu
 void piecesControleesIApiece(IApiece * iaPiece);
 void casesControleesLigneColonneIApiece(IApiece * iaPiece, Jeu *jeu, int x, int y);
 void casesControleesDiagonalesIApiece(IApiece * iaPiece, Jeu * jeu, int x, int y);
-IApiece * rechercheIApiece(IAjeu * iaJeu, Jeu * jeu, Piece * piece);
+IApiece * rechercheIApiece(IAjeu * iaJeu, Piece * piece);
 
 #endif

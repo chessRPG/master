@@ -4,9 +4,11 @@ void ia (Jeu * jeu)
 {
     IAjeu iaJeu;
 
-    int nbDepPos;
-    IApiece * iaPiece = NULL;
+    int nbDepPos, x = 0, y = 0;
+    IApiece * iaPieceAmie = NULL;
+    IApiece * iaPieceAdverse = NULL;
     Piece * pieceVulnerable = NULL;
+    Case * cell = NULL;
 
     initIAjeu(&iaJeu, jeu);
     srand(time(NULL));
@@ -17,39 +19,83 @@ void ia (Jeu * jeu)
 
     if (pieceVulnerable != NULL)
     {
-        iaPiece = rechercheIApieceAttaquante(&iaJeu, pieceVulnerable, jeu, &jeu->J2);
-        deplacerPiece(jeu, iaPiece->piece, pieceVulnerable->posX, pieceVulnerable->posY);
+        iaPieceAmie = rechercheIApieceAttaquante(&iaJeu, pieceVulnerable, jeu, &jeu->J2);
+
+        deplacerPiece(jeu, iaPieceAmie->piece, pieceVulnerable->posX, pieceVulnerable->posY);
+        return;
     }
+
 
     /*  Si le J1 n'est pas vulnérable   */
 
     else
     {
+
         pieceVulnerable = joueurVulnerableIAjeu(&iaJeu, jeu, &jeu->J2);
 
         /*  Si l'IA est vulnérable  */
 
         if (pieceVulnerable != NULL)
         {
-            iaPiece = rechercheIApiece(&iaJeu, jeu, pieceVulnerable);
-            deplacementsPossiblesIApiece(iaPiece, jeu, pieceVulnerable->posX, pieceVulnerable->posY);
-            nbDepPos = iaPiece->nbDeplacementsPossibles;
+            iaPieceAdverse = rechercheIApieceAttaquante(&iaJeu, pieceVulnerable, jeu, &jeu->J1);
+            if (pieceVulnerableIAjeu(&iaJeu, jeu, iaPieceAdverse->piece, iaPieceAdverse->piece->posX, iaPieceAdverse->piece->posY))
+            {
+                iaPieceAmie = rechercheIApieceAttaquante(&iaJeu, iaPieceAdverse->piece, jeu, &jeu->J2);
+                if (!pieceProtegeeIAjeu(&iaJeu, jeu, iaPieceAdverse->piece, iaPieceAdverse->piece->posX, iaPieceAdverse->piece->posY))
+                {
+                    deplacerPiece(jeu, iaPieceAmie->piece, iaPieceAdverse->piece->posX, iaPieceAdverse->piece->posY);
+                    return;
+                }
+            }
+
+            iaPieceAmie = rechercheIApiece(&iaJeu, pieceVulnerable);
+            deplacementsPossiblesIApiece(iaPieceAmie, jeu, pieceVulnerable->posX, pieceVulnerable->posY);
+            nbDepPos = iaPieceAmie->nbDeplacementsPossibles;
 
             if (nbDepPos == 0)
-                iaPiece = IApieceRandom(&iaJeu, jeu, &jeu->J2);
+                iaPieceAmie = IApieceRandom(&iaJeu, jeu, &jeu->J2);
 
-            deplacementRandom(iaPiece, jeu);
-
+            cell = deplacementPrudent(&iaJeu, iaPieceAmie, jeu);
+            if (cell != NULL)
+            {
+                getCoordCase(&jeu->plateau, cell, &x, &y);
+                deplacerPiece(jeu, pieceVulnerable, x, y);
+                return;
+            }
+            else
+            {
+                cell = deplacementRandom(iaPieceAmie, jeu);
+                if (cell != NULL)
+                {
+                    getCoordCase(&jeu->plateau, cell, &x, &y);
+                    deplacerPiece(jeu, iaPieceAmie->piece, x, y);
+                    return;
+                }
+            }
         }
 
         /*  Si l'IA n'est pas vulnérable    */
 
         else
         {
-            iaPiece = IApieceRandom(&iaJeu, jeu, &jeu->J2);
-            deplacementRandom(iaPiece, jeu);
+            iaPieceAmie = IApieceRandom(&iaJeu, jeu, &jeu->J2);
+            cell = deplacementPrudent(&iaJeu, iaPieceAmie, jeu);
+            if (cell != NULL)
+            {
+                getCoordCase(&jeu->plateau, cell, &x, &y);
+                deplacerPiece(jeu, iaPieceAmie->piece, x, y);
+                return;
+            }
+            else
+            {
+                cell = deplacementRandom(iaPieceAmie, jeu);
+                getCoordCase(&jeu->plateau, cell, &x, &y);
+                deplacerPiece(jeu, iaPieceAmie->piece, x, y);
+                return;
+            }
         }
     }
+
 }
 
 
@@ -72,7 +118,7 @@ void initIAjeu(IAjeu * iaJeu, Jeu * jeu)
         if (estDansEnsPieces(pieceJ1, &jeu->J1) != -1)  initIApiece(&iaJeu->iaPiecesJ1[i], jeu, pieceJ1);
 
         pieceJ2 = jeu->J2.ensPieces[i];
-        if (estDansEnsPieces(pieceJ2, &jeu->J2))    initIApiece(&iaJeu->iaPiecesJ2[i], jeu, pieceJ2);
+        if (estDansEnsPieces(pieceJ2, &jeu->J2) != -1)  initIApiece(&iaJeu->iaPiecesJ2[i], jeu, pieceJ2);
     }
 }
 
@@ -80,13 +126,10 @@ void initIApiece(IApiece * iaPiece, Jeu * jeu, Piece * piece)
 {
     iaPiece->piece = piece;
 
-    resetIApiece(iaPiece, jeu);
-
-    if (piece != NULL)
-        casesPiecesControleesIApiece(iaPiece, jeu, piece->posX, piece->posY);
+    resetIApiece(iaPiece);
 }
 
-void resetIApiece(IApiece * iaPiece, Jeu * jeu)
+void resetIApiece(IApiece * iaPiece)
 {
     int i;
 
@@ -305,10 +348,14 @@ void casesPiecesControleesIApiece(IApiece * iaPiece, Jeu * jeu, int x, int y)
 {
     int a, i, j;
     Piece * piece = iaPiece->piece;
+    Case * caseInit = getCase(&jeu->plateau, piece->posX, piece->posY);
+    Piece * pieceTemp = getPieceCase(getCase(&jeu->plateau, x, y));
+    Case * caseTemp = getCase(&jeu->plateau, pieceTemp->posX, pieceTemp->posY);
 
     if (piece != NULL)
     {
-        resetIApiece(iaPiece, jeu);
+        resetIApiece(iaPiece);
+        setPieceCase(caseTemp, piece);
 
         switch(piece->type)
         {
@@ -370,6 +417,9 @@ void casesPiecesControleesIApiece(IApiece * iaPiece, Jeu * jeu, int x, int y)
         }
 
         piecesControleesIApiece(iaPiece);
+
+        setPieceCase(caseInit, piece);
+        setPieceCase(caseTemp, pieceTemp);
     }
 }
 
@@ -391,12 +441,20 @@ void deplacementsPossiblesIApiece(IApiece * iaPiece, Jeu * jeu, int x, int y)
 {
     int i, nbCases;
     Case * cell = NULL;
+    Piece * pieceAdverse = NULL;
     Piece * piece = iaPiece->piece;
+    Case * caseInit = getCase(&jeu->plateau, piece->posX, piece->posY);
+    Case * caseTemp = getCase(&jeu->plateau, x, y);
+    Piece * pieceTemp = getPieceCase(caseTemp);
     Joueur * joueur = NULL;
     Couleur couleur;
 
     if (piece != NULL)
     {
+        resetIApiece(iaPiece);
+        setPieceCase(caseTemp, piece);
+        casesPiecesControleesIApiece(iaPiece, jeu, x, y);
+
         joueur = &jeu->J2;
         couleur = getCouleurJoueur(joueur);
         nbCases = iaPiece->nbCasesControlees;
@@ -419,11 +477,13 @@ void deplacementsPossiblesIApiece(IApiece * iaPiece, Jeu * jeu, int x, int y)
             for (i=0; i<nbCases; i++)
             {
                 cell = iaPiece->casesControlees[i];
-                piece = getPieceCase(cell);
-                if (piece == NULL || getCouleurPiece(piece) != couleur)
+                pieceAdverse = getPieceCase(cell);
+                if (pieceAdverse == NULL || getCouleurPiece(pieceAdverse) != couleur)
                     setDeplacementPossibleIApiece(iaPiece, cell);
             }
         }
+        setPieceCase(caseInit, piece);
+        setPieceCase(caseTemp, pieceTemp);
     }
 }
 
@@ -432,6 +492,11 @@ bool pieceVulnerableIAjeu(IAjeu * iaJeu, Jeu * jeu, Piece * piece, int x, int y)
     Couleur couleur = piece->couleur;
     int nbPiecesControlees, i, j;
     IApiece * IApieceAdverse = NULL;
+    Case * caseInit = getCase(&jeu->plateau, piece->posX, piece->posY);
+    Case * caseTemp = getCase(&jeu->plateau, x, y);
+    Piece * pieceTemp = getPieceCase(caseTemp);
+
+    setPieceCase(caseTemp, piece);
 
     for (i=0; i<16; i++)
     {
@@ -440,6 +505,7 @@ bool pieceVulnerableIAjeu(IAjeu * iaJeu, Jeu * jeu, Piece * piece, int x, int y)
 
         if (IApieceAdverse->piece != NULL)
         {
+            casesPiecesControleesIApiece(IApieceAdverse, jeu, IApieceAdverse->piece->posX, IApieceAdverse->piece->posY);
             nbPiecesControlees = IApieceAdverse->nbPiecesControlees;
             for (j=0; j<nbPiecesControlees; j++)
             {
@@ -449,6 +515,9 @@ bool pieceVulnerableIAjeu(IAjeu * iaJeu, Jeu * jeu, Piece * piece, int x, int y)
         }
     }
 
+    setPieceCase(caseInit, piece);
+    setPieceCase(caseTemp, pieceTemp);
+
     return false;
 }
 
@@ -457,6 +526,11 @@ bool pieceProtegeeIAjeu(IAjeu * iaJeu, Jeu * jeu, Piece * piece, int x, int y)
     Couleur couleur = piece->couleur;
     int nbPiecesControlees, i, j;
     IApiece * IApieceAmie = NULL;
+    Case * caseInit = getCase(&jeu->plateau, piece->posX, piece->posY);
+    Case * caseTemp = getCase(&jeu->plateau, x, y);
+    Piece * pieceTemp = getPieceCase(caseTemp);
+
+    setPieceCase(caseTemp, piece);
 
     for (i=0; i<16; i++)
     {
@@ -465,12 +539,16 @@ bool pieceProtegeeIAjeu(IAjeu * iaJeu, Jeu * jeu, Piece * piece, int x, int y)
 
         if (IApieceAmie->piece != NULL)
         {
+            casesPiecesControleesIApiece(IApieceAmie, jeu, IApieceAmie->piece->posX, IApieceAmie->piece->posY);
             nbPiecesControlees = IApieceAmie->nbPiecesControlees;
             for (j=0; j<nbPiecesControlees; j++)
                 if (IApieceAmie->piecesControlees[j]->posX == x && IApieceAmie->piecesControlees[j]->posY == y)
                     return true;
         }
     }
+
+    setPieceCase(caseInit, piece);
+    setPieceCase(caseTemp, pieceTemp);
 
     return false;
 }
@@ -534,19 +612,19 @@ Piece * joueurVulnerableIAjeu(IAjeu * iaJeu, Jeu * jeu, Joueur * joueur)
     return NULL;
 }
 
-IApiece * rechercheIApiece(IAjeu * iaJeu, Jeu * jeu, Piece * piece)
+IApiece * rechercheIApiece(IAjeu * iaJeu, Piece * piece)
 {
-    int indice;
+    int i;
 
     if (piece != NULL)
     {
-        indice = estDansEnsPieces(piece, &jeu->J1);
-        if (indice != -1)
-            return &iaJeu->iaPiecesJ1[indice];
-
-        indice = estDansEnsPieces(piece, &jeu->J2);
-        if (indice != -1)
-            return &iaJeu->iaPiecesJ2[indice];
+        for (i=0; i<16; i++)
+        {
+            if (iaJeu->iaPiecesJ1[i].piece == piece)
+                return &iaJeu->iaPiecesJ1[i];
+            if (iaJeu->iaPiecesJ2[i].piece == piece)
+                return &iaJeu->iaPiecesJ2[i];
+        }
     }
     return NULL;
 }
@@ -575,20 +653,45 @@ IApiece * IApieceRandom(IAjeu * iaJeu, Jeu * jeu, Joueur * joueur)
     return iaPiece;
 }
 
-void deplacementRandom(IApiece * iaPiece, Jeu * jeu)
+Case * deplacementRandom(IApiece * iaPiece, Jeu * jeu)
 {
-    int numDeplacement = 0, x = 0, y = 0;
+    int numDeplacement = 0;
     Case * cell = NULL;
 
     if (iaPiece->piece != NULL)
     {
+        deplacementsPossiblesIApiece(iaPiece, jeu, iaPiece->piece->posX, iaPiece->piece->posY);
         numDeplacement = rand()%(iaPiece->nbDeplacementsPossibles);
-
         cell = iaPiece->deplacementsPossibles[numDeplacement];
-        getCoordCase(&jeu->plateau, cell, &x, &y);
-
-        deplacerPiece(jeu, iaPiece->piece, x, y);
     }
+
+    return cell;
+}
+
+Case * deplacementPrudent(IAjeu * iaJeu, IApiece * iaPiece, Jeu * jeu)
+{
+    int i = 0, x = 0, y = 0;
+    Case * cell = NULL;
+    Case * cellTemp = NULL;
+    IApiece * iaPieceAdverse;
+
+    if (iaPiece->piece != NULL)
+    {
+        if (iaPiece->piece->couleur == jeu->J1.couleur)  iaPieceAdverse = IApieceRandom(iaJeu, jeu, &jeu->J2);
+        else    iaPieceAdverse = IApieceRandom(iaJeu, jeu, &jeu->J1);
+
+        deplacementsPossiblesIApiece(iaPiece, jeu, iaPiece->piece->posX, iaPiece->piece->posY);
+        while (i<iaPiece->nbDeplacementsPossibles)
+        {
+            cellTemp = iaPiece->deplacementsPossibles[i];
+            getCoordCase(&jeu->plateau, cellTemp, &x, &y);
+            if (!pieceProtegeeIAjeu(iaJeu, jeu, iaPieceAdverse->piece, x, y))
+                    return cellTemp;
+            i++;
+        }
+    }
+
+    return cell;
 }
 
 IApiece * rechercheIApieceAttaquante(IAjeu * iaJeu, Piece * pieceVulnerable, Jeu * jeu, Joueur * joueur)
@@ -694,3 +797,4 @@ IApiece * rechercheIApieceAttaquante(IAjeu * iaJeu, Piece * pieceVulnerable, Jeu
 
     return NULL;
 }
+
