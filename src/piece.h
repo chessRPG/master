@@ -47,6 +47,12 @@ struct Piece
 
 /* accesseurs */
 
+/**
+@brief renvoie une chaine de caractères contenant le type passé en paramètre
+@param type Type à passé en chaine de caractères
+@return pointeur sur une chaine de caractèress
+*/
+
 char * getType(Type type);
 
 /**
