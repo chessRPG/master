@@ -33,11 +33,17 @@
 typedef enum {BLANC, NOIR, BLEU, JAUNE, NUM_COULEUR} Couleur ;
 
 /**
-@brief crée une liste des couleurs de pièces disponibles
-@return Pointeur une liste des couleurs disponibles
+@brief renvoie une chaine de caractères contenant le nom de la couleur passée en paramètres
+@param couleur Couleur dont on veut le nom en chaine de caractères
+@return pointeur sur une chaine de caractèress
 */
 
 char * getCouleur(Couleur couleur);
+
+/**
+@brief crée une liste des couleurs de pièces disponibles
+@return Pointeur une liste des couleurs disponibles
+*/
 
 Couleur * getListeCouleurs() ;
 

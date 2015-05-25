@@ -120,6 +120,14 @@ void setPointsVie(Piece * piece, int pointsVie) ;
 
 void setPointsAttaque(Piece * piece, int pointsAttaque) ;
 
+/**
+@brief déplace la pièce passée en paramètre aux coordonnées x,y
+@param piece adresse de la Piece à déplacer
+@param x abcisse de la case de destination
+@param y ordonnée de la case de destination
+@return Aucun
+*/
+
 void setPositionPiece(Piece * piece, int x, int y);
 
 /* création / destruction */

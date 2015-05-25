@@ -40,6 +40,15 @@ typedef struct
 
 Case * getCase(Plateau * plateau, int posX, int posY) ;
 
+/**
+@brief donne les coordonnées (x,y) d'une case passée en paramètre
+@param plateau adresse du Plateau de jeu
+@param cell adresse de la Case dont on veut la position
+@param x adresse où sera stocké l'abcisse de la case
+@param y adresse où sera stocké l'ordonnée de la case
+@return Aucun
+*/
+
 void getCoordCase(Plateau * plateau, Case * cell, int * x, int *y);
 
 /**

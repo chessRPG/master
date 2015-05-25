@@ -45,3 +45,4 @@ obj/couleur.o: src/couleur.c src/couleur.h
 
 clean:
 	rm -rf obj/*.o
+	rm -rf bin/*
