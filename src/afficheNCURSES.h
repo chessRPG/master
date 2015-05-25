@@ -14,7 +14,7 @@
 #include <curses.h>
 #else
 #include <ncurses.h>
-#endif // FOR_WINDOWS
+#endif /*FOR_WINDOWS*/
 
 #include <assert.h>
 #include <time.h>

@@ -274,8 +274,8 @@ void detruireJeu(Jeu * jeu)
 
 void logDeplacement(char * log, Piece * piece, int i, int j, int posX, int posY)
 {
-    log[0] = '\0' ;
-    char buffer[8] ;
+    char buffer[8];
+    log[0] = '\0';
     switch(getTypePiece(piece))
     {
         case PION:

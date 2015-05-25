@@ -15,6 +15,14 @@
 #include "plateau.h"
 
 /**
+@struct TypeJeu
+@param enum SOLO : partie contre l'ordinateur \n
+            MULTI : partie à 2 joueurs
+*/
+
+typedef enum {SOLO, MULTI} TypeJeu;
+
+/**
 
 @struct Jeu
 @brief Structure permettant de gérer le plateau de jeu et les joueurs
@@ -23,12 +31,14 @@
 @param J2 structure Joueur contenant le nom et la couleur des pièces du joueur 2
 @param joueurActif pointeur sur Joueur permettant d'accéder rapidement au joueur actif
 @param log chaine de caractères utilisée pour stocker et afficher les logs
+@param typeJeu type du jeu en cours (solo / multi)
+@param couleurGagnant vaut le numéro de la couleur du gagnant (-1 sinon)
 @see Joueur
 @see Plateau
+@see Couleur
+@see TypeJeu
 
 */
-
-typedef enum {SOLO, MULTI} TypeJeu;
 
 typedef struct
 {
@@ -59,6 +69,13 @@ Joueur * getJoueurActif(Jeu * jeu);
 
 Joueur * getJoueurInactif(Jeu * jeu);
 
+/**
+@brief renvoie le type de jeu en cours
+@param jeu adresse du Jeu courant
+@return TypeJeu type de jeu en cours
+*/
+
+
 TypeJeu getTypeJeu(Jeu * jeu);
 
 /* mutateurs */
@@ -72,7 +89,23 @@ TypeJeu getTypeJeu(Jeu * jeu);
 
 void setJoueurActif(Jeu * jeu, Joueur* joueur);
 
+/**
+@brief modifie le type du jeu (solo / multi)
+@param jeu adresse du Jeu courant
+@param type TypeJeu, type à attribuer au jeu
+@return Aucun
+*/
+
+
 void setTypeJeu(Jeu * jeu, TypeJeu type);
+
+/**
+@brief attribue une valeur correspondante à la couleur du gagnant lorsqu'il y en a un
+@param jeu adresse du Jeu courant
+@param couleur Couleur gagnante
+@return Aucun
+*/
+
 
 void setCouleurGagnant(Jeu * jeu, Couleur couleur);
 
