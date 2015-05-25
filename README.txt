@@ -18,7 +18,7 @@ make ncurses 	: génère un executable utilisant ncurses pour l'interface
 make sdl     	: génère un executable utilsiant sdl pour l'affichage
 make clean	: supprime les fichiers objets générés à la compilation
 
-Utilisable avec Linux et Windows
+Utilisable avec Linux
 
 Les libraires SDL, SDL_ttf, SDL_image, et ncurses doivent être installées.
 _________________________________________________________________________
