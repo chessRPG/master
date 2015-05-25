@@ -342,7 +342,7 @@ void boucleEvent(JeuNCURSES * jeuNcurses)
         if(getJoueurActif(&jeuNcurses->jeu) == &jeuNcurses->jeu.J2 && getTypeJeu(&jeuNcurses->jeu) == SOLO)
         {
             #ifdef FOR_WINDOWS
-            Sleep(1000);
+            //Sleep(1000);
             #else
             sleep(1);
             #endif /*FOR_WINDOWS*/
