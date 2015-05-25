@@ -4,6 +4,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* il faut répéter la déclaration de la fonction ici pour ne pas déclencher de warning à la compilation avec pedantic et ansi */
+#ifndef FOR_WINDOWS
+extern int usleep(__useconds_t __useconds);
+#endif /*FOR_WINDOWS*/
+
 const short TAILLE_FOND_X = 70;
 const short TAILLE_FOND_Y = 20;
 
@@ -154,10 +159,10 @@ void NcursesInit(JeuNCURSES * jeuNcurses)
     system("clear");
 
 
-    initscr() ; //initialisation Ncurses
-    clear() ;   //efface écran
-    noecho() ;  //n'affiche pas les touches saisies
-    cbreak() ;  //permet de ne pas appuyer sur entrer pour une saisie
+    initscr() ; /*initialisation Ncurses*/
+    clear() ;   /*efface écran*/
+    noecho() ;  /*n'affiche pas les touches saisies*/
+    cbreak() ;  /*permet de ne pas appuyer sur entrer pour une saisie*/
 
     getmaxyx(stdscr, ecranY, ecranX);
 
@@ -340,7 +345,7 @@ void boucleEvent(JeuNCURSES * jeuNcurses)
             Sleep(1000);
             #else
             sleep(1);
-            #endif // FOR_WINDOWS
+            #endif /*FOR_WINDOWS*/
 
             ia(&jeuNcurses->jeu);
 
@@ -377,7 +382,7 @@ void boucleEvent(JeuNCURSES * jeuNcurses)
                         reinitCouleursEchiquier(&jeuNcurses->jeu.plateau);
                         NcursesAfficheLogs(jeuNcurses);
 
-                        if (jeuNcurses->jeu.couleurGagnant == -1) //les deux rois sont vivants, on continue !
+                        if (jeuNcurses->jeu.couleurGagnant == -1) /*les deux rois sont vivants, on continue !*/
                         {
                             if(getJoueurActif(&jeuNcurses->jeu) == &(jeuNcurses->jeu.J1))
                                 setJoueurActif(&jeuNcurses->jeu, &(jeuNcurses->jeu.J2));

@@ -12,10 +12,9 @@
 #include "ia.h"
 
 /* il faut répéter la déclaration de la fonction ici pour ne pas déclencher de warning à la compilation avec pedantic et ansi */
-
 #ifndef FOR_WINDOWS
 extern int usleep(__useconds_t __useconds);
-#endif // FOR_WINDOWS
+#endif /*FOR_WINDOWS*/
 
 /* taille d'une case en pixels */
 
@@ -120,9 +119,6 @@ void dessineRectangle(SDL_Surface * ecran, int y, int x, int largeur, int hauteu
 
 void afficheInfosPiece(JeuSDL * jeuSDL, Piece * piece)
 {
-    int largeur = jeuSDL->surface_ecran->w;
-    int longueur;
-
     char texte[50];
 
     Uint32 couleurFond = SDL_MapRGB(jeuSDL->surface_ecran->format, 58, 2, 13); /*cassis*/
@@ -184,7 +180,6 @@ void afficheLogs(JeuSDL * jeuSDL)
     int longueur ;
     char * pch ;
     int largeur = jeuSDL->surface_ecran->w;
-    int hauteur = jeuSDL->surface_ecran->h;
 
     dessineRectangle(jeuSDL->surface_ecran, 3*TAILLE_CASE, 12*TAILLE_CASE, 9*TAILLE_CASE, 8*TAILLE_CASE, couleurFond);
 
@@ -515,7 +510,7 @@ void SdlSaisieJoueur(JeuSDL * jeuSDL, char * nom, Couleur * couleur, char * piec
 
 void SdlMenu(JeuSDL * jeuSDL)
 {
-    Uint32 couleurSelection = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 86, 27);  /* vert foncé */;
+    Uint32 couleurSelection = SDL_MapRGB(jeuSDL->surface_ecran->format, 0, 86, 27);  /* vert foncé */
     Uint32 couleurFond = SDL_MapRGB(jeuSDL->surface_ecran->format, 48, 48, 48); /* Gris anthracite */
     Uint32 couleurSolo = couleurFond;
     Uint32 couleurPartie = couleurFond;
@@ -968,7 +963,7 @@ void SdlBoucle(JeuSDL * jeuSDL)
             Sleep(1000);
             #else
             sleep(1);
-            #endif // FOR_WINDOWS
+            #endif /*FOR_WINDOWS*/
 
             ia(&jeuSDL->jeu);
 
