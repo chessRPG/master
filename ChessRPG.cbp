@@ -11,9 +11,9 @@
 				<Option object_output="obj/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option projectCompilerOptionsRelation="0" />
 				<Compiler>
 					<Add option="-g" />
-					<Add option="-DFOR_WINDOWS" />
 				</Compiler>
 				<Linker>
 					<Add option="-lncurses" />
