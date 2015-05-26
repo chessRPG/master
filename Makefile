@@ -1,5 +1,5 @@
 CC = gcc -Wall -pedantic -ansi -c
-OBJ = src/ia.o obj/jeu.o obj/plateau.o obj/case.o obj/piece.o obj/joueur.o obj/couleur.o
+OBJ = obj/ia.o obj/jeu.o obj/plateau.o obj/case.o obj/piece.o obj/joueur.o obj/couleur.o
 H = src/ia.h src/jeu.h src/plateau.h src/case.h src/piece.h src/joueur.h src/couleur.h
 
 all: sdl ncurses
