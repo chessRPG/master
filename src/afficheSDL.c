@@ -1066,6 +1066,8 @@ void SdlBoucle(JeuSDL * jeuSDL)
             detruireJeu(&jeuSDL->jeu);
             initJeu(&jeuSDL->jeu, nom1, nom2, C1, C2);
 
+            afficheCadre(jeuSDL);
+
             afficheLogs(jeuSDL);
 
             continue_boucle = 1;
