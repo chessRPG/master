@@ -21,7 +21,6 @@
 @param couleur Couleur choisie par le joueur
 @see Joueur
 */
-
 typedef struct
 {
     char nomJoueur[13] ;
@@ -38,7 +37,6 @@ typedef struct
 @param joueur pointeur sur le joueur dont on veut le nom
 @return chaine de caractères (char *) contenant le nom du joueur passé en paramètre
 */
-
 char * getNomJoueur(Joueur * joueur) ;
 
 /**
@@ -46,9 +44,13 @@ char * getNomJoueur(Joueur * joueur) ;
 @param joueur pointeur sur le Joueur dont on veut la couleur
 @return Couleur choisie par le joueur
 */
-
 Couleur getCouleurJoueur(Joueur * joueur) ;
 
+/**
+@brief renvoie le nombre de pièces vivantes d'un joueur
+@param joueur pointeur sur le joueur dont on veut le nombre de pièces
+@return nombre de pieces vivantes du joueur
+*/
 int getNbPiecesJoueur(Joueur * joueur);
 
 /* mutateurs */
@@ -59,7 +61,6 @@ int getNbPiecesJoueur(Joueur * joueur);
 @param nomJoueur chaine de caractère contenant le nom qu'on veut donner au joueur
 @return Aucun
 */
-
 void setNomJoueur(Joueur * joueur, char * nomJoueur) ;
 
 /**
@@ -68,7 +69,6 @@ void setNomJoueur(Joueur * joueur, char * nomJoueur) ;
 @param couleur Couleur choisie par le joueur
 @return Aucun
 */
-
 void setCouleurJoueur(Joueur * joueur, Couleur couleur) ;
 
 /**
@@ -79,9 +79,14 @@ void setCouleurJoueur(Joueur * joueur, Couleur couleur) ;
 @param piecesJ2 chaine de 32 caractères, contient le chemin d'accès des pièces du joueur 2 à la fin de la fonction
 @return Aucun
 */
-
 void setDonneesJoueurs(Joueur * joueur1, Joueur * joueur2, char * nom1, char * nom2, Couleur C1, Couleur C2) ;
 
+/**
+@brief ajoute une pièce à la liste des pièces d'un joueur
+@param joueur pointeur vers le joueur à qui on veut ajouter les pièces
+@param piece pointeur vers la pièce à ajouter
+@return Aucun
+*/
 void setPieceJoueur(Joueur * joueur, Piece * piece);
 
 /* creation / destruction */
@@ -92,20 +97,16 @@ void setPieceJoueur(Joueur * joueur, Piece * piece);
 @param couleur Couleur à donner au joueur
 @return Aucun
 */
-
 void initJoueur(Joueur * joueur) ;
 
 /* ... */
 
 /**
-@brief Securise une chaine de  12 caractères en la coupant si elle est trop longue
-@param nomSecure chaine de 12 caractères sécurisée
-@param nom chaine caractères à sécuriser
-@return Aucun
+@brief Verifie si une piece est dans la liste des pièces d'un joueur et renvoie son indice
+@param piece pointeur vers la pièce à rechercher
+@param joueur pointeur vers le joueur dont on vérifie la possession de la pièce
+@return l'indice de la pièce dans le tableau, ou -1 si elle n'y est pas
 */
-
-/*void secureNom(char* nomSecure, char* nom) ;*/
-
 int estDansEnsPieces(Piece * piece, Joueur * joueur);
 
 #endif
